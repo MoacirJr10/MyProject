@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/responsivo.css">
+
+    <title>Calculadora de Fumigação</title>
+</head>
+<body>
+<div class="menu-lateral">
+    <ul>
+        <li onclick="mostrarAba('cubica')">Cálculo de Metragem Cúbica</li>
+        <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
+        <li onclick="mostrarAba('conversoes')">Conversões</li>
+        <li onclick="mostrarAba('historico')">Histórico</li>
+    </ul>
+</div>
+
+<div class="container">
+    <!-- Cálculo de Metragem Cúbica -->
+    <div id="cubica" class="tab-content active">
+        <h3>Cálculo de Metragem Cúbica</h3>
+        <input type="number" id="altura" placeholder="Altura (m)">
+        <input type="number" id="largura" placeholder="Largura (m)">
+        <input type="number" id="comprimento" placeholder="Comprimento (m)">
+        <button class="btn" onclick="calcular()">Calcular</button>
+        <div id="resultado" class="result"></div>
+        <div id="imagens" class="imagens-container">
+            <img src="src/imagem/comprimido.jpg" class="imagem-result" alt="Comprimido">
+            <img src="src/imagem/pastilha.jpg" class="imagem-result" alt="Pastilha">
+            <img src="src/imagem/sache.jpg" class="imagem-result" alt="Sachê">
+        </div>
+    </div>
+
+    <!-- Cálculo de Área Quadrada -->
+    <div id="area" class="tab-content" style="display: none;">
+        <h3>Cálculo de Área Quadrada</h3>
+        <input type="number" id="base" placeholder="Base (m)">
+        <input type="number" id="alturaArea" placeholder="Altura (m)">
+        <button class="btn" onclick="calcularArea()">Calcular Área</button>
+        <div id="resultadoArea" class="result"></div>
+    </div>
+
+    <!-- Conversões -->
+    <div id="conversoes" class="tab-content" style="display: none;">
+        <h3>Conversões de Unidade</h3>
+        <input type="number" id="metros" placeholder="Metros (m)">
+        <button class="btn" onclick="converterParaCentimetros()">Converter para cm</button>
+        <button class="btn" onclick="converterParaQuilometros()">Converter para km</button>
+        <div id="resultadoConversao" class="result"></div>
+    </div>
+
+    <!-- Histórico -->
+    <div id="historico" class="tab-content" style="display: none;">
+        <h3>Histórico de Cálculos</h3>
+        <button class="btn" onclick="limparHistorico()">Limpar Histórico</button>
+        <div class="historico-container"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+
