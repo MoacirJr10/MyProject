@@ -8,10 +8,13 @@
 
     <title>Calculadora de Fumigação</title>
 </head>
+
 <body>
+
 <div class="menu-lateral">
     <ul>
         <li onclick="mostrarAba('cubica')">Cálculo de Metragem Cúbica</li>
+        <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
         <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
         <li onclick="mostrarAba('conversoes')">Conversões</li>
         <li onclick="mostrarAba('historico')">Histórico</li>
@@ -52,6 +55,30 @@
         <div id="resultadoConversao" class="result"></div>
     </div>
 
+    <!-- Adicionar a nova aba de Fumigação em Silo -->
+    <div id="fumigacao-silo" class="tab-content" style="display: none;">
+        <h3>Fumigação em Silo</h3>
+        <input type="number" id="diametroSilo" placeholder="Diâmetro do Silo (m)">
+        <input type="number" id="alturaSilo" placeholder="Altura do Silo (m)">
+        <select id="tipoMaterial">
+            <option value="milho">Milho</option>
+            <option value="soja">Soja</option>
+            <option value="arroz">Arroz</option>
+            <option value="amendoim">Amendoim</option>
+            <option value="sorgo">Sorgo</option>
+        </select>
+        <button class="btn" onclick="calcularFumigacaoSilo()">Calcular Fumigação</button>
+        <button class="btn" onclick="mostrarCampoCircunferencia()">Não sei o diâmetro</button>
+
+        <h4>Ou, se você não souber o diâmetro, insira a circunferência:</h4>
+        <input type="number" id="circunferenciaSilo" placeholder="Circunferência do Silo (m)" style="display:none;">
+        <button class="btn" onclick="calcularDiametro()">Calcular Diâmetro</button>
+        <div id="diametro-result"></div>
+
+        <div id="resultadoFumigacaoSilo" class="result"></div>
+    </div>
+
+
     <!-- Histórico -->
     <div id="historico" class="tab-content" style="display: none;">
         <h3>Histórico de Cálculos</h3>
@@ -60,7 +87,10 @@
     </div>
 </div>
 
+
 <script src="script.js"></script>
+
 </body>
+
 </html>
 
