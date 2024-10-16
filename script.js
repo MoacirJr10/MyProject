@@ -92,3 +92,83 @@ function mostrarAba(aba) {
         document.getElementById('imagens').classList.remove('show');
     }
 }
+
+function calcularFumigacaoSilo() {
+    const diametro = parseFloat(document.getElementById('diametroSilo').value);
+    const altura = parseFloat(document.getElementById('alturaSilo').value);
+    const tipoMaterial = document.getElementById('tipoMaterial').value;
+
+    if (isNaN(diametro) || isNaN(altura)) {
+        alert("Por favor, insira todos os valores corretamente.");
+        return;
+    }
+
+    // Cálculo do volume do silo (cilindro)
+    const raio = diametro / 2;
+    const volume = Math.PI * Math.pow(raio, 2) * altura;
+
+    let dosagemPorM3;
+    let tempoExposicao;
+
+    // Determinar a dosagem e tempo de exposição conforme o tipo de material
+    switch (tipoMaterial) {
+        case 'milho':
+            dosagemPorM3 = 4; // g/m³ para milho
+            tempoExposicao = "5 a 7 dias";
+            break;
+        case 'soja':
+            dosagemPorM3 = 5; // g/m³ para soja
+            tempoExposicao = "7 a 10 dias";
+            break;
+        case 'arroz':
+            dosagemPorM3 = 3; // g/m³ para arroz
+            tempoExposicao = "5 a 7 dias";
+            break;
+        case 'amendoim':
+            dosagemPorM3 = 5; // g/m³ para amendoim
+            tempoExposicao = "7 a 10 dias";
+            break;
+        case 'sorgo':
+            dosagemPorM3 = 4.5; // g/m³ para sorgo
+            tempoExposicao = "6 a 8 dias";
+            break;
+        default:
+            alert("Tipo de material não reconhecido.");
+            return;
+    }
+
+    // Calcular a quantidade de fosfeto de alumínio necessária
+    const quantidadeFumigante = volume * dosagemPorM3;
+
+    // Exibir os resultados
+    document.getElementById('resultadoFumigacaoSilo').innerHTML = `
+        <p>Volume do Silo: ${volume.toFixed(2)} m³</p>
+        <p>Tipo de Material: ${tipoMaterial.charAt(0).toUpperCase() + tipoMaterial.slice(1)}</p>
+        <p>Dosagem Necessária: ${quantidadeFumigante.toFixed(2)} g de fosfeto de alumínio</p>
+        <p>Tempo de Exposição: ${tempoExposicao}</p>
+    `;
+}
+function calcularDiametro() {
+    const raio = document.getElementById('raio').value;
+    if (raio && !isNaN(raio)) {
+        const diametro = raio * 2;
+        document.getElementById('diametro-result').innerText = `O diâmetro do silo é: ${diametro} metros`;
+    } else {
+        document.getElementById('diametro-result').innerText = 'Por favor, insira um valor válido para o raio.';
+    }
+}
+function calcularDiametro() {
+    const circunferencia = parseFloat(document.getElementById('circunferenciaSilo').value);
+    if (!isNaN(circunferencia) && circunferencia > 0) {
+        const diametro = circunferencia / Math.PI;
+        document.getElementById('diametroSilo').value = diametro.toFixed(2);
+        document.getElementById('diametro-result').innerText = `O diâmetro do silo é: ${diametro.toFixed(2)} m`;
+        alert(`Diâmetro calculado: ${diametro.toFixed(2)} m`);
+    } else {
+        alert('Por favor, insira a circunferência para calcular o diâmetro.');
+    }
+}
+
+function mostrarCampoCircunferencia() {
+    document.getElementById('circunferenciaSilo').style.display = 'block';
+}
