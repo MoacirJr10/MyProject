@@ -1,20 +1,44 @@
 @media (max-width: 768px) {
     .menu-lateral {
-        width: 100%; /* Ajusta a largura do menu lateral para 100% */
-        height: auto; /* Altera a altura para auto para se adaptar ao conteúdo */
-        position: relative; /* Faz com que o menu lateral não fique fixo */
-        border-radius: 0; /* Remove o arredondamento */
-        box-shadow: none; /* Remove a sombra para uma aparência mais limpa */
+        width: 100%; 
+        height: auto; 
+        position: relative; 
+        border-radius: 0; 
+        box-shadow: none; 
+        padding: 10px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+    }
+
+    .menu-lateral ul {
+        width: 100%; 
+        padding: 0; 
+    }
+
+    .menu-lateral li {
+        width: 100%;
+        text-align: center; 
+        margin: 10px 0; 
     }
 
     .container {
-        margin-left: 0; /* Remove a margem esquerda */
-        padding: 10px; /* Adiciona um padding menor para dispositivos pequenos */
+        margin-left: 0; 
+        padding: 10px; 
+        width: 100%; 
+        box-sizing: border-box; 
     }
 
     .tab-content {
-        padding: 10px; /* Adiciona padding nas abas para melhor visualização */
-        border-radius: 10px; /* Arredonda as bordas das abas */
-        background-color: #27272a; /* Define uma cor de fundo para as abas */
+        padding: 10px; 
+        border-radius: 10px; 
+        background-color: #27272a; 
+        margin-bottom: 20px; 
+    }
+
+   
+    .btn {
+        width: 100%; 
+        margin-top: 10px; 
     }
 }
