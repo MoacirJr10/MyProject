@@ -22,7 +22,7 @@ function calcular() {
         O Comprimido é: ${comprimido.toFixed(2)}
     `;
 
-    // Exibe as imagens após o cálculo
+
     const imagensContainer = document.getElementById('imagens');
     imagensContainer.classList.add('show');
 
@@ -84,10 +84,9 @@ function limparHistorico() {
 
 function mostrarAba(aba) {
     const abas = document.querySelectorAll('.tab-content');
-    abas.forEach(ab => ab.style.display = 'none'); // Oculta todas as abas
+    abas.forEach(ab => ab.style.display = 'none');
 
-    document.getElementById(aba).style.display = 'block'; // Mostra apenas a aba selecionada
-    // Oculta as imagens ao mudar de aba
+    document.getElementById(aba).style.display = 'block';
     if (aba !== 'cubica') {
         document.getElementById('imagens').classList.remove('show');
     }
@@ -103,33 +102,33 @@ function calcularFumigacaoSilo() {
         return;
     }
 
-    // Cálculo do volume do silo (cilindro)
+
     const raio = diametro / 2;
     const volume = Math.PI * Math.pow(raio, 2) * altura;
 
     let dosagemPorM3;
     let tempoExposicao;
 
-    // Determinar a dosagem e tempo de exposição conforme o tipo de material
+
     switch (tipoMaterial) {
         case 'milho':
-            dosagemPorM3 = 4; // g/m³ para milho
+            dosagemPorM3 = 4;
             tempoExposicao = "5 a 7 dias";
             break;
         case 'soja':
-            dosagemPorM3 = 5; // g/m³ para soja
+            dosagemPorM3 = 5;
             tempoExposicao = "7 a 10 dias";
             break;
         case 'arroz':
-            dosagemPorM3 = 3; // g/m³ para arroz
+            dosagemPorM3 = 3;
             tempoExposicao = "5 a 7 dias";
             break;
         case 'amendoim':
-            dosagemPorM3 = 5; // g/m³ para amendoim
+            dosagemPorM3 = 5;
             tempoExposicao = "7 a 10 dias";
             break;
         case 'sorgo':
-            dosagemPorM3 = 4.5; // g/m³ para sorgo
+            dosagemPorM3 = 4.5;
             tempoExposicao = "6 a 8 dias";
             break;
         default:
@@ -137,10 +136,10 @@ function calcularFumigacaoSilo() {
             return;
     }
 
-    // Calcular a quantidade de fosfeto de alumínio necessária
+
     const quantidadeFumigante = volume * dosagemPorM3;
 
-    // Exibir os resultados
+
     document.getElementById('resultadoFumigacaoSilo').innerHTML = `
         <p>Volume do Silo: ${volume.toFixed(2)} m³</p>
         <p>Tipo de Material: ${tipoMaterial.charAt(0).toUpperCase() + tipoMaterial.slice(1)}</p>
