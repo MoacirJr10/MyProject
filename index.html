@@ -6,14 +6,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="css/responsivo.css">
 
-    <title>Calculadora de Fumigação</title>
+    <title>Calculadora</title>
 </head>
 
 <body>
 
 <div class="menu-lateral">
     <ul>
-        <li onclick="mostrarAba('cubica')">Cálculo de Metragem Cúbica</li>
+        <li onclick="mostrarAba('cubica')">Fumigação em Blocos</li>
         <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
         <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
         <li onclick="mostrarAba('conversoes')">Conversões</li>
@@ -24,17 +24,12 @@
 <div class="container">
 
     <div id="cubica" class="tab-content active">
-        <h3>Cálculo de Metragem Cúbica</h3>
+        <h3>Fumigação em Blocos</h3>
         <input type="number" id="altura" placeholder="Altura (m)">
         <input type="number" id="largura" placeholder="Largura (m)">
         <input type="number" id="comprimento" placeholder="Comprimento (m)">
         <button class="btn" onclick="calcular()">Calcular</button>
         <div id="resultado" class="result"></div>
-        <div id="imagens" class="imagens-container">
-            <img src="src/imagem/comprimido.jpg" class="imagem-result" alt="Comprimido">
-            <img src="src/imagem/pastilha.jpg" class="imagem-result" alt="Pastilha">
-            <img src="src/imagem/sache.jpg" class="imagem-result" alt="Sachê">
-        </div>
     </div>
 
 
@@ -79,7 +74,7 @@
     </div>
 
 
-    
+
     <div id="historico" class="tab-content" style="display: none;">
         <h3>Histórico de Cálculos</h3>
         <button class="btn" onclick="limparHistorico()">Limpar Histórico</button>
@@ -93,4 +88,3 @@
 </body>
 
 </html>
-
