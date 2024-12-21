@@ -113,23 +113,23 @@ function calcularFumigacaoSilo() {
     switch (tipoMaterial) {
         case 'milho':
             dosagemPorM3 = 4;
-            tempoExposicao = "5 a 7 dias";
+            tempoExposicao = " 10 dias";
             break;
         case 'soja':
             dosagemPorM3 = 5;
-            tempoExposicao = "7 a 10 dias";
+            tempoExposicao = " 10 dias";
             break;
         case 'arroz':
             dosagemPorM3 = 3;
-            tempoExposicao = "5 a 7 dias";
+            tempoExposicao = " 10 dias";
             break;
         case 'amendoim':
             dosagemPorM3 = 5;
-            tempoExposicao = "7 a 10 dias";
+            tempoExposicao = " 10 dias";
             break;
         case 'sorgo':
             dosagemPorM3 = 4.5;
-            tempoExposicao = "6 a 8 dias";
+            tempoExposicao = " 10 dias";
             break;
         default:
             alert("Tipo de material não reconhecido.");
@@ -170,4 +170,28 @@ function calcularDiametro() {
 
 function mostrarCampoCircunferencia() {
     document.getElementById('circunferenciaSilo').style.display = 'block';
+}
+
+document.querySelector('nav ul li a').addEventListener('click', function(event){
+    event.preventDefault();
+    alert('Você clicou no link');
+});
+
+document.querySelector('.btn').addEventListener('click', function(){
+    window.location.href = 'index.html';
+});
+
+document.getElementById('inicio').addEventListener('click', function(){
+    window.location.href = 'index.html';
+});
+
+function mostrarAba(aba) {
+    const abas = document.querySelectorAll('.tab-content');
+    abas.forEach(ab => ab.style.display = 'none');
+
+    if (aba === 'inicio') {
+        document.getElementById('inicio-content').style.display = 'block';
+    } else {
+        document.getElementById(aba).style.display = 'block';
+    }
 }
