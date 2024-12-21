@@ -4,6 +4,11 @@ body {
     color: #e0e7ff;
     margin: 0;
     padding: 0;
+    background-image: url('src/imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .menu-lateral {
