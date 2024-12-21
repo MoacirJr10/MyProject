@@ -180,3 +180,32 @@ footer{
    bottom: 0;
    width: 100%;
 }
+
+.profile-img {
+   max-width: 200px;
+   width: 100%;
+   height: auto;
+   display: block;
+   margin: 20px auto;
+   border-radius: 50%;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#sobre {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   padding: 20px;
+   text-align: center;
+}
+
+@media (min-width: 768px) {
+   #sobre{
+          flex-direction: row;
+          justify-content: space-around;
+          text-align: left;
+   }
+   .profile-img{
+          margin: 0 20px;
+   }
+}
