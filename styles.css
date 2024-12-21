@@ -97,6 +97,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
     margin-top: 15px;
+    display: inline-block;
 }
 
 .btn:hover {
@@ -176,36 +177,61 @@ h1, h2, h3 {
    color: var(--primary-color);
 }
 
-footer{
-   background-color: var(--secondary-color);
-   color: white;
+footer {
+   background-color: #1a1a1a;
+   color: #e0e7ff;
    text-align: center;
-   padding: 1rem 0;
-   position: fixed;
-   bottom: 0;
-   width: 100%;
+   padding: 20px;
+   margin-top: 40px;
 }
 
 .profile-img {
    max-width: 200px;
    width: 100%;
    height: auto;
-   display: block;
-   margin: 20px auto;
    border-radius: 50%;
-   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+   order: -1;
 }
 
-#sobre {
+#sobre{
    display: flex;
    flex-direction: column;
    align-items: center;
+   gap: 20px;
    padding: 20px;
-   text-align: center;
+   text-align: left;
+}
+#trabalhos{
+   padding: 20px;
+}
+
+#trabalhos h2{
+   font-size: 2em;
+   margin-bottom: 20px;
+}
+
+.trabalho{
+   margin-bottom: 20px;
+}
+
+.trabalho h3{
+   font-size: 1.5em;
+   margin-bottom:10px;
+}
+
+.trabalho p {
+   font-size: 1.1em;
+   line-height: 1.6;
+}
+
+#sobre p {
+   font-size: 1.1em;
+   line-height: 1.6;
 }
 
 @media (min-width: 768px) {
-   #sobre{
+   #sobre {
           flex-direction: row;
           justify-content: space-around;
           text-align: left;
@@ -214,8 +240,9 @@ footer{
           margin: 0 20px;
    }
 }
+
 header{
-   background:linear-gradient(120deg, #0d0d0d 60%, #1a1a1);
+   background:linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
    background-image: url('src/imagens/fundo.jpg');
    background-size: cover;
    background-position: center;
