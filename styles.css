@@ -237,3 +237,32 @@ header p {
    margin: 10px 0 0;
    font-size: 1.2em;
 }
+
+footer{
+   background:linear-gradient(120deg, #0d0d0d 60%, #1a1a1);
+      background-image: url('src/imagens/fundo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #fff
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.social-links{
+   margin-top: 10px;
+}
+
+.social-link{
+   color: #e0e7ff;
+   text-decoration: none;
+   margin: 0 10px;
+   font-size: 1.1em;
+   transition: color 0.3 ease;
+}
+
+.social-link:hover {
+   color: #4f46e5;
+}
