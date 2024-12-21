@@ -15,11 +15,11 @@ body {
     position: fixed;
     width: 200px;
     height: 60%;
-    background-color: #1a1a1a;
-    padding: 20px;
-    border-radius: 0 20px 20px 0;
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, box-shadow 0.3s;
+    background-image: url('src/imagens/fundo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
 }
 
 .menu-lateral ul {
