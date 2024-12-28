@@ -1,0 +1,98 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+    color: #e0e7ff;
+    margin: 0;
+    padding: 0;
+    background-image: url('src/imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+    background-image: url('src/imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+header p {
+    margin: 10px 0 0;
+    font-size: 1.2em;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0;
+}
+
+footer {
+    background-color: #1a1a1a;
+    color: #e0e7ff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer {
+    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+    background-image: url('src/imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+main {
+    padding: 0rem;
+}
+
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --text-color: #333;
+}
+
+.btn {
+    background-color: #4f46e5;
+    color: #e0e7ff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #3730a3;
+    transform: scale(1.02);
+}
+

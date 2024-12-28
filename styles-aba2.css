@@ -1,0 +1,101 @@
+.menu-lateral {
+    position: fixed;
+    width: 200px;
+    height: 50%;
+    background-image: url('src/imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.menu-lateral ul {
+    list-style-type: none;
+    padding: 0;
+    color: #fff;
+}
+
+.menu-lateral li {
+    margin: 20px 0;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-radius 0.3s;
+    border-radius: 8px;
+}
+
+.menu-lateral li:hover {
+    background-color: #4f46e5;
+    border-radius: 12px;
+}
+
+.container {
+    margin-left: 240px;
+    padding: 20px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.result {
+    background-color: #27272a;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #4f46e5;
+    max-width: 500px;
+    width: 90%;
+    margin: 20px auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.imagens-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.imagens-container.show {
+    opacity: 1;
+}
+
+.imagem-result {
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.imagem-result:hover {
+    transform: scale(1.05);
+}
+#fumigacao-silo .result {
+    background-color: #27272a;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px solid #4f46e5;
+    max-width: 500px;
+    width: 90%;
+    margin: 30px auto;
+    transition: all 0.3s ease-in-out;
+}
+
+#fumigacao-silo input {
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #4f46e5;
+    width: 90%;
+    max-width: 200px;
+}
+
+#diametro-result {
+    margin-top: 10px;
+    color: #e0e7ff;
+}

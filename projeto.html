@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="css/responsivo.css">
+    <link rel="stylesheet" href="styles-aba2.css">
+    <link rel="stylesheet" href="styles-comum.css">
+    <link rel="stylesheet" href="responsivo.css">
 
     <title>Calculadora</title>
 </head>
@@ -26,7 +27,6 @@
 
     <div id="inicio" style="display: none;">Inicio </div>
 
-
     <div id="cubica" class="tab-content active">
         <h3>Fumigação em Blocos</h3>
         <input type="number" id="altura" placeholder="Altura (m)">
@@ -36,7 +36,6 @@
         <div id="resultado" class="result"></div>
     </div>
 
-
     <div id="area" class="tab-content" style="display: none;">
         <h3>Cálculo de Área Quadrada</h3>
         <input type="number" id="base" placeholder="Base (m)">
@@ -44,7 +43,6 @@
         <button class="btn" onclick="calcularArea()">Calcular Área</button>
         <div id="resultadoArea" class="result"></div>
     </div>
-
 
     <div id="conversoes" class="tab-content" style="display: none;">
         <h3>Conversões de Unidade</h3>
@@ -77,8 +75,6 @@
         <div id="resultadoFumigacaoSilo" class="result"></div>
     </div>
 
-
-
     <div id="historico" class="tab-content" style="display: none;">
         <h3>Histórico de Cálculos</h3>
         <button class="btn" onclick="limparHistorico()">Limpar Histórico</button>
@@ -86,9 +82,7 @@
     </div>
 </div>
 
-
 <script src="script.js"></script>
 
 </body>
-
 </html>
