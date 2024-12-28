@@ -1,48 +1,25 @@
-:root {
-    --primary-color: #4f46e5;
-    --secondary-color: #2ecc71;
-    --text-color: #e0e7ff;
-    --background-gradient: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
-    --background-image: url('src/imagens/fundo.jpg');
-}
-
-
 body {
     font-family: 'Poppins', sans-serif;
-    background: var(--background-gradient), var(--background-image) no-repeat center fixed;
-    background-size: cover;
-    color: var(--text-color);
+    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+    color: #e0e7ff;
     margin: 0;
     padding: 0;
-}
-
-header, footer {
-    background: var(--background-gradient), var(--background-image) no-repeat center fixed;
+    background-image: url('src/imagens/fundo.jpg');
     background-size: cover;
-    color: var(--text-color);
-    text-align: center;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
-
-header h1 {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin: 0;
-}
-
-header p, footer {
-    font-size: 1.2em;
-    margin: 10px 0 0;
-}
-
 
 .menu-lateral {
     position: fixed;
     width: 200px;
     height: 50%;
-    background: var(--background-gradient), var(--background-image) no-repeat center fixed;
-    background-size: cover;
+    background-image: url('src/imagens/fundo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
 }
 
 .menu-lateral ul {
@@ -59,10 +36,9 @@ header p, footer {
 }
 
 .menu-lateral li:hover {
-    background-color: var(--primary-color);
+    background-color: #4f46e5;
     border-radius: 12px;
 }
-
 
 .container {
     margin-left: 240px;
@@ -81,7 +57,7 @@ header p, footer {
     background-color: #27272a;
     padding: 20px;
     border-radius: 20px;
-    border: 2px solid var(--primary-color);
+    border: 2px solid #4f46e5;
     max-width: 500px;
     width: 90%;
     margin: 20px auto;
@@ -112,10 +88,9 @@ header p, footer {
     transform: scale(1.05);
 }
 
-
 .btn {
-    background-color: var(--primary-color);
-    color: var(--text-color);
+    background-color: #4f46e5;
+    color: #e0e7ff;
     border: none;
     padding: 12px 24px;
     border-radius: 8px;
@@ -134,101 +109,187 @@ header p, footer {
     background-color: #27272a;
     padding: 20px;
     border-radius: 20px;
-    border: 2px solid var(--primary-color);
+    border: 2px solid #4f46e5;
     max-width: 500px;
     width: 90%;
     margin: 30px auto;
     transition: all 0.3s ease-in-out;
 }
-
 #fumigacao-silo input {
     margin-top: 10px;
     padding: 8px;
     border-radius: 8px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid #4f46e5;
     width: 90%;
     max-width: 200px;
 }
 
 #diametro-result {
     margin-top: 10px;
-    color: var(--text-color);
+    color: #e0e7ff;
 }
 
+:root{
+    --primary-color: #3498db;
+    --secondary-color #2ecc71;
+    --text-color: #333;
+}
 
-#sobre {
+body{
+   font-family: 'Arial'. sans-serif;
+   color: var (--text-color);
+   margin: 0;
+   padding: 0;
+}
+
+header{
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 0;
+}
+
+nav ul{
+    list-style: none;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-    text-align: center;
+    justify-content: center;
+    padding: 0;
+}
+
+nav ul li{
+    margin: 0 1rem;
+}
+
+nav ul li a{
+    color: white;
+    text-decoration: nome;
+    font-weight: bold;
+}
+
+main{
+   padding: 2rem;
+}
+
+section{
+   margin-bottom: 2rem;
+}
+
+h1, h2, h3 {
+   color: var(--primary-color);
+}
+
+footer {
+   background-color: #1a1a1a;
+   color: #e0e7ff;
+   text-align: center;
+   padding: 20px;
+   margin-top: 40px;
 }
 
 .profile-img {
-    max-width: 200px;
-    width: 100%;
-    height: auto;
-    border-radius: 50%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    order: -1;
+   max-width: 200px;
+   width: 100%;
+   height: auto;
+   border-radius: 50%;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+   order: -1;
 }
 
-#sobre p {
-    font-size: 1.1em;
-    line-height: 1.6;
+#sobre{
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 20px;
+   padding: 20px;
+   text-align: left;
+}
+#trabalhos{
+   padding: 20px;
 }
 
-@media (min-width: 768px) {
-    #sobre {
-        flex-direction: row;
-        justify-content: space-around;
-        text-align: left;
-    }
-
-    .profile-img {
-        margin: 0 20px;
-    }
+#trabalhos h2{
+   font-size: 2em;
+   margin-bottom: 20px;
 }
 
-
-#trabalhos {
-    padding: 20px;
+.trabalho{
+   margin-bottom: 20px;
 }
 
-#trabalhos h2 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
-
-.trabalho {
-    margin-bottom: 20px;
-}
-
-.trabalho h3 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+.trabalho h3{
+   font-size: 1.5em;
+   margin-bottom:10px;
 }
 
 .trabalho p {
-    font-size: 1.1em;
-    line-height: 1.6;
+   font-size: 1.1em;
+   line-height: 1.6;
 }
 
-
-.social-links {
-    margin-top: 10px;
+#sobre p {
+   font-size: 1.1em;
+   line-height: 1.6;
 }
 
-.social-link {
-    color: var(--text-color);
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 1.1em;
-    transition: color 0.3s ease;
+@media (min-width: 768px) {
+   #sobre {
+          flex-direction: row;
+          justify-content: space-around;
+          text-align: left;
+   }
+   .profile-img{
+          margin: 0 20px;
+   }
+}
+
+header{
+   background:linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+   background-image: url('src/imagens/fundo.jpg');
+   background-size: cover;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   color: #fff
+   padding: 20px;
+   text-align: center;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header h1{
+   margin:  0;
+   font-size: 2.5em;
+   font-weight: bold;
+}
+
+header p {
+   margin: 10px 0 0;
+   font-size: 1.2em;
+}
+
+footer{
+   background:linear-gradient(120deg, #0d0d0d 60%, #1a1a1);
+      background-image: url('src/imagens/fundo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #fff
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.social-links{
+   margin-top: 10px;
+}
+
+.social-link{
+   color: #e0e7ff;
+   text-decoration: none;
+   margin: 0 10px;
+   font-size: 1.1em;
+   transition: color 0.3 ease;
 }
 
 .social-link:hover {
-    color: var(--primary-color);
+   color: #4f46e5;
 }
