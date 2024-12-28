@@ -29,8 +29,9 @@
 }
 
 .container {
+    margin:0 auto;
     margin-left: 240px;
-    padding: 20px;
+    padding: 0 20px;
 }
 
 .tab-content {

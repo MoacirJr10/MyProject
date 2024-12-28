@@ -1,4 +1,7 @@
 body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
     color: #e0e7ff;
@@ -29,6 +32,7 @@ header {
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
 }
 
 header h1 {
@@ -54,7 +58,6 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-
 }
 
 footer {
@@ -65,13 +68,18 @@ footer {
     background-repeat: no-repeat;
     background-attachment: fixed;
     color: #fff;
+    text-align: center;
     padding: 10px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
+    width: 100%;
+    bottom: 0;
 }
 
 main {
-    padding: 0rem;
+    flex: 1;
+    padding: 0ren;
 }
 
 :root {
@@ -96,4 +104,16 @@ main {
     background-color: #3730a3;
     transform: scale(1.02);
 }
-
+@media (min-width: 1200px) {
+    body {
+        padding: 0 20px;
+    }
+    header,footer, main {
+    max-width: 1200px;
+    margin: 0 auto;
+    }
+    section {
+        margin-bottom: 2rem;
+        padding: 0 20px;
+    }
+}
