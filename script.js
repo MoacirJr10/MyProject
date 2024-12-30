@@ -30,15 +30,15 @@ function calcular() {
 }
 
 function calcularArea() {
-    const base = parseFloat(document.getElementById('base').value);
-    const altura = parseFloat(document.getElementById('alturaArea').value);
+    const largura = parseFloat(document.getElementById('larguraArea').value);
+    const comprimento = parseFloat(document.getElementById('comprimentoArea').value);
 
-    if (isNaN(base) || isNaN(altura)) {
-        alert("Por favor, insira todos os valores corretamente.");
+    if (isNaN(largura) || isNaN(comprimento) || largura <= 0 || comprimento <= 0) {
+        alert("Por favor, insira valores positivos para largura e comprimento.");
         return;
     }
 
-    const area = base * altura;
+    const area = largura * comprimento;
     document.getElementById('resultadoArea').innerHTML = `Área: ${area.toFixed(2)} m²`;
 }
 
