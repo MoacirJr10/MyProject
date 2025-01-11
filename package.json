@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/backend/index.js",
+    "dev"  : "nodemon src/backend/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,7 @@
   "dependencies": {
     "express": "^4.21.2"
   },
-
-  "scripts": {
-    "start": "node src/backend/server.js"
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }

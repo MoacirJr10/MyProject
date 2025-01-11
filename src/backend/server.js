@@ -1,13 +1,18 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const path = require('path');
 
-app.use(express.jason());
+const PORT = process.env.PORT || 3000;
 
-app.get('/api/hello', (req, res) => {
-    res.jason({ message: 'Hello Frontend!' });
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '../..')));
+
+app.get('/api', (req, res) => {
+     res.send('Backend rodando!');
 });
 
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+app.listen(PORT, () => {
+     console.log(`Servidor rodando na porta ${PORT}`);
 });
+
+module.exports = app;
