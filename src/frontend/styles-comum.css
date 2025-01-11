@@ -7,7 +7,7 @@ body {
     color: #e0e7ff;
     margin: 0;
     padding: 0;
-    background-image: url('src/imagens/fundo.jpg');
+    background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,7 +23,7 @@ body {
 
 header {
     background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
-    background-image: url('src/imagens/fundo.jpg');
+    background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -62,7 +62,7 @@ footer {
 
 footer {
     background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
-    background-image: url('src/imagens/fundo.jpg');
+    background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

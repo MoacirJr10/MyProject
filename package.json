@@ -1,7 +1,7 @@
 {
   "name": "fumiga-o",
   "version": "1.0.0",
-  "main": "script.js",
+  "main": "scr/backend/index.js",
   "scripts": {
     "start": "node src/backend/index.js",
     "dev"  : "nodemon src/backend/index.js"
@@ -11,14 +11,14 @@
     "url": "git+https://github.com/MoacirJr10/Fumiga-o.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Moacir Jr",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
     "url": "https://github.com/MoacirJr10/Fumiga-o/issues"
   },
   "homepage": "https://github.com/MoacirJr10/Fumiga-o#readme",
-  "description": "",
+  "description": "Um projeto de backend simples usando Express",
   "dependencies": {
     "express": "^4.21.2"
   },

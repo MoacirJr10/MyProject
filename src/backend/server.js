@@ -1,7 +1,7 @@
 const express = require('express');
-const app = express();
 const path = require('path');
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -16,3 +16,9 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+if (require.main === module) {
+     app.listen(PORT, () => {
+          console.log(`Servidor rodando na porta ${PORT}`);
+     });
+}

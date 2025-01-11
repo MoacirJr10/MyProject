@@ -2,7 +2,7 @@
     position: fixed;
     width: 200px;
     height: 50%;
-    background-image: url('src/imagens/fundo.jpg');
+    background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
