@@ -66,6 +66,19 @@ function converterParaQuilometros() {
     document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${quilometros} km`;
 }
 
+function converterParaMilhas() {
+    const metros = parseFloat(document.getElementById('metros').value);
+
+    if (isNaN(metros)) {
+        alert("Por favor, insira um valor em metros.");
+        return;
+    }
+
+    const milhas = metros / 1609.34;
+    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas} milhas`;
+}
+
+
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
     const entrada = `Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)}, Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`;
     historico.push(entrada);
