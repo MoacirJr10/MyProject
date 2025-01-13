@@ -214,92 +214,105 @@ function converterParaMilhas() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-let gastos = JSON.parse(localStorage.getItem('gastos')) || [];
+    let gastos = JSON.parse(localStorage.getItem('gastos')) || [];
 
-if (!Array.isArray(gastos)) {
-    gastos = [];
-}
 
-document.getElementById('form-gasto').addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const descricao = document.getElementById('descricao').value;
-    const valor = parseFloat(document.getElementById('valor').value);
-    const data = document.getElementById('data').value;
-    const tipoPagamento = document.getElementById('tipo-pagamento').value;
-
-    if (!descricao || isNaN(valor) || !data) {
-        alert("Por favor, preencha todos os campos corretamente.");
-        return;
+    if (!Array.isArray(gastos)) {
+        gastos = [];
     }
 
-    const gasto = {
-        descricao,
-        valor,
-        data,
-        tipoPagamento
-    };
 
-    gastos.push(gasto);
-    localStorage.setItem('gastos', JSON.stringify(gastos));
+    document.getElementById('form-gasto').addEventListener('submit', function (event) {
+        event.preventDefault();
 
-    atualizarListaGastos();
-    atualizarResumoFinanceiro();
-    document.getElementById('form-gasto').reset();
-});
+        const descricao = document.getElementById('descricao').value;
+        const valor = parseFloat(document.getElementById('valor').value);
+        const data = document.getElementById('data').value;
+        const tipoPagamento = document.getElementById('tipo-pagamento').value;
 
-function atualizarListaGastos() {
-    const listaGastos = document.getElementById('gastos');
-    listaGastos.innerHTML = '';
+        if (!descricao || isNaN(valor) || !data) {
+            alert("Por favor, preencha todos os campos corretamente.");
+            return;
+        }
 
-    gastos.forEach((gasto, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            ${gasto.descricao} - R$ ${gasto.valor.toFixed(2)} (${gasto.tipoPagamento}) - ${gasto.data}
-            <button onclick="removerGasto(${index})">Remover</button>
-        `;
-        listaGastos.appendChild(li);
-    });
-}
+        const gasto = {
+            descricao,
+            valor,
+            data,
+            tipoPagamento
+        };
 
-function removerGasto(index) {
-    gastos.splice(index, 1);
-    localStorage.setItem('gastos', JSON.stringify(gastos));
-    atualizarListaGastos();
-    atualizarResumoFinanceiro();
-}
+        gastos.push(gasto);
+        localStorage.setItem('gastos', JSON.stringify(gastos));
 
-function atualizarResumoFinanceiro() {
-    const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
-    document.getElementById('total-gasto').textContent = totalGasto.toFixed(2);
-
-    const gastosPorTipo = gastos.reduce((acc, gasto) => {
-        acc[gasto.tipoPagamento] = (acc[gasto.tipoPagamento] || 0) + gasto.valor;
-        return acc;
-    }, {});
-
-    const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
-    listaGastosPorTipo.innerHTML = '';
-
-    for (const tipo in gastosPorTipo) {
-        const li = document.createElement('li');
-        li.textContent = `${tipo}: R$ ${gastosPorTipo[tipo].toFixed(2)}`;
-        listaGastosPorTipo.appendChild(li);
-    }
-}
-
-function mostrarAba(aba) {
-    const abas = document.querySelectorAll('.tab-content');
-    abas.forEach(ab => ab.style.display = 'none');
-
-    if (aba === 'financeiro') {
-        document.getElementById('financeiro').style.display = 'block';
         atualizarListaGastos();
         atualizarResumoFinanceiro();
-    } else {
-        document.getElementById(aba).style.display = 'block';
+        document.getElementById('form-gasto').reset();
+    });
+
+
+    function atualizarListaGastos() {
+        const listaGastos = document.getElementById('gastos');
+        if (!listaGastos) return;
+
+        listaGastos.innerHTML = '';
+
+        gastos.forEach((gasto, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+                ${gasto.descricao} - R$ ${gasto.valor.toFixed(2)} (${gasto.tipoPagamento}) - ${gasto.data}
+                <button onclick="removerGasto(${index})">Remover</button>
+            `;
+            listaGastos.appendChild(li);
+        });
     }
-};
+
+
+    window.removerGasto = function (index) {
+        gastos.splice(index, 1);
+        localStorage.setItem('gastos', JSON.stringify(gastos));
+        atualizarListaGastos();
+        atualizarResumoFinanceiro();
+    };
+
+
+    function atualizarResumoFinanceiro() {
+        const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
+        const totalGastoElement = document.getElementById('total-gasto');
+        if (totalGastoElement) {
+            totalGastoElement.textContent = totalGasto.toFixed(2);
+        }
+
+        const gastosPorTipo = gastos.reduce((acc, gasto) => {
+            acc[gasto.tipoPagamento] = (acc[gasto.tipoPagamento] || 0) + gasto.valor;
+            return acc;
+        }, {});
+
+        const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
+        if (listaGastosPorTipo) {
+            listaGastosPorTipo.innerHTML = '';
+
+            for (const tipo in gastosPorTipo) {
+                const li = document.createElement('li');
+                li.textContent = `${tipo}: R$ ${gastosPorTipo[tipo].toFixed(2)}`;
+                listaGastosPorTipo.appendChild(li);
+            }
+        }
+    }
+
+
+    window.mostrarAba = function (aba) {
+        const abas = document.querySelectorAll('.tab-content');
+        abas.forEach(ab => ab.style.display = 'none');
+
+        if (aba === 'financeiro') {
+            document.getElementById('financeiro').style.display = 'block';
+            atualizarListaGastos();
+            atualizarResumoFinanceiro();
+        } else {
+            document.getElementById(aba).style.display = 'block';
+        }
+    };
 });
 
 
