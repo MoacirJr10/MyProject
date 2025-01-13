@@ -221,7 +221,6 @@ document.addEventListener('DOMContentLoaded', function () {
         gastos = [];
     }
 
-
     document.getElementById('form-gasto').addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -250,7 +249,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('form-gasto').reset();
     });
 
-
     function atualizarListaGastos() {
         const listaGastos = document.getElementById('gastos');
         if (!listaGastos) return;
@@ -274,7 +272,6 @@ document.addEventListener('DOMContentLoaded', function () {
         atualizarListaGastos();
         atualizarResumoFinanceiro();
     };
-
 
     function atualizarResumoFinanceiro() {
         const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
