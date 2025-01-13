@@ -101,32 +101,67 @@
     color: #e0e7ff;
 }
 
-#financeiro {
-   padding: 20px;
+.gasto-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f5f5f5;
+    border-radius: 4px;
 }
 
-#form-gasto input, #form-gasto select {
-   margin: 10px 0;
-   padding: 8px;
-   border-radius: 8px;
-   border: 1px solid #4f46e5;
-   width: 100%;
-   max-width: 300px;
+.btn-remover {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
-#lista-gastos ul {
-    list-style-type: none;
+.btn-remover:hover {
+    background-color: #cc0000;
+}
+
+#gastos {
+    list-style: none;
     padding: 0;
 }
 
-#lista-gastos li {
-    background-color: #27272a;
-    padding: 10px;
-    border-radius: 8px;
-    margin: 10px 0;
-    border: 2px solid #4f46e5;
+#gastos li {
+    margin-bottom: 10px;
+}
+
+#form-gasto {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#form-gasto input,
+#form-gasto select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 #resumo-financeiro {
     margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+}
+
+#gastos-por-tipo {
+    list-style: none;
+    padding: 0;
+}
+
+#gastos-por-tipo li {
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 4px;
 }

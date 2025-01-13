@@ -213,104 +213,128 @@ function converterParaMilhas() {
 
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    let gastos = JSON.parse(localStorage.getItem('gastos')) || [];
+
+let gastos = [];
+
+function inicializarControleFinanceiro() {
+
+    gastos = JSON.parse(localStorage.getItem('gastos')) || [];
 
 
-    if (!Array.isArray(gastos)) {
-        gastos = [];
+    const formGasto = document.getElementById('form-gasto');
+    if (formGasto) {
+        formGasto.addEventListener('submit', adicionarGasto);
     }
 
-    document.getElementById('form-gasto').addEventListener('submit', function (event) {
-        event.preventDefault();
 
-        const descricao = document.getElementById('descricao').value;
-        const valor = parseFloat(document.getElementById('valor').value);
-        const data = document.getElementById('data').value;
-        const tipoPagamento = document.getElementById('tipo-pagamento').value;
+    atualizarListaGastos();
+    atualizarResumoFinanceiro();
+}
 
-        if (!descricao || isNaN(valor) || !data) {
-            alert("Por favor, preencha todos os campos corretamente.");
-            return;
-        }
+function adicionarGasto(event) {
+    event.preventDefault();
 
-        const gasto = {
-            descricao,
-            valor,
-            data,
-            tipoPagamento
-        };
+    const descricao = document.getElementById('descricao').value;
+    const valor = parseFloat(document.getElementById('valor').value);
+    const data = document.getElementById('data').value;
+    const tipoPagamento = document.getElementById('tipo-pagamento').value;
 
-        gastos.push(gasto);
-        localStorage.setItem('gastos', JSON.stringify(gastos));
+    if (!descricao || isNaN(valor) || !data) {
+        alert("Por favor, preencha todos os campos corretamente.");
+        return;
+    }
 
-        atualizarListaGastos();
-        atualizarResumoFinanceiro();
-        document.getElementById('form-gasto').reset();
+    const gasto = {
+        descricao,
+        valor,
+        data,
+        tipoPagamento
+    };
+
+    gastos.push(gasto);
+    localStorage.setItem('gastos', JSON.stringify(gastos));
+
+    atualizarListaGastos();
+    atualizarResumoFinanceiro();
+    event.target.reset();
+}
+
+function atualizarListaGastos() {
+    const listaGastos = document.getElementById('gastos');
+    if (!listaGastos) return;
+
+    listaGastos.innerHTML = '';
+
+    gastos.forEach((gasto, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="gasto-item">
+                <span>${gasto.descricao} - R$ ${gasto.valor.toFixed(2)}</span>
+                <span>${gasto.tipoPagamento} - ${formatarData(gasto.data)}</span>
+                <button onclick="removerGasto(${index})" class="btn-remover">Remover</button>
+            </div>
+        `;
+        listaGastos.appendChild(li);
     });
+}
 
-    function atualizarListaGastos() {
-        const listaGastos = document.getElementById('gastos');
-        if (!listaGastos) return;
+function formatarData(data) {
+    return new Date(data).toLocaleDateString('pt-BR');
+}
 
-        listaGastos.innerHTML = '';
+function removerGasto(index) {
+    gastos.splice(index, 1);
+    localStorage.setItem('gastos', JSON.stringify(gastos));
+    atualizarListaGastos();
+    atualizarResumoFinanceiro();
+}
 
-        gastos.forEach((gasto, index) => {
+function atualizarResumoFinanceiro() {
+    const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
+    const totalGastoElement = document.getElementById('total-gasto');
+    if (totalGastoElement) {
+        totalGastoElement.textContent = totalGasto.toFixed(2);
+    }
+
+    const gastosPorTipo = gastos.reduce((acc, gasto) => {
+        acc[gasto.tipoPagamento] = (acc[gasto.tipoPagamento] || 0) + gasto.valor;
+        return acc;
+    }, {});
+
+    const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
+    if (listaGastosPorTipo) {
+        listaGastosPorTipo.innerHTML = '';
+
+        Object.entries(gastosPorTipo).forEach(([tipo, valor]) => {
             const li = document.createElement('li');
-            li.innerHTML = `
-                ${gasto.descricao} - R$ ${gasto.valor.toFixed(2)} (${gasto.tipoPagamento}) - ${gasto.data}
-                <button onclick="removerGasto(${index})">Remover</button>
-            `;
-            listaGastos.appendChild(li);
+            li.textContent = `${tipo}: R$ ${valor.toFixed(2)}`;
+            listaGastosPorTipo.appendChild(li);
         });
     }
+}
 
 
-    window.removerGasto = function (index) {
-        gastos.splice(index, 1);
-        localStorage.setItem('gastos', JSON.stringify(gastos));
-        atualizarListaGastos();
-        atualizarResumoFinanceiro();
-    };
-
-    function atualizarResumoFinanceiro() {
-        const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
-        const totalGastoElement = document.getElementById('total-gasto');
-        if (totalGastoElement) {
-            totalGastoElement.textContent = totalGasto.toFixed(2);
-        }
-
-        const gastosPorTipo = gastos.reduce((acc, gasto) => {
-            acc[gasto.tipoPagamento] = (acc[gasto.tipoPagamento] || 0) + gasto.valor;
-            return acc;
-        }, {});
-
-        const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
-        if (listaGastosPorTipo) {
-            listaGastosPorTipo.innerHTML = '';
-
-            for (const tipo in gastosPorTipo) {
-                const li = document.createElement('li');
-                li.textContent = `${tipo}: R$ ${gastosPorTipo[tipo].toFixed(2)}`;
-                listaGastosPorTipo.appendChild(li);
-            }
-        }
-    }
+window.removerGasto = removerGasto;
 
 
-    window.mostrarAba = function (aba) {
-        const abas = document.querySelectorAll('.tab-content');
-        abas.forEach(ab => ab.style.display = 'none');
+document.addEventListener('DOMContentLoaded', inicializarControleFinanceiro);
 
+
+function mostrarAba(aba) {
+    const abas = document.querySelectorAll('.tab-content');
+    abas.forEach(ab => ab.style.display = 'none');
+
+    const abaAtual = document.getElementById(aba);
+    if (abaAtual) {
+        abaAtual.style.display = 'block';
         if (aba === 'financeiro') {
-            document.getElementById('financeiro').style.display = 'block';
             atualizarListaGastos();
             atualizarResumoFinanceiro();
-        } else {
-            document.getElementById(aba).style.display = 'block';
         }
-    };
-});
+    }
+}
+
+window.mostrarAba = mostrarAba;
 
 
 
