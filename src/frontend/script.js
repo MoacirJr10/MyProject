@@ -22,7 +22,6 @@ function calcular() {
         O Comprimido é: ${comprimido.toFixed(2)}
     `;
 
-
     const imagensContainer = document.getElementById('imagens');
     imagensContainer.classList.add('show');
 
@@ -41,9 +40,6 @@ function calcularArea() {
     const area = largura * comprimento;
     document.getElementById('resultadoArea').innerHTML = `Área: ${area.toFixed(2)} m²`;
 }
-
-
-
 
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
     const entrada = `Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)}, Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`;
@@ -212,34 +208,32 @@ function converterParaMilhas() {
 }
 
 
-
-
 let gastos = [];
+let graficoGastos = null;
 
 function inicializarControleFinanceiro() {
 
     gastos = JSON.parse(localStorage.getItem('gastos')) || [];
-
 
     const formGasto = document.getElementById('form-gasto');
     if (formGasto) {
         formGasto.addEventListener('submit', adicionarGasto);
     }
 
-
     atualizarListaGastos();
     atualizarResumoFinanceiro();
+    atualizarGrafico();
 }
 
 function adicionarGasto(event) {
     event.preventDefault();
 
-    const descricao = document.getElementById('descricao').value;
+    const descricao = document.getElementById('descricao').value.trim();
     const valor = parseFloat(document.getElementById('valor').value);
     const data = document.getElementById('data').value;
     const tipoPagamento = document.getElementById('tipo-pagamento').value;
-
-    if (!descricao || isNaN(valor) || !data) {
+os
+    if (!descricao || isNaN(valor) || valor <= 0 || !data || !tipoPagamento) {
         alert("Por favor, preencha todos os campos corretamente.");
         return;
     }
@@ -256,6 +250,9 @@ function adicionarGasto(event) {
 
     atualizarListaGastos();
     atualizarResumoFinanceiro();
+    atualizarGrafico();
+
+
     event.target.reset();
 }
 
@@ -283,13 +280,17 @@ function formatarData(data) {
 }
 
 function removerGasto(index) {
-    gastos.splice(index, 1);
-    localStorage.setItem('gastos', JSON.stringify(gastos));
-    atualizarListaGastos();
-    atualizarResumoFinanceiro();
+    if (confirm("Tem certeza que deseja remover este gasto?")) {
+        gastos.splice(index, 1);
+        localStorage.setItem('gastos', JSON.stringify(gastos));
+        atualizarListaGastos();
+        atualizarResumoFinanceiro();
+        atualizarGrafico();
+    }
 }
 
 function atualizarResumoFinanceiro() {
+
     const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
     const totalGastoElement = document.getElementById('total-gasto');
     if (totalGastoElement) {
@@ -304,7 +305,6 @@ function atualizarResumoFinanceiro() {
     const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
     if (listaGastosPorTipo) {
         listaGastosPorTipo.innerHTML = '';
-
         Object.entries(gastosPorTipo).forEach(([tipo, valor]) => {
             const li = document.createElement('li');
             li.textContent = `${tipo}: R$ ${valor.toFixed(2)}`;
@@ -313,28 +313,46 @@ function atualizarResumoFinanceiro() {
     }
 }
 
+function atualizarGrafico() {
+    const ctx = document.getElementById('graficoGastos').getContext('2d');
 
-window.removerGasto = removerGasto;
+    const gastosPorTipo = gastos.reduce((acc, gasto) => {
+        acc[gasto.tipoPagamento] = (acc[gasto.tipoPagamento] || 0) + gasto.valor;
+        return acc;
+    }, {});
 
+    const dados = {
+        labels: Object.keys(gastosPorTipo),
+        datasets: [{
+            data: Object.values(gastosPorTipo),
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+    };
+
+    if (graficoGastos) {
+        graficoGastos.destroy();
+    }
+
+    graficoGastos = new Chart(ctx, {
+        type: 'doughnut',
+        data: dados,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribuição de Gastos por Tipo de Pagamento'
+                }
+            }
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', inicializarControleFinanceiro);
 
-
-function mostrarAba(aba) {
-    const abas = document.querySelectorAll('.tab-content');
-    abas.forEach(ab => ab.style.display = 'none');
-
-    const abaAtual = document.getElementById(aba);
-    if (abaAtual) {
-        abaAtual.style.display = 'block';
-        if (aba === 'financeiro') {
-            atualizarListaGastos();
-            atualizarResumoFinanceiro();
-        }
-    }
-}
-
-window.mostrarAba = mostrarAba;
-
+window.removerGasto = removerGasto;
 
 

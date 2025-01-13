@@ -162,6 +162,19 @@
 #gastos-por-tipo li {
     margin: 5px 0;
     padding: 5px;
-    background-color: #fff;
+    background-color: #f8f9fa;
     border-radius: 4px;
+}
+
+#grafico-container{
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
 }
