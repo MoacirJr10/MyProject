@@ -42,41 +42,7 @@ function calcularArea() {
     document.getElementById('resultadoArea').innerHTML = `Área: ${area.toFixed(2)} m²`;
 }
 
-function converterParaCentimetros() {
-    const metros = parseFloat(document.getElementById('metros').value);
 
-    if (isNaN(metros)) {
-        alert("Por favor, insira um valor em metros.");
-        return;
-    }
-
-    const centimetros = metros * 100;
-    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${centimetros} cm`;
-}
-
-function converterParaQuilometros() {
-    const metros = parseFloat(document.getElementById('metros').value);
-
-    if (isNaN(metros)) {
-        alert("Por favor, insira um valor em metros.");
-        return;
-    }
-
-    const quilometros = metros / 1000;
-    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${quilometros} km`;
-}
-
-function converterParaMilhas() {
-    const metros = parseFloat(document.getElementById('metros').value);
-
-    if (isNaN(metros)) {
-        alert("Por favor, insira um valor em metros.");
-        return;
-    }
-
-    const milhas = metros / 1609.34;
-    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas} milhas`;
-}
 
 
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
@@ -208,3 +174,133 @@ function mostrarAba(aba) {
         document.getElementById(aba).style.display = 'block';
     }
 }
+
+function converterParaCentimetros() {
+    const metros = parseFloat(document.getElementById('metros').value);
+
+    if (isNaN(metros)) {
+        alert("Por favor, insira um valor em metros.");
+        return;
+    }
+
+    const centimetros = metros * 100;
+    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${centimetros} cm`;
+}
+
+function converterParaQuilometros() {
+    const metros = parseFloat(document.getElementById('metros').value);
+
+    if (isNaN(metros)) {
+        alert("Por favor, insira um valor em metros.");
+        return;
+    }
+
+    const quilometros = metros / 1000;
+    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${quilometros} km`;
+}
+
+function converterParaMilhas() {
+    const metros = parseFloat(document.getElementById('metros').value);
+
+    if (isNaN(metros)) {
+        alert("Por favor, insira um valor em metros.");
+        return;
+    }
+
+    const milhas = metros / 1609.34;
+    document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas} milhas`;
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+let gastos = JSON.parse(localStorage.getItem('gastos')) || [];
+
+if (!Array.isArray(gastos)) {
+    gastos = [];
+}
+
+document.getElementById('form-gasto').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const descricao = document.getElementById('descricao').value;
+    const valor = parseFloat(document.getElementById('valor').value);
+    const data = document.getElementById('data').value;
+    const tipoPagamento = document.getElementById('tipo-pagamento').value;
+
+    if (!descricao || isNaN(valor) || !data) {
+        alert("Por favor, preencha todos os campos corretamente.");
+        return;
+    }
+
+    const gasto = {
+        descricao,
+        valor,
+        data,
+        tipoPagamento
+    };
+
+    gastos.push(gasto);
+    localStorage.setItem('gastos', JSON.stringify(gastos));
+
+    atualizarListaGastos();
+    atualizarResumoFinanceiro();
+    document.getElementById('form-gasto').reset();
+});
+
+function atualizarListaGastos() {
+    const listaGastos = document.getElementById('gastos');
+    listaGastos.innerHTML = '';
+
+    gastos.forEach((gasto, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            ${gasto.descricao} - R$ ${gasto.valor.toFixed(2)} (${gasto.tipoPagamento}) - ${gasto.data}
+            <button onclick="removerGasto(${index})">Remover</button>
+        `;
+        listaGastos.appendChild(li);
+    });
+}
+
+function removerGasto(index) {
+    gastos.splice(index, 1);
+    localStorage.setItem('gastos', JSON.stringify(gastos));
+    atualizarListaGastos();
+    atualizarResumoFinanceiro();
+}
+
+function atualizarResumoFinanceiro() {
+    const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
+    document.getElementById('total-gasto').textContent = totalGasto.toFixed(2);
+
+    const gastosPorTipo = gastos.reduce((acc, gasto) => {
+        acc[gasto.tipoPagamento] = (acc[gasto.tipoPagamento] || 0) + gasto.valor;
+        return acc;
+    }, {});
+
+    const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
+    listaGastosPorTipo.innerHTML = '';
+
+    for (const tipo in gastosPorTipo) {
+        const li = document.createElement('li');
+        li.textContent = `${tipo}: R$ ${gastosPorTipo[tipo].toFixed(2)}`;
+        listaGastosPorTipo.appendChild(li);
+    }
+}
+
+function mostrarAba(aba) {
+    const abas = document.querySelectorAll('.tab-content');
+    abas.forEach(ab => ab.style.display = 'none');
+
+    if (aba === 'financeiro') {
+        document.getElementById('financeiro').style.display = 'block';
+        atualizarListaGastos();
+        atualizarResumoFinanceiro();
+    } else {
+        document.getElementById(aba).style.display = 'block';
+    }
+};
+});
+
+
+

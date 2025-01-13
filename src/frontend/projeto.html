@@ -9,16 +9,17 @@
 </head>
 
 <body>
-<div class="menu-lateral">
+<nav class="menu-lateral">
     <ul>
-        <li onclick="window.location.href='index.html'">Início</li>
-        <li onclick="mostrarAba('cubica')">Fumigação em Blocos</li>
-        <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
-        <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
-        <li onclick="mostrarAba('conversoes')">Conversões</li>
-        <li onclick="mostrarAba('historico')">Histórico</li>
+    <li onclick="window.location.href='index.html'">Início</li>
+    <li onclick="mostrarAba('cubica')">Fumigação em Blocos</li>
+    <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
+    <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
+    <li onclick="mostrarAba('conversoes')">Conversões</li>
+    <li onclick="mostrarAba('financeiro')">Controle Financeiro</li>
+    <li onclick="mostrarAba('historico')">Histórico</li>
     </ul>
-</div>
+</nav>
 
 <div class="container">
     <div id="inicio" style="display: none;">Inicio </div>
@@ -30,24 +31,6 @@
         <input type="number" id="comprimento" placeholder="Comprimento (m)">
         <button class="btn" onclick="calcular()">Calcular</button>
         <div id="resultado" class="result"></div>
-    </div>
-
-    <div id="area" class="tab-content" style="display: none;">
-        <h3>Cálculo de Área Quadrada</h3>
-        <input type="number" id="larguraArea" placeholder="Largura (m)" min="0">
-        <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0">
-        <button class="btn" onclick="calcularArea()">Calcular Área</button>
-        <div id="resultadoArea" class="result"></div>
-    </div>
-
-
-    <div id="conversoes" class="tab-content" style="display: none;">
-        <h3>Conversões de Unidade</h3>
-        <input type="number" id="metros" placeholder="Metros (m)">
-        <button class="btn" onclick="converterParaCentimetros()">Converter para cm</button>
-        <button class="btn" onclick="converterParaQuilometros()">Converter para km</button>
-        <button class="btn" onclick="converterParaMilhas()">Converter para milhas</button>
-        <div id="resultadoConversao" class="result"></div>
     </div>
 
     <div id="fumigacao-silo" class="tab-content" style="display: none;">
@@ -70,6 +53,50 @@
         <div id="diametro-result"></div>
 
         <div id="resultadoFumigacaoSilo" class="result"></div>
+    </div>
+
+    <div id="area" class="tab-content" style="display: none;">
+        <h3>Cálculo de Área Quadrada</h3>
+        <input type="number" id="larguraArea" placeholder="Largura (m)" min="0">
+        <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0">
+        <button class="btn" onclick="calcularArea()">Calcular Área</button>
+        <div id="resultadoArea" class="result"></div>
+    </div>
+
+
+    <div id="conversoes" class="tab-content" style="display: none;">
+        <h3>Conversões de Unidade</h3>
+        <input type="number" id="metros" placeholder="Metros (m)">
+        <button class="btn" onclick="converterParaCentimetros()">Converter para cm</button>
+        <button class="btn" onclick="converterParaQuilometros()">Converter para km</button>
+        <button class="btn" onclick="converterParaMilhas()">Converter para milhas</button>
+        <div id="resultadoConversao" class="result"></div>
+    </div>
+
+    <div id="financeiro" class="tab-content" style="display: none;">
+         <h3>Controle Financeiro</h3>
+        <form id="form-gasto">
+            <input type="text" id="descricao" placeholder="Descrição do gasto" required>
+            <input type="number" id="valor" placeholder="Valor (R$)" required>
+            <input type="date" id="data" required>
+            <select id="tipo-pagamento">
+                <option value="credito">Cartão de Crédito</option>
+                <option value="debito">Cartão de Débito</option>
+                <option value="pix">Pix</option>
+                <option value="dinheiro">Dinheiro</option>
+            </select>
+            <button type="submit" class="btn">Adicionar Gasto</button>
+        </form>
+        <div id="lista-gastos">
+            <h4>Gastos Adcionandos:</h4>
+            <ul id="gastos"></ul>
+        </div>
+        <div id="resumo-financeiro">
+            <h4>Resumo:</h4>
+            <p>Total Gasto: R$ <span id="total-gasto">0.00</span></p>
+            <p>Gasto por Tipo:</p>
+            <ul id="gastos-por-tipo"></ul>
+        </div>
     </div>
 
     <div id="historico" class="tab-content" style="display: none;">
