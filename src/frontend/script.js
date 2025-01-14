@@ -228,13 +228,7 @@ function adicionarGasto(event) {
 
     }
 
-    const gasto = {
-        descricao,
-        valor,
-        data,
-        tipoPagamento
-    };
-
+    const gasto = { descricao, valor, data, tipoPagamento };
     gastos.push(gasto);
     localStorage.setItem('gastos', JSON.stringify(gastos));
 
@@ -242,7 +236,6 @@ function adicionarGasto(event) {
     atualizarResumoFinanceiro();
     atualizarGrafico();
 
-     targetDiv.scrollIntoView({ behavior: 'smooth' });
      event.target.reset();
 }
 
@@ -330,19 +323,16 @@ function atualizarGrafico() {
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'top',
-                },
+                    position: 'top',},
                 title: {
                     display: true,
-                    text: 'Distribuição de Gastos por Tipo de Pagamento'
-                }
+                    text: 'Distribuição de Gastos por Tipo de Pagamento'}
             }
         }
     });
 }
 
 document.addEventListener('DOMContentLoaded', inicializarControleFinanceiro);
-
 window.removerGasto = removerGasto;
 
                                   <!-- Histórico -->
