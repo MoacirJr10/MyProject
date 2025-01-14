@@ -1,5 +1,6 @@
 let historico = [];
 
+                         <!-- Fumigação em Bloco -->
 function calcular() {
     const altura = parseFloat(document.getElementById('altura').value);
     const largura = parseFloat(document.getElementById('largura').value);
@@ -41,21 +42,6 @@ function calcularArea() {
     document.getElementById('resultadoArea').innerHTML = `Área: ${area.toFixed(2)} m²`;
 }
 
-function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
-    const entrada = `Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)}, Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`;
-    historico.push(entrada);
-    atualizarHistorico();
-}
-
-function atualizarHistorico() {
-    const historicoContainer = document.querySelector('.historico-container');
-    historicoContainer.innerHTML = historico.map(item => `<div>${item}</div>`).join('');
-}
-
-function limparHistorico() {
-    historico = [];
-    atualizarHistorico();
-}
 
 function mostrarAba(aba) {
     const abas = document.querySelectorAll('.tab-content');
@@ -67,6 +53,7 @@ function mostrarAba(aba) {
     }
 }
 
+                               <!-- Fumigação  em Silo -->
 function calcularFumigacaoSilo() {
     const diametro = parseFloat(document.getElementById('diametroSilo').value);
     const altura = parseFloat(document.getElementById('alturaSilo').value);
@@ -111,7 +98,6 @@ function calcularFumigacaoSilo() {
             return;
     }
 
-
     const quantidadeFumigante = volume * dosagemPorM3;
 
 
@@ -147,6 +133,8 @@ function mostrarCampoCircunferencia() {
     document.getElementById('circunferenciaSilo').style.display = 'block';
 }
 
+                                  <!-- Evento button inicio -->
+
 document.querySelector('nav ul li a').addEventListener('click', function(event){
     event.preventDefault();
     alert('Você clicou no link');
@@ -170,6 +158,7 @@ function mostrarAba(aba) {
         document.getElementById(aba).style.display = 'block';
     }
 }
+                          <!-- Conversor de Medidas -->
 
 function converterParaCentimetros() {
     const metros = parseFloat(document.getElementById('metros').value);
@@ -207,7 +196,7 @@ function converterParaMilhas() {
     document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas} milhas`;
 }
 
-
+                                     <!-- Financeiro -->
 let gastos = [];
 let graficoGastos = null;
 
@@ -354,5 +343,22 @@ function atualizarGrafico() {
 document.addEventListener('DOMContentLoaded', inicializarControleFinanceiro);
 
 window.removerGasto = removerGasto;
+
+                                  <!-- Histórico -->
+function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
+    const entrada = `Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)}, Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`;
+    historico.push(entrada);
+    atualizarHistorico();
+}
+
+function atualizarHistorico() {
+    const historicoContainer = document.querySelector('.historico-container');
+    historicoContainer.innerHTML = historico.map(item => `<div>${item}</div>`).join('');
+}
+
+function limparHistorico() {
+    historico = [];
+    atualizarHistorico();
+}
 
 
