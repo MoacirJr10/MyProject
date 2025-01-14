@@ -133,7 +133,7 @@ function mostrarCampoCircunferencia() {
     document.getElementById('circunferenciaSilo').style.display = 'block';
 }
 
-                                  <!-- Evento button inicio -->
+                          <!-- Evento button Inicio -->
 
 document.querySelector('nav ul li a').addEventListener('click', function(event){
     event.preventDefault();
@@ -196,7 +196,7 @@ function converterParaMilhas() {
     document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas} milhas`;
 }
 
-                                     <!-- Financeiro -->
+                                  <!-- Financeiro -->
 let gastos = [];
 let graficoGastos = null;
 
@@ -221,10 +221,11 @@ function adicionarGasto(event) {
     const valor = parseFloat(document.getElementById('valor').value);
     const data = document.getElementById('data').value;
     const tipoPagamento = document.getElementById('tipo-pagamento').value;
-os
+
     if (!descricao || isNaN(valor) || valor <= 0 || !data || !tipoPagamento) {
         alert("Por favor, preencha todos os campos corretamente.");
         return;
+
     }
 
     const gasto = {
@@ -241,8 +242,8 @@ os
     atualizarResumoFinanceiro();
     atualizarGrafico();
 
-
-    event.target.reset();
+     targetDiv.scrollIntoView({ behavior: 'smooth' });
+     event.target.reset();
 }
 
 function atualizarListaGastos() {
