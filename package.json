@@ -8,16 +8,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MoacirJr10/Fumiga-o.git"
+    "url": "git+https://github.com/MoacirJr10/MyProject.git"
   },
   "keywords": [],
   "author": "Moacir Jr",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/MoacirJr10/Fumiga-o/issues"
+    "url": "https://github.com/MoacirJr10/MyProject/issues"
   },
-  "homepage": "https://github.com/MoacirJr10/Fumiga-o#readme",
+  "homepage": "https://github.com/MoacirJr10/MyProject#readme",
   "description": "Um projeto de backend simples usando Express",
   "dependencies": {
     "express": "^4.21.2"
