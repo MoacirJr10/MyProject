@@ -310,7 +310,7 @@ function atualizarGrafico() {
         labels: Object.keys(gastosPorTipo),
         datasets: [{
             data: Object.values(gastosPorTipo),
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+            backgroundColor: ['#B22222', '#36A2EB', '#FFCE56', '#4BC0C0']
         }]
     };
 
