@@ -1,4 +1,32 @@
-let historico = [];
+
+                          <!-- Evento button Inicio -->
+document.addEventListener('DOMContentLoaded', function(){
+document.querySelector('nav ul li a').addEventListener('click', function(event){
+    event.preventDefault();
+    alert('Você clicou no link');
+});
+
+document.querySelector('.btn').addEventListener('click', function(){
+    window.location.href = 'index.html';
+});
+
+document.getElementById('inicio').addEventListener('click', function(){
+    window.location.href = 'index.html';
+});
+
+function mostrarAba(aba) {
+    const abas = document.querySelectorAll('.tab-content');
+    abas.forEach(ab => ab.style.display = 'none');
+
+    if (aba === 'inicio') {
+        document.getElementById('inicio-content').style.display = 'block';
+    } else {
+        document.getElementById(aba).style.display = 'block';
+    }
+}
+});
+
+
 
                          <!-- Fumigação em Bloco -->
 function calcular() {
@@ -133,32 +161,7 @@ function mostrarCampoCircunferencia() {
     document.getElementById('circunferenciaSilo').style.display = 'block';
 }
 
-                          <!-- Evento button Inicio -->
-
-document.querySelector('nav ul li a').addEventListener('click', function(event){
-    event.preventDefault();
-    alert('Você clicou no link');
-});
-
-document.querySelector('.btn').addEventListener('click', function(){
-    window.location.href = 'index.html';
-});
-
-document.getElementById('inicio').addEventListener('click', function(){
-    window.location.href = 'index.html';
-});
-
-function mostrarAba(aba) {
-    const abas = document.querySelectorAll('.tab-content');
-    abas.forEach(ab => ab.style.display = 'none');
-
-    if (aba === 'inicio') {
-        document.getElementById('inicio-content').style.display = 'block';
-    } else {
-        document.getElementById(aba).style.display = 'block';
-    }
-}
-                          <!-- Conversor de Medidas -->
+                     <!-- Conversor de Medidas -->
 
 function converterParaCentimetros() {
     const metros = parseFloat(document.getElementById('metros').value);
@@ -225,7 +228,6 @@ function adicionarGasto(event) {
     if (!descricao || isNaN(valor) || valor <= 0 || !data || !tipoPagamento) {
         alert("Por favor, preencha todos os campos corretamente.");
         return;
-
     }
 
     const gasto = { descricao, valor, data, tipoPagamento };
@@ -336,6 +338,9 @@ document.addEventListener('DOMContentLoaded', inicializarControleFinanceiro);
 window.removerGasto = removerGasto;
 
                                   <!-- Histórico -->
+
+let historico = [];
+
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
     const entrada = `Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)}, Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`;
     historico.push(entrada);
