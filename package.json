@@ -1,10 +1,10 @@
 {
-  "name": "fumiga-o",
+  "name": "MyProject",
   "version": "1.0.0",
   "main": "scr/backend/index.js",
   "scripts": {
-    "start": "node src/backend/index.js",
-    "dev"  : "nodemon src/backend/index.js"
+    "start": "node src/frontend/index.html",
+    "dev"  : "nodemon src/frontend/index.html"
   },
   "repository": {
     "type": "git",
