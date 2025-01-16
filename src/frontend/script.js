@@ -1,4 +1,3 @@
-
                           <!-- Evento button Inicio -->
 document.addEventListener('DOMContentLoaded', function(){
 document.querySelector('nav ul li a').addEventListener('click', function(event){
@@ -25,8 +24,6 @@ function mostrarAba(aba) {
     }
 }
 });
-
-
 
                          <!-- Fumigação em Bloco -->
 function calcular() {
@@ -256,6 +253,9 @@ function atualizarListaGastos() {
                 <button onclick="removerGasto(${index})" class="btn-remover">Remover</button>
             </div>
         `;
+        const btnRemover = li.querySelector('.btn-remover');
+        btnRemover.addEventListener('click', () => removerGasto(index));
+
         listaGastos.appendChild(li);
     });
 }
@@ -342,19 +342,46 @@ window.removerGasto = removerGasto;
 let historico = [];
 
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
-    const entrada = `Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)}, Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`;
+    const timestamp = new Date().toLocaleString();
+    const entrada = {
+    id: Date.now(),
+    timestamp: timestamp,
+    dados:`Cálculo: ${metragemCubica.toFixed(2)} m³, Sachê: ${sache.toFixed(2)},
+           Pastilha: ${pastilha.toFixed(2)}, Comprimido: ${comprimido.toFixed(2)}`
+};
+
     historico.push(entrada);
     atualizarHistorico();
 }
 
 function atualizarHistorico() {
     const historicoContainer = document.querySelector('.historico-container');
-    historicoContainer.innerHTML = historico.map(item => `<div>${item}</div>`).join('');
+    if (!historicoContainer) return;
+
+    historicoContainer.innerHTML = `
+        <ol>
+            ${historico.map(item => `
+                <li>
+                    <strong>${item.timestamp}</strong>: ${item.dados}
+                    <button onclick="removerDoHistorico(${item.id})" class="btn-remover">Remover</button>
+                </li>
+            `).join('')}
+        </ol>
+    `;
+}
+
+function removerDoHistorico(id) {
+    if (confirm("Tem certeza que deseja remover este item do histórico?")) {
+        historico = historico.filter(item => item.id !== id);
+        atualizarHistorico();
+    }
 }
 
 function limparHistorico() {
-    historico = [];
-    atualizarHistorico();
+    if (confirm("Tem certeza que deseja limpar todo o histórico?")) {
+        historico = [];
+        atualizarHistorico();
+    }
 }
 
 
