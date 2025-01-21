@@ -1,15 +1,21 @@
                           <!-- Evento button Inicio -->
-document.addEventListener('DOMContentLoaded', function(){
-document.querySelector('nav ul li a').addEventListener('click', function(event){
+
+document.addEventListener('DOMContentLoaded',
+     function(){
+
+document.querySelector('nav ul li a').addEventListener('click',
+    function(event){
     event.preventDefault();
     alert('Você clicou no link');
 });
 
-document.querySelector('.btn').addEventListener('click', function(){
+document.querySelector('.btn').addEventListener('click',
+    function(){
     window.location.href = 'index.html';
 });
 
-document.getElementById('inicio').addEventListener('click', function(){
+document.getElementById('inicio').addEventListener('click',
+    function(){
     window.location.href = 'index.html';
 });
 
@@ -124,7 +130,6 @@ function calcularFumigacaoSilo() {
     }
 
     const quantidadeFumigante = volume * dosagemPorM3;
-
 
     document.getElementById('resultadoFumigacaoSilo').innerHTML = `
         <p>Volume do Silo: ${volume.toFixed(2)} m³</p>
