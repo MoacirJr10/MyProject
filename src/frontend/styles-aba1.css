@@ -98,7 +98,7 @@ section {
 
 .projetos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 30px;
 }
 
@@ -140,7 +140,7 @@ section {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .projeto-tecnologias span {
