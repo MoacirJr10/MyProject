@@ -140,7 +140,6 @@
                 <p>Meu currículo está disponível para download. Clique no botão abaixo para acessá-lo.</p>
                 <a href="src/frontend/curriculo/Moacir%20Pereira%20Da%20Silva%20Junior.pdf" class="btn-curriculo"
                    target="_blank">Baixar Currículo</a>
-
             </div>
         </div>
     </section>
@@ -165,7 +164,28 @@
             </div>
         </div>
     </section>
+    <section>
+        <h1>Visitantes totais</h1>
+        <p class="counter" id="visitCount">0</p>
+        <script>
+            function updateVisitCount() {
+            const visitorRef = database.ref('visitors');
+
+            visitorRef.transactioin((currentValue) =>{
+            return (currentValue || 0) + 1;
+             });
+
+             visitorRef.on("value, (snapshot) => {
+             document.getElementById("visitCount").innerText = snapshot.val();}
+             });
+            }
+            updateVisitCount();
+        </script>
+
+    </section>
+
 </main>
+
 <script src="src/frontend/script.js"></script>
 </body>
 </html>
