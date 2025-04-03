@@ -1,51 +1,134 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 
 <head>
+    <title>Moacir Pereira | Portfólio</title>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portfólio de Moacir Pereira, estudante de Engenharia de Computação">
-    <title>Sobre Mim</title>
     <link rel="stylesheet" href="styles-comum.css">
     <link rel="stylesheet" href="styles-aba1.css">
     <link rel="stylesheet" href="responsivo.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body>
-<header>
-        <h1>Bem-vindo ao meu portfólio!</h1>
-        <p>Olá! Meu nome é Moacir Pereira. Sou estudante de Engenharia de Computação.</p>
+<header class="header-principal">
+    <div class="header-content">
+        <h1>Moacir Pereira</h1>
+        <p class="subtitulo">Estudante de Engenharia de Computação</p>
+    </div>
 </header>
+
 <main>
-<section id="sobre">
-               <p>Atualmente estou focado no estudo da programação, com ênfase nas linguagens
-                  HTML, CSS, Java Script e Java.</p>
-              <!-- <img src="imagens/sua-imagem.jpg" alt="Minha Imagem" class="profile-img"> --!>
-</section>
+    <section id="sobre" class="secao-padrao">
+        <div class="container">
+            <h2>Sobre Mim</h2>
+            <div class="flex-container">
+                </div>
+                <div class="profile-content">
+                    <p>Olá! Sou Moacir Pereira, estudante de Engenharia de Computação apaixonado por tecnologia e
+                        desenvolvimento de software.</p>
+                    <p>Atualmente estou focado no estudo da programação, com ênfase nas linguagens HTML, CSS, JavaScript
+                        e Java. Busco constantemente aprimorar minhas habilidades técnicas e colaborar em projetos inovadores.</p>
+                    <p>Meu objetivo é desenvolver soluções tecnológicas que possam impactar positivamente a vida das
+                        pessoas e contribuir para um mundo mais conectado e eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<section id="Trabalhos">
-           <h2>Meus Trabalhos</h2>
-           <div class="trabalhos">
-                  <h3>Projeto Fumigação</h3>
-                  <p>Esse projeto foi criado para facilitar o trabalho de fumigação e possui alguns incrementos para
-                      testes. Clique abaixo para ver mais!</p>
-                  <div>
-                      <a href="projeto.html">Ver Projeto</a>
-                  </div>
-           </div>
-</section>
+    <section id="habilidades" class="secao-padrao secao-alternada">
+        <div class="container">
+            <h2>Minhas Habilidades</h2>
+            <div class="habilidades-grid">
+                <div class="habilidade-card">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5</h3>
+                </div>
+                <div class="habilidade-card">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3>CSS3</h3>
+                </div>
+                <div class="habilidade-card">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                </div>
+                <div class="habilidade-card">
+                    <i class="fab fa-java"></i>
+                    <h3>Java</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="projetos" class="secao-padrao">
+        <div class="container">
+            <h2>Meus Projetos</h2>
+            <div class="projetos-grid">
+                <article class="projeto-card">
+                    <div class="projeto-imagem">
+                        <img src="imagens/projeto-fumigacao.jpg" alt="Projeto Fumigação">
+                    </div>
+                    <div class="projeto-conteudo">
+                        <h3>Projeto Fumigação</h3>
+                        <p>Sistema desenvolvido para otimizar o trabalho de fumigação,
+                            incluindo gerenciamento de programações,
+                            controle de áreas tratadas e relatórios automáticos.</p>
+                        <div class="projeto-tecnologias">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="projeto-links">
+                            <a href="projeto.html" class="btn-projeto">Ver Detalhes</a>
+                            <a href="https://github.com/MoacirJr10/MyProject" class="btn-projeto btn-secundario">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="formacao" class="secao-padrao secao-alternada">
+        <div class="container">
+            <h2>Formação Acadêmica</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-conteudo">
+                        <h3>Bacharelado em Engenharia de Computação</h3>
+                        <p>Cruzeiro Do Sul Virtual</p>
+                        <p>Previsão de conclusão: 2028</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato" class="secao-padrao">
+        <div class="container">
+            <h2>Redes Socias</h2>
+            <div class="contato-flex">
+                <div class="contato-info">
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/moacir00/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/moacir-pereira-670b7b1a7/" target="_blank" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/MoacirJr10" target="_blank" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
-
-<footer>
-<div class="social-links">
-        <a href="https://www.instagram.com/moacir00/" target="_blank" class="social-link">
-          <i class="fab fa-instagram"></i> Instagram</a>
-        <a href="https://www.linkedin.com/in/moacir-pereira-670b7b1a7/" target="_blank" class="social-link">
-          <i class="fab fa-linkedin"></i> LinkedIn</a>
-</div>
-</footer>
-
 <script src="script.js"></script>
 </body>
 </html>

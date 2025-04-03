@@ -1,5 +1,28 @@
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --text-color: #e0e7ff;
+    --dark-bg: #1a1a1a;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    background-image: url('imagens/fundo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
 header {
-    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+    background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
     background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
@@ -9,7 +32,6 @@ header {
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
 }
 
 header h1 {
@@ -23,44 +45,9 @@ header p {
     font-size: 1.2em;
 }
 
-header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 1rem 0;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
-    color: #e0e7ff;
-    margin: 0;
-    padding: 0;
-    background-image: url('imagens/fundo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-body {
-    font-family: 'Arial', sans-serif;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-}
-
 main {
     flex: 1;
-    padding: 0ren;
-}
-
-:root {
-    --primary-color: #3498db;
-    --secondary-color: #2ecc71;
-    --text-color: #333;
+    padding: 20px;
 }
 
 .btn {
@@ -79,30 +66,9 @@ main {
     background-color: #3730a3;
     transform: scale(1.02);
 }
-@media (min-width: 1200px) {
-    body {
-        padding: 0 20px;
-    }
-    header,footer, main {
-    max-width: 1200px;
-    margin: 0 auto;
-    }
-    section {
-        margin-bottom: 2rem;
-        padding: 0 20px;
-    }
-}
 
 footer {
-    background-color: #1a1a1a;
-    color: #e0e7ff;
-    text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-}
-
-footer {
-    background: linear-gradient(120deg, #0d0d0d 60%, #1a1a1a);
+    background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
     background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
@@ -110,11 +76,50 @@ footer {
     background-attachment: fixed;
     color: #fff;
     text-align: center;
-    padding: 10px;
-    text-align: center;
+    padding: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: relative;
     width: 100%;
     bottom: 0;
+    margin-top: 40px;
 }
 
+@media (min-width: 1200px) {
+    body {
+        padding: 0 20px;
+    }
+    
+    header, footer, main {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    section {
+        margin-bottom: 2rem;
+        padding: 0 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    
+    header p {
+        font-size: 1em;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header, footer {
+        padding: 15px;
+    }
+    
+    main {
+        padding: 15px;
+    }
+}
