@@ -166,22 +166,7 @@
     </section>
     <section>
         <h1>Visitantes totais</h1>
-        <p class="counter" id="visitCount">0</p>
-        <script>
-            function updateVisitCount() {
-            const visitorRef = database.ref('visitors');
-
-            visitorRef.transactioin((currentValue) =>{
-            return (currentValue || 0) + 1;
-             });
-
-             visitorRef.on("value, (snapshot) => {
-             document.getElementById("visitCount").innerText = snapshot.val();}
-             });
-            }
-            updateVisitCount();
-        </script>
-
+        <p id="contador">0</p>
     </section>
 
 </main>
