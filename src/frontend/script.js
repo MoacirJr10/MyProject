@@ -1,16 +1,12 @@
                           <!-- Evento button Inicio -->
 
-document.addEventListener('DOMContentLoaded',
-     function(){
-
-document.querySelector('nav ul li a').addEventListener('click',
-    function(event){
+document.addEventListener('DOMContentLoaded', function(){
+document.querySelectorAll('nav ul li a').forEach('click', function(event){
     event.preventDefault();
     alert('Você clicou no link');
 });
 
-document.querySelector('.btn').addEventListener('click',
-    function(){
+document.querySelectorAll('.btn').forEach('click', function(){
     window.location.href = 'index.html';
 });
 
