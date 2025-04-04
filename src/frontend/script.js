@@ -384,4 +384,12 @@ function limparHistorico() {
         atualizarHistorico();
     }
 }
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("http://localhost:3000/visitas")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("contador").innerText = `Visitas: ${data.visitas}`;
+        })
+        .catch(error => console.error("Erro ao obter visitas:", error));
+});
 
