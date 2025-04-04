@@ -1,8 +1,11 @@
+/* ==========================================================================
+   MENU LATERAL - Configuração para navegação lateral
+   ========================================================================== */
 .menu-lateral {
     position: fixed;
     width: 250px;
     height: 100vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('imagens/fundo.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('imagens/fundo2.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -65,6 +68,9 @@
     font-size: 1.2em;
 }
 
+/* ==========================================================================
+   CONTAINER PRINCIPAL - Layout ajustado para menu lateral
+   ========================================================================== */
 .container {
     margin: 0 auto;
     margin-left: 270px;
@@ -74,7 +80,9 @@
     transition: all 0.3s ease;
 }
 
-
+/* ==========================================================================
+   SISTEMA DE TABS - Conteúdo de abas com animações
+   ========================================================================== */
 .tab-content {
     display: none;
     animation: fadeIn 0.5s ease-in-out;
@@ -93,8 +101,11 @@
     display: block;
 }
 
+/* ==========================================================================
+   COMPONENTE DE RESULTADO - Para exibição de dados calculados
+   ========================================================================== */
 .result {
-   backgroud-color: var(--card-bg);
+   background-color: var(--card-bg); /* Corrigido backgroud para background */
    padding: 2rem;
    border-radius: 1.25rem;
    border: 2px solid var(--primary-color);
@@ -102,9 +113,9 @@
    width: 95%;
    margin: 2rem auto;
    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-   transition: transform 0.3 ease, box-shadow 0.3s ease;
+   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Corrigido 0.3 para 0.3s */
    position: relative;
-    overflow: hidden;
+   overflow: hidden;
 }
 
 .result:before {
@@ -122,6 +133,9 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
+/* ==========================================================================
+   GALERIA DE IMAGENS - Container e efeitos de transição
+   ========================================================================== */
 .imagens-container {
     display: flex;
     flex-wrap: wrap;
@@ -151,6 +165,9 @@
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.25);
 }
 
+/* ==========================================================================
+   CALCULADORA DE FUMIGAÇÃO - Seção especializada com inputs
+   ========================================================================== */
 #fumigacao-silo .result {
     background-color: var(--card-bg);
     padding: 25px;
@@ -190,7 +207,9 @@
     display: inline-block;
 }
 
-
+/* ==========================================================================
+   ITENS DE GASTOS - Layout para itens financeiros
+   ========================================================================== */
 .gasto-item {
     display: flex;
     justify-content: space-between;
@@ -250,7 +269,6 @@
     font-size: 0.9em;
 }
 
-
 #gastos {
     list-style: none;
     padding: 0;
@@ -261,7 +279,9 @@
     margin-bottom: 12px;
 }
 
-
+/* ==========================================================================
+   FORMULÁRIO DE GASTOS - Estilos para o formulário financeiro
+   ========================================================================== */
 #form-gasto {
     display: flex;
     flex-direction: column;
@@ -317,7 +337,9 @@
     transform: translateY(-3px);
 }
 
-
+/* ==========================================================================
+   RESUMO FINANCEIRO - Área de exibição de totais e análises
+   ========================================================================== */
 #resumo-financeiro {
     margin-top: 30px;
     padding: 20px;
@@ -352,7 +374,9 @@
     color: var(--primary-color);
 }
 
-
+/* ==========================================================================
+   LISTA DE GASTOS POR TIPO - Componente para visualização categorizada
+   ========================================================================== */
 #gastos-por-tipo {
     list-style: none;
     padding: 0;
@@ -377,7 +401,9 @@
     color: var(--secondary-color);
 }
 
-
+/* ==========================================================================
+   GRÁFICO - Container para visualização de dados
+   ========================================================================== */
 #grafico-container {
     margin-top: 30px;
     padding: 20px;
@@ -401,7 +427,9 @@ canvas {
     padding: 10px;
 }
 
-
+/* ==========================================================================
+   RESPONSIVIDADE - Adaptação para diferentes tamanhos de tela
+   ========================================================================== */
 @media (max-width: 992px) {
     .menu-lateral {
         width: 220px;

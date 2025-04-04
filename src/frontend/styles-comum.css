@@ -1,3 +1,6 @@
+/* ==========================================================================
+   VARIÁVEIS GLOBAIS - Definição de cores e fundos
+   ========================================================================== */
 :root {
     --primary-color: #3498db;
     --secondary-color: #2ecc71;
@@ -5,6 +8,9 @@
     --dark-bg: #1a1a1a;
 }
 
+/* ==========================================================================
+   ESTRUTURA BASE - Configuração do corpo da página e blocos principais
+   ========================================================================== */
 body {
     display: flex;
     flex-direction: column;
@@ -21,6 +27,9 @@ body {
     background-attachment: fixed;
 }
 
+/* ==========================================================================
+   CABEÇALHO - Estilo para o topo da página
+   ========================================================================== */
 header {
     background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
     background-image: url('imagens/fundo.jpg');
@@ -45,11 +54,17 @@ header p {
     font-size: 1.2em;
 }
 
+/* ==========================================================================
+   CONTEÚDO PRINCIPAL - Área central da página
+   ========================================================================== */
 main {
     flex: 1;
     padding: 20px;
 }
 
+/* ==========================================================================
+   BOTÕES - Estilo padrão para botões de ação
+   ========================================================================== */
 .btn {
     background-color: #4f46e5;
     color: #e0e7ff;
@@ -67,6 +82,9 @@ main {
     transform: scale(1.02);
 }
 
+/* ==========================================================================
+   RODAPÉ - Estilo para o rodapé da página
+   ========================================================================== */
 footer {
     background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
     background-image: url('imagens/fundo.jpg');
@@ -84,6 +102,9 @@ footer {
     margin-top: 40px;
 }
 
+/* ==========================================================================
+   RESPONSIVIDADE - Adaptação para diferentes tamanhos de tela
+   ========================================================================== */
 @media (min-width: 1200px) {
     body {
         padding: 0 20px;

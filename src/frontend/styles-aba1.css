@@ -1,3 +1,6 @@
+/* ==========================================================================
+   VARIÁVEIS GLOBAIS - Definição de cores, sombras e valores de transição
+   ========================================================================== */
 :root {
     --primary-color: #4f46e5;
     --secondary-color: #818cf8;
@@ -10,7 +13,9 @@
     --border-radius: 10px;
 }
 
-
+/* ==========================================================================
+   COMPONENTES DE PERFIL - Imagem de perfil e container
+   ========================================================================== */
 .profile-img {
     max-width: 200px;
     width: 100%;
@@ -34,7 +39,9 @@
     margin-bottom: 20px;
 }
 
-
+/* ==========================================================================
+   LAYOUT DE SEÇÕES - Estilos para seções de conteúdo
+   ========================================================================== */
 section {
     margin-bottom: 3rem;
     padding: 2rem 0;
@@ -55,7 +62,9 @@ section {
     padding: 0 20px;
 }
 
-
+/* ==========================================================================
+   SEÇÃO SOBRE - Estilos específicos para a seção de biografia
+   ========================================================================== */
 #sobre {
     display: flex;
     flex-direction: column;
@@ -75,6 +84,9 @@ section {
     flex: 1;
 }
 
+/* ==========================================================================
+   SEÇÃO PROJETOS - Cards e grid de projetos
+   ========================================================================== */
 #projetos {
     padding: 20px;
 }
@@ -157,7 +169,9 @@ section {
     margin-top: 15px;
 }
 
-
+/* ==========================================================================
+   BOTÕES - Estilos para botões de projetos
+   ========================================================================== */
 .btn-projeto {
     display: inline-block;
     padding: 8px 16px;
@@ -183,7 +197,9 @@ section {
     background-color: rgba(79, 70, 229, 0.1);
 }
 
-
+/* ==========================================================================
+   NAVEGAÇÃO - Menu de navegação
+   ========================================================================== */
 nav {
     padding: 15px 0;
 }
@@ -214,7 +230,9 @@ nav ul li a:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-
+/* ==========================================================================
+   TIPOGRAFIA - Estilos para títulos e textos
+   ========================================================================== */
 h1, h2, h3 {
     color: var(--primary-color);
 }
@@ -235,7 +253,6 @@ h3 {
     margin-bottom: 1rem;
 }
 
-
 p {
     font-size: 1.1em;
     line-height: 1.7;
@@ -243,7 +260,9 @@ p {
     color: var(--text-color);
 }
 
-
+/* ==========================================================================
+   REDES SOCIAIS - Links de mídias sociais
+   ========================================================================== */
 .social-links {
     display: flex;
     justify-content: center;
@@ -270,7 +289,9 @@ p {
     transform: translateY(-3px);
 }
 
-
+/* ==========================================================================
+   HABILIDADES - Grid e cards de habilidades
+   ========================================================================== */
 .habilidades-grid {
     display: flex;
     flex-wrap: wrap;
