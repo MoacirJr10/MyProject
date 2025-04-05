@@ -314,16 +314,21 @@ p {
     font-size: 2rem;
     margin-bottom: 10px;
 }
+/* ==========================================================================
+   FOTO --- DE PERFIL ---
+   ========================================================================== */
 
 .flex-container {
     display: flex;
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
+    transition: var(--transition-normal);
 }
 
 .profile-image {
     flex: 0 0 200px;
+
 }
 
 .profile-content {
@@ -331,12 +336,18 @@ p {
     min-width: 300px;
 }
 
+.perfil-foto:hover {
+transform: scale(1.05) rotateZ(1deg);
+}
+
+
 .perfil-foto {
     width: 100%;
     height: auto;
     border-radius: 10px;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    trasition: transform 0.2s ease;
 }
 
 
