@@ -1,5 +1,5 @@
 Meu Portfólio Pessoal
-Bem-vindo ao meu portfólio pessoal! Este projeto foi desenvolvido para exibir meus trabalhos, habilidades e informações de contato de forma profissional e responsiva.
+Bem-vindo ao meu portfólio pessoal! Este projeto foi desenvolvido para exibir meus trabalhos, habilidades e informações de contato de forma profissional.
 
 Acesse aqui: https://moacirjr10.github.io/MyProject/
 
@@ -12,9 +12,9 @@ CSS3 → Estilização e efeitos visuais.
 
 JavaScript → Interatividade e animações.
 
-Back-end (se aplicável):
+Back-end
 
-Node.js → Ambiente de execução server-side (caso tenha uma API ou sistema de contato).
+Node.js → Ambiente de execução server-side
 
 SQLite3 → Banco de dados leve para armazenamento local (se usado para armazenar dados de projetos ou mensagens).
 
