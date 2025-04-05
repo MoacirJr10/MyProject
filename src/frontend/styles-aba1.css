@@ -14,29 +14,51 @@
 }
 
 /* ==========================================================================
-   COMPONENTES DE PERFIL - Imagem de perfil e container
+   FOTO --- DE PERFIL ---
    ========================================================================== */
-.profile-img {
-    max-width: 200px;
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    transition: var(--transition-normal);
+}
+
+.profile-image {
+    flex: 0 0 200px;
+
+}
+
+.profile-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.perfil-foto:hover {
+transform: scale(1.05) rotateZ(1deg);
+}
+
+
+.perfil-foto {
     width: 100%;
     height: auto;
-    border-radius: 50%;
-    box-shadow: var(--shadow-normal);
-    border: 3px solid var(--primary-color);
-    transition: var(--transition-normal);
+    border-radius: 10px;
     object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    trasition: transform 0.2s ease;
 }
 
-.profile-img:hover {
-    transform: scale(1.05);
-    box-shadow: var(--shadow-hover);
-}
 
-.profile-image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-image {
+        margin-bottom: 1.5rem;
+    }
 }
 
 /* ==========================================================================
@@ -297,6 +319,7 @@ p {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    color: white;
 }
 
 .habilidade-card {
@@ -314,50 +337,5 @@ p {
     font-size: 2rem;
     margin-bottom: 10px;
 }
-/* ==========================================================================
-   FOTO --- DE PERFIL ---
-   ========================================================================== */
-
-.flex-container {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    transition: var(--transition-normal);
-}
-
-.profile-image {
-    flex: 0 0 200px;
-
-}
-
-.profile-content {
-    flex: 1;
-    min-width: 300px;
-}
-
-.perfil-foto:hover {
-transform: scale(1.05) rotateZ(1deg);
-}
 
 
-.perfil-foto {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    trasition: transform 0.2s ease;
-}
-
-
-@media (max-width: 768px) {
-    .flex-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .profile-image {
-        margin-bottom: 1.5rem;
-    }
-}

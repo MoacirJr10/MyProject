@@ -1,0 +1,39 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: white;
+  color: black;
+  transition: 0.3s;
+}
+
+.header-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+.dark-mode .header-principal {
+  background-color: #1e1e1e;
+}
+
+button#toggle-theme {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.dark-mode button#toggle-theme {
+  background-color: #ccc;
+  color: black;
+}

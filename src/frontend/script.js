@@ -393,3 +393,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Erro ao obter visitas:", error));
 });
 
+
+const bnt = document.getElementById('toggle-theme');
+
+bnt.addEventListener('click', () => {
+     document.body.classList.toggle('dark-mode');
+});
+
