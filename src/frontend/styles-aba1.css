@@ -314,3 +314,39 @@ p {
     font-size: 2rem;
     margin-bottom: 10px;
 }
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.profile-image {
+    flex: 0 0 200px;
+}
+
+.profile-content {
+    flex: 1;
+    min-width: 300px;
+}
+
+.perfil-foto {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-image {
+        margin-bottom: 1.5rem;
+    }
+}
