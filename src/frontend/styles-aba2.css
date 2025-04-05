@@ -105,27 +105,27 @@
    COMPONENTE DE RESULTADO - Para exibição de dados calculados
    ========================================================================== */
 .result {
-   background-color: var(--card-bg); /* Corrigido backgroud para background */
+   background-color: var(--card-bg);
    padding: 2rem;
    border-radius: 1.25rem;
    border: 2px solid var(--primary-color);
-   max-width: 550px;
+   max-width: 500px;
    width: 95%;
    margin: 2rem auto;
    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Corrigido 0.3 para 0.3s */
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
    position: relative;
    overflow: hidden;
 }
 
 .result:before {
     content: '';
-    position: absolute;
+    position: center;
     top: 0;
     left: 0;
     width: 100%;
     height: 5px;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(80deg, var(--primary-color), var(--secondary-color));
 }
 
 .result:hover {

@@ -13,12 +13,13 @@
 <nav class="menu-lateral">
     <ul>
         <li onclick="window.location.href='../../index.html'">Início</li>
-        <li onclick="mostrarAba('cubica')">Fumigação em Blocos</li>
-        <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
-        <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
-        <li onclick="mostrarAba('conversoes')">Conversões</li>
-        <li onclick="mostrarAba('financeiro')">Controle Financeiro</li>
-        <li onclick="mostrarAba('historico')">Histórico</li>
+        <li onclick="mostrarAba('cubica')"                   >Fumigação em Blocos</li>
+        <li onclick="mostrarAba('fumigacao-silo')"           >Fumigação em Silo</li>
+        <li onclick="mostrarAba('area')"                     >Cálculo de Área Quadrada</li>
+        <li onclick="mostrarAba('conversoes')"               >Conversões</li>
+        <li onclick="mostrarAba('financeiro')"               >Controle Financeiro</li>
+        <li onclick="mostrarAba('teste')"                    >Teste</li>
+        <li onclick="mostrarAba('historico')"                >Histórico</li>
     </ul>
 </nav>
 
@@ -79,9 +80,9 @@
             <input type="number" id="valor" placeholder="Valor (R$)" step="0.01" min="0" required>
             <input type="date" id="data" required>
             <select id="tipo-pagamento" required>
-                <option value="credito">Cartão de Crédito</option>
-                <option value="debito">Cartão de Débito</option>
-                <option value="pix">Pix</option>
+                <option value="credito"> Cartão de Crédito</option>
+                <option value="debito">  Cartão de Débito</option>
+                <option value="pix">     Pix</option>
                 <option value="dinheiro">Dinheiro</option>
             </select>
             <button type="submit" class="btn">Adicionar Gasto</button>
@@ -112,6 +113,11 @@
         <div id="grafico-container">
             <canvas id="graficoGastos"></canvas>
         </div>
+    </div>
+
+    <div id="teste" class="tab-content">
+        <h3>Teste</h3>
+
     </div>
 
     <div id="historico" class="tab-content">
