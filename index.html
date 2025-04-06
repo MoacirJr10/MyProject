@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="src/frontend/responsivo.css">
     <link rel="stylesheet" href="src/frontend/contador.css">
     <link rel="stylesheet" href="src/frontend/tema.css">
+    <link rel="stylesheet" href="./background/background.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
@@ -23,7 +24,9 @@
         <p class="subtitulo">Estudante de Engenharia de Computação</p>
     </div>
 
-    <div><button id="toggle-theme">Alterna Tema</button></div>
+    <button id="toggle-theme" class="btn-tema">
+        <i class="fas fa-moon"></i>
+    </button>
 </header>
 
 <main>
@@ -131,7 +134,7 @@
                                 mdjhhUnZSM2lGNThzVm1lamtGa2dMVmJvaEhyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE
                                 =?share_link_id=85925853977"
                                    class="btn-projeto btn-secundario" target="_blank">
-                                <i class="fas fa-diagramam-project"></i>Ver Fluxograma
+                                <i class="fas fa-project-diagram"></i>  Ver Fluxograma
                             </a>
                         </div>
                     </div>
@@ -191,9 +194,13 @@
     <section class="contador-visitantes">
         <p id="contador">0</p>
     </section>
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
 
 </main>
-
+<script src="./background/background.js" defer></script>
 <script src="src/frontend/script.js"></script>
 </body>
 </html>

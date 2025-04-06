@@ -20,7 +20,7 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    background-image: url('imagens/fundo.jpg');
+    /*background-image: url('imagens/fundo.jpg');*/
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

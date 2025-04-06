@@ -338,4 +338,21 @@ p {
     margin-bottom: 10px;
 }
 
+/* ==========================================================================
+                                    SCROLL-TOP
+   ========================================================================== */
+
+
+.scroll-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-color);
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+}
+
 
