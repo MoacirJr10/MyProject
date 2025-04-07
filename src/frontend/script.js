@@ -393,10 +393,39 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("Erro ao obter visitas:", error));
 });
 
+/* ==========================================================================
+                   ANIMAÇÃO DAS PARTÍCULAS MATEMÁTICAS
+   ========================================================================== */
 
-const bnt = document.getElementById('toggle-theme');
 
-bnt.addEventListener('click', () => {
-     document.body.classList.toggle('dark-mode');
+document.addEventListener('DOMContentLoaded', () => {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'math-particles';
+    document.body.appendChild(particlesContainer);
+
+    const totalParticles = 30;
+
+    for (let i = 0; i < totalParticles; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'math-particle';
+
+
+        const size = Math.random() * 4 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+
+
+        const duration = Math.random() * 20 + 15;
+        particle.style.animationDuration = `${duration}s`;
+
+
+        particle.style.animationDelay = `${Math.random() * 10}s`;
+
+        particlesContainer.appendChild(particle);
+    }
 });
 
