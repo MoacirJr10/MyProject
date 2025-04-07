@@ -20,7 +20,7 @@ body {
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    /*background-image: url('imagens/fundo.jpg');*/
+    background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -31,28 +31,69 @@ body {
    CABEÇALHO - Estilo para o topo da página
    ========================================================================== */
 header {
-    background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
-    background-image: url('imagens/fundo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+    position: relative;
+    background: rgba(20, 20, 20, 0.85);
     color: #fff;
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    overflow: hidden;
+
+    animation: fadeDown 1s ease-out;
+    transition: background 0.4s ease, color 0.4s ease;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: none;
+    z-index: 0;
+}
+
+header h1,
+header p {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideIn 1s ease-out forwards;
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5em;
     font-weight: bold;
+    animation-delay: 0.2s;
 }
 
 header p {
     margin: 10px 0 0;
     font-size: 1.2em;
+    animation-delay: 0.4s;
 }
+
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
 
 /* ==========================================================================
    CONTEÚDO PRINCIPAL - Área central da página
