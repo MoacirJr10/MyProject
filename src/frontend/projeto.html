@@ -13,29 +13,29 @@
 <nav class="menu-lateral">
     <ul>
         <li onclick="window.location.href='../../index.html'">Início</li>
-        <li onclick="mostrarAba('cubica')"                   >Fumigação em Blocos</li>
-        <li onclick="mostrarAba('fumigacao-silo')"           >Fumigação em Silo</li>
-        <li onclick="mostrarAba('area')"                     >Cálculo de Área Quadrada</li>
-        <li onclick="mostrarAba('conversoes')"               >Conversões</li>
-        <li onclick="mostrarAba('financeiro')"               >Controle Financeiro</li>
-        <li onclick="mostrarAba('teste')"                    >Teste</li>
-        <li onclick="mostrarAba('historico')"                >Histórico</li>
+        <li onclick="mostrarAba('cubica')">Fumigação em Blocos</li>
+        <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
+        <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
+        <li onclick="mostrarAba('conversoes')">Conversões</li>
+        <li onclick="mostrarAba('financeiro')">Controle Financeiro</li>
+        <li onclick="mostrarAba('teste')">Teste</li>
+        <li onclick="mostrarAba('historico')">Histórico</li>
     </ul>
 </nav>
 
 <div class="container">
     <div id="inicio" style="display: none;">Inicio</div>
 
-    <div id="cubica" class="tab-content active">
+    <div id="cubica" class="tab-content" style="display: none;">
         <h3>Fumigação em Blocos</h3>
         <input type="number" id="altura" placeholder="Altura (m)">
         <input type="number" id="largura" placeholder="Largura (m)">
         <input type="number" id="comprimento" placeholder="Comprimento (m)">
-        <button class="btn" onclick="calcular()">Calcular</button>
+        <button class="btn" onclick="calcular(event)">Calcular</button>
         <div id="resultado" class="result"></div>
     </div>
 
-    <div id="fumigacao-silo" class="tab-content">
+    <div id="fumigacao-silo" class="tab-content" style="display: none;">
         <h3>Fumigação em Silo</h3>
         <input type="number" id="diametroSilo" placeholder="Diâmetro do Silo (m)">
         <input type="number" id="alturaSilo" placeholder="Altura do Silo (m)">
@@ -46,34 +46,36 @@
             <option value="amendoim">Amendoim</option>
             <option value="sorgo">Sorgo</option>
         </select>
-        <button class="btn" onclick="calcularFumigacaoSilo()">Calcular Fumigação</button>
+        <button class="btn" onclick="calcularFumigacaoSilo(event)">Calcular Fumigação</button>
         <button class="btn" onclick="mostrarCampoCircunferencia()">Não sei o diâmetro</button>
 
-        <h4>Ou, se você não souber o diâmetro, insira a circunferência:</h4>
-        <input type="number" id="circunferenciaSilo" placeholder="Circunferência do Silo (m)" style="display:none;">
-        <button class="btn" onclick="calcularDiametro()">Calcular Diâmetro</button>
+        <div id="circunferencia-container" style="display:none;">
+            <h4>Ou, se você não souber o diâmetro, insira a circunferência:</h4>
+            <input type="number" id="circunferenciaSilo" placeholder="Circunferência do Silo (m)">
+            <button class="btn" onclick="calcularDiametro(event)">Calcular Diâmetro</button>
+        </div>
         <div id="diametro-result"></div>
         <div id="resultadoFumigacaoSilo" class="result"></div>
     </div>
 
-    <div id="area" class="tab-content">
+    <div id="area" class="tab-content" style="display: none;">
         <h3>Cálculo de Área Quadrada</h3>
         <input type="number" id="larguraArea" placeholder="Largura (m)" min="0">
         <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0">
-        <button class="btn" onclick="calcularArea()">Calcular Área</button>
+        <button class="btn" onclick="calcularArea(event)">Calcular Área</button>
         <div id="resultadoArea" class="result"></div>
     </div>
 
-    <div id="conversoes" class="tab-content">
+    <div id="conversoes" class="tab-content" style="display: none;">
         <h3>Conversões de Unidade</h3>
         <input type="number" id="metros" placeholder="Metros (m)">
-        <button class="btn" onclick="converterParaCentimetros()">Converter para cm</button>
-        <button class="btn" onclick="converterParaQuilometros()">Converter para km</button>
-        <button class="btn" onclick="converterParaMilhas()">Converter para milhas</button>
+        <button class="btn" onclick="converterParaCentimetros(event)">Converter para cm</button>
+        <button class="btn" onclick="converterParaQuilometros(event)">Converter para km</button>
+        <button class="btn" onclick="converterParaMilhas(event)">Converter para milhas</button>
         <div id="resultadoConversao" class="result"></div>
     </div>
 
-    <div id="financeiro" class="tab-content">
+    <div id="financeiro" class="tab-content" style="display: none;">
         <h3>Controle Financeiro</h3>
         <form id="form-gasto">
             <input type="text" id="descricao" placeholder="Descrição do gasto" required>
@@ -115,12 +117,11 @@
         </div>
     </div>
 
-    <div id="teste" class="tab-content">
+    <div id="teste" class="tab-content" style="display: none;">
         <h3>Teste</h3>
-
     </div>
 
-    <div id="historico" class="tab-content">
+    <div id="historico" class="tab-content" style="display: none;">
         <h3>Histórico de Cálculos</h3>
         <button class="btn" onclick="limparHistorico()">Limpar Histórico</button>
         <div class="historico-container"></div>
