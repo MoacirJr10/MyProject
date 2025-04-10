@@ -7,21 +7,24 @@
     <link rel="stylesheet" href="styles-aba2.css">
     <link rel="stylesheet" href="styles-comum.css">
     <link rel="stylesheet" href="contador.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
 </head>
 
 <body>
 <nav class="menu-lateral">
     <ul>
-        <li onclick="window.location.href='../../index.html'">Início</li>
-        <li onclick="mostrarAba('cubica')">Fumigação em Blocos</li>
-        <li onclick="mostrarAba('fumigacao-silo')">Fumigação em Silo</li>
-        <li onclick="mostrarAba('area')">Cálculo de Área Quadrada</li>
-        <li onclick="mostrarAba('conversoes')">Conversões</li>
-        <li onclick="mostrarAba('financeiro')">Controle Financeiro</li>
-        <li onclick="mostrarAba('teste')">Teste</li>
-        <li onclick="mostrarAba('historico')">Histórico</li>
+        <li onclick="window.location.href='../../index.html'"><i class="fas fa-home"></i><span>Início</span></li>
+        <li onclick="mostrarAba('cubica')"><i class="fas fa-cube"></i><span>Fumigação em Blocos</span></li>
+        <li onclick="mostrarAba('fumigacao-silo')"><i class="fas fa-warehouse"></i><span>Fumigação em Silo</span></li>
+        <li onclick="mostrarAba('area')"><i class="fas fa-ruler-combined"></i><span>Cálculo de Área</span></li>
+        <li onclick="mostrarAba('conversoes')"><i class="fas fa-exchange-alt"></i><span>Conversões</span></li>
+        <li onclick="mostrarAba('financeiro')"><i class="fas fa-chart-line"></i><span>Financeiro</span></li>
+        <li onclick="mostrarAba('teste')"><i class="fas fa-flask"></i><span>Teste</span></li>
+        <li onclick="mostrarAba('historico')"><i class="fas fa-history"></i><span>Histórico</span></li>
     </ul>
 </nav>
+
 
 <div class="container">
     <div id="inicio" style="display: none;">Inicio</div>

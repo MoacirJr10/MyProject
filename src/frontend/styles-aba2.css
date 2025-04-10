@@ -14,18 +14,23 @@
    ========================================================================== */
 .menu-lateral {
     position: fixed;
-    width: 250px;
-    height: 100vh;
+    width: 70px;
+    height: 150vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('imagens/fundo2.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    padding: 30px 0;
+    padding: 40px 0;
     box-shadow: 2px 0 15px rgba(0, 0, 0, 0.5);
     z-index: 1000;
-    transition: all 0.3s ease;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
     overflow-y: auto;
     backdrop-filter: blur(2px);
+}
+
+.menu-lateral:hover {
+    width: 300px;
 }
 
 .menu-lateral ul {
@@ -47,6 +52,23 @@
     position: relative;
     overflow: hidden;
     background: rgba(30, 41, 59, 0.4);
+    white-space: nowrap;
+}
+
+.menu-lateral li i {
+    margin-right: 12px;
+    font-size: 1.2em;
+    min-width: 24px;
+    text-align: center;
+}
+
+.menu-lateral li span {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-lateral:hover li span {
+    opacity: 1;
 }
 
 .menu-lateral li:before {
@@ -75,10 +97,6 @@
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5);
 }
 
-.menu-lateral li i {
-    margin-right: 12px;
-    font-size: 1.2em;
-}
 
 /* ==========================================================================
    CONTAINER PRINCIPAL - Layout ajustado para menu lateral

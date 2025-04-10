@@ -426,3 +426,6 @@ document.addEventListener("DOMContentLoaded", function() {
         contador.innerText = `Visitas: ${visitas}`;
     }
 });
+
+
+
