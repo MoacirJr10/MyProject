@@ -1,3 +1,5 @@
+require('dotenv').config();
+const express = require("express");
 const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
@@ -39,20 +41,21 @@ const db = new sqlite3.Database("contador.db", (err) => {
 
 // Função para consultar o DeepSeek (simulada)
 async function askDeepSeek(question) {
-    // Simulação (substitua por chamada real quando a API estiver disponível)
-    const solutions = {
-        "SQLITE_CORRUPT": "O arquivo do banco pode estar corrompido. Tente restaurar a partir de um backup.",
-        "no such table": "A tabela não existe. Verifique se ela foi criada corretamente.",
-        "EFAULT": "Erro de permissão. Verifique se o servidor tem acesso ao arquivo do banco de dados."
-    };
-
-    for (const [key, solution] of Object.entries(solutions)) {
-        if (question.includes(key)) {
-            return `Solução para o erro: ${solution}`;
-        }
+    try {
+        const response = await axios.post('https://api.deepseek.com/v1/chat/completions', {
+            model: "deepseek-chat",
+            messages: [{ role: "user", content: question }]
+        }, {
+            headers: {
+                'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data.choices[0].message.content;
+    } catch (error) {
+        console.error("Erro ao chamar DeepSeek API:", error.response?.data || error.message);
+        return "Não foi possível obter resposta do assistente.";
     }
-
-    return `Sugestão geral: ${question}. Verifique: 1) Se o arquivo do banco existe, 2) Se as tabelas estão criadas corretamente, 3) Permissões de leitura/escrita.`;
 }
 
 // Rota para contagem de visitas
