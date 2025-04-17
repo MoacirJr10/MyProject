@@ -1,18 +1,17 @@
 require('dotenv').config();
 const express = require("express");
-const express = require("express");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 const axios = require("axios");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-// Configurações do Express
+
 app.use(cors());
 app.use(express.json());
 
-// Conexão com o banco de dados
+
 const db = new sqlite3.Database("contador.db", (err) => {
     if (err) {
         console.error("Erro ao conectar ao banco de dados:", err);
@@ -20,7 +19,6 @@ const db = new sqlite3.Database("contador.db", (err) => {
     } else {
         console.log("Banco de dados conectado com sucesso!");
 
-        // Inicializa a tabela de visitas se não existir
         db.run("CREATE TABLE IF NOT EXISTS visitas (contador INTEGER)", (err) => {
             if (err) {
                 console.error("Erro ao criar tabela visitas:", err);
@@ -39,7 +37,7 @@ const db = new sqlite3.Database("contador.db", (err) => {
     }
 });
 
-// Função para consultar o DeepSeek (simulada)
+
 async function askDeepSeek(question) {
     try {
         const response = await axios.post('https://api.deepseek.com/v1/chat/completions', {
@@ -58,7 +56,7 @@ async function askDeepSeek(question) {
     }
 }
 
-// Rota para contagem de visitas
+
 app.get("/visitas", (req, res) => {
     db.get("SELECT contador FROM visitas", (err, row) => {
         if (err) {
@@ -84,7 +82,7 @@ app.get("/visitas", (req, res) => {
     });
 });
 
-// Rota para diagnóstico de erros
+
 app.get("/diagnosticar-erro", (req, res) => {
     const errorQuery = req.query.error || "Erro desconhecido";
     askDeepSeek(errorQuery)
@@ -96,16 +94,7 @@ app.get("/diagnosticar-erro", (req, res) => {
         });
 });
 
-// Inicia o servidor
+// Inicialização do servidor
 app.listen(port, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
 });
-
-require('dotenv').config(); // Adicione no início do arquivo
-
-const apiKey = process.env.API_KEY; // ← Assim você acessa a chave
-
-// Exemplo com OpenAI (não use a chave vazada!)
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({ apiKey: process.env.API_KEY });
-const openai = new OpenAIApi(configuration);
