@@ -1,64 +1,97 @@
 @media (max-width: 768px) {
+    /* Reset básico para mobile */
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
 
+    html {
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* Header e navegação */
     .header-principal {
         flex-direction: column;
-        padding: 15px 10px;
+        padding: 12px 8px;
+        position: relative;
     }
 
     .menu-principal ul {
         flex-direction: column;
         width: 100%;
         padding: 0;
-        margin-top: 15px;
+        margin-top: 12px;
+        display: none; /* Escondido por padrão */
+    }
+
+    .menu-principal.active ul {
+        display: flex; /* Mostrar quando ativo */
     }
 
     .menu-principal li {
         width: 100%;
         text-align: center;
-        margin: 5px 0;
+        margin: 4px 0;
     }
 
     .menu-principal a {
         display: block;
-        padding: 10px;
-        border-radius: 5px;
+        padding: 12px;
+        border-radius: 6px;
         background-color: rgba(255, 255, 255, 0.05);
+        font-size: 1rem;
     }
 
+    /* Botão de menu hamburguer (adicione HTML correspondente) */
+    .menu-toggle {
+        display: block;
+        align-self: flex-end;
+        background: none;
+        border: none;
+        color: inherit;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 8px;
+    }
 
+    /* Layout geral */
     .container {
-        padding: 15px;
+        padding: 12px;
         width: 100%;
         box-sizing: border-box;
     }
 
     .secao-padrao {
-        padding: 30px 0;
+        padding: 24px 0;
     }
 
-
+    /* Flex containers */
     .flex-container {
         flex-direction: column;
+        gap: 20px;
     }
 
+    /* Perfil */
     .profile-image-container {
-        margin: 0 auto 20px;
-        max-width: 200px;
+        margin: 0 auto 16px;
+        max-width: 180px;
     }
 
-
+    /* Habilidades */
     .habilidades-container, .habilidades-grid {
         flex-direction: column;
+        gap: 12px;
     }
 
     .habilidade-card {
         width: 100%;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
+        padding: 12px;
     }
 
-
+    /* Projetos */
     .projetos-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .projeto-card {
@@ -67,12 +100,20 @@
 
     .projeto-imagem {
         width: 100%;
-        height: 200px;
+        height: auto;
+        min-height: 180px;
+        max-height: 220px;
+        object-fit: cover;
     }
 
+    .projeto-info {
+        padding: 12px;
+    }
 
+    /* Contato */
     .contato-flex {
         flex-direction: column;
+        gap: 20px;
     }
 
     .contato-info, .contato-form {
@@ -80,56 +121,140 @@
     }
 
     .form-grupo {
-        margin-bottom: 15px;
+        margin-bottom: 12px;
     }
 
+    input, textarea, select {
+        font-size: 1rem;
+        padding: 10px;
+    }
 
+    /* Botões */
     .btn-projeto, .btn-enviar {
         width: 100%;
-        margin-top: 10px;
-        text-align: center;
+        margin-top: 8px;
+        padding: 12px;
+        font-size: 1rem;
     }
 
-
+    /* Footer */
     .footer-content {
         flex-direction: column;
         text-align: center;
+        gap: 16px;
     }
 
     .footer-logo, .footer-nav, .footer-social {
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         width: 100%;
     }
 
     .footer-nav ul {
         flex-direction: column;
+        gap: 8px;
     }
 
     .footer-nav li {
-        margin: 5px 0;
+        margin: 4px 0;
+    }
+
+    /* Timeline */
+    .timeline-item {
+        flex-direction: column;
+        padding: 12px 0;
+    }
+
+    .timeline-data {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .timeline-conteudo {
+        width: 100%;
+        padding: 12px;
     }
 }
 
 @media (max-width: 480px) {
+    /* Tipografia para telas muito pequenas */
+    html {
+        font-size: 14px;
+    }
+
     h1 {
-        font-size: 1.8rem;
+        font-size: 1.7rem;
+        line-height: 1.3;
     }
 
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
-    .timeline-item {
-        flex-direction: column;
+    h3 {
+        font-size: 1.2rem;
     }
 
-    .timeline-data {
-        margin-bottom: 10px;
-        text-align: left;
-        width: 100%;
+    p, li, a {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+
+    /* Ajustes finos de espaçamento */
+    .secao-padrao {
+        padding: 20px 0;
+    }
+
+    /* Social links */
+    .social-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
     }
 
     .social-links a {
-        margin: 0 5px;
+        margin: 0 4px;
+        padding: 8px;
+        font-size: 1.2rem;
+    }
+
+    /* Melhorias para inputs em mobile */
+    input, textarea, select {
+        font-size: 0.95rem;
+    }
+
+    /* Otimização para viewport mobile */
+    @viewport {
+        width: device-width;
+        zoom: 1.0;
+    }
+
+    /* Prevenir zoom em inputs no iOS */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    textarea {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 320px) {
+    /* Ajustes extras para dispositivos muito pequenos */
+    .header-principal {
+        padding: 8px 6px;
+    }
+
+    .menu-principal a {
+        padding: 10px 8px;
+    }
+
+    .btn-projeto, .btn-enviar {
+        padding: 10px;
+    }
+
+    .projeto-imagem {
+        min-height: 150px;
     }
 }
