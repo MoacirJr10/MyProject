@@ -403,7 +403,6 @@ function limparHistorico() {
     }
 }
 
-// Inicialização
 document.addEventListener('DOMContentLoaded', function() {
 
     mostrarAba('cubica');
@@ -415,7 +414,6 @@ document.addEventListener('DOMContentLoaded', function() {
     atualizarHistorico();
 });
 
-// Contador de visitas (opcional)
 document.addEventListener("DOMContentLoaded", function() {
     const contador = document.getElementById("contador");
     if (contador) {
