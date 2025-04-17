@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Menu Toggle
+
     const menuToggle = document.querySelector('.menu-toggle');
     const menuPrincipal = document.querySelector('.menu-principal');
 
@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
             menuPrincipal.classList.toggle('active');
         });
 
-        // Adicionar índice aos itens do menu para animação escalonada
+
         const menuItems = menuPrincipal.querySelectorAll('li');
         menuItems.forEach((item, index) => {
             item.style.setProperty('--item-index', index);
         });
     }
 
-    // Header na rolagem
+
     const header = document.querySelector('.header-principal');
     if (header) {
         window.addEventListener('scroll', function() {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Animações de entrada usando IntersectionObserver
+
     const fadeElements = document.querySelectorAll('.fade-in, .stagger-item');
 
     if (fadeElements.length) {
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Gerenciar indicadores de deslize
+
     const swipeContainers = document.querySelectorAll('.swipe-container');
 
     swipeContainers.forEach(container => {
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const indicator = document.createElement('div');
         indicator.className = 'swipe-indicator';
 
-        // Criar pontos indicadores
+
         items.forEach((_, index) => {
             const dot = document.createElement('span');
             dot.className = 'indicator-dot' + (index === 0 ? ' active' : '');
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         container.parentNode.insertBefore(indicator, container.nextSibling);
 
-        // Atualizar indicadores ao deslizar
+
         container.addEventListener('scroll', function() {
             const scrollPosition = this.scrollLeft;
             const containerWidth = this.offsetWidth;
@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Fechar menu ao clicar em links
     const menuLinks = document.querySelectorAll('.menu-principal a');
     menuLinks.forEach(link => {
         link.addEventListener('click', function() {
