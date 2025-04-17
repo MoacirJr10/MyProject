@@ -439,4 +439,103 @@
     font-weight: 600;
     color: var(--secondary-color);
 }
+/* ==========================================================================
+   AJUSTES PARA INTEGRAÇÃO COM MENU LATERAL
+   ========================================================================== */
 
+.container {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    transition: all 0.3s ease;
+}
+
+.menu-lateral:hover ~ .container,
+.container.expanded {
+    margin-left: 300px;
+    width: calc(100% - 300px);
+}
+
+
+.tab-content {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+#form-gasto {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+.result {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+.imagens-container {
+    justify-content: flex-start;
+}
+
+
+#fumigacao-silo input {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+
+.gasto-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.gasto-info {
+    width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    .menu-lateral {
+        width: 0;
+        overflow: hidden;
+    }
+
+    .menu-lateral.active {
+        width: 250px;
+    }
+
+    .container {
+        margin-left: 0;
+        width: 100%;
+        padding: 20px 15px;
+    }
+
+    .menu-lateral:hover ~ .container,
+    .container.expanded {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+
+
+    .gasto-item {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .imagens-container {
+        justify-content: center;
+    }
+}
+
+.container,
+.tab-content,
+.result,
+#form-gasto,
+.gasto-item,
+.imagens-container {
+    transition: all 0.3s ease;
+}
