@@ -414,16 +414,5 @@ document.addEventListener('DOMContentLoaded', function() {
     atualizarHistorico();
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-    const contador = document.getElementById("contador");
-    if (contador) {
-
-        let visitas = localStorage.getItem('visitas') || 0;
-        visitas = parseInt(visitas) + 1;
-        localStorage.setItem('visitas', visitas);
-        contador.innerText = `Visitas: ${visitas}`;
-    }
-});
-
 
 

@@ -32,52 +32,45 @@ body {
    ========================================================================== */
 header {
     position: relative;
-    background: rgba(20, 20, 20, 0.85);
+    background: rgba(20, 20, 20, 0.3);
     color: #fff;
     padding: 20px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     z-index: 1;
     overflow: hidden;
 
-    animation: fadeDown 1s ease-out;
-    transition: background 0.4s ease, color 0.4s ease;
+    animation: fadeDown 0.8s ease-out;
 }
 
-header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: none;
-    z-index: 0;
-}
+
 
 header h1,
 header p {
     position: relative;
     z-index: 1;
     opacity: 0;
-    transform: translateY(-20px);
-    animation: slideIn 1s ease-out forwards;
+    transform: translateY(-10px);
+    animation: slideIn 0.8s ease-out forwards;
 }
 
 header h1 {
     margin: 0;
-    font-size: 2.5em;
+    font-size: 2.2em;
     font-weight: bold;
-    animation-delay: 0.2s;
+    animation-delay: 0.1s;
 }
 
 header p {
-    margin: 10px 0 0;
-    font-size: 1.2em;
-    animation-delay: 0.4s;
+    margin: 8px 0 0;
+    font-size: 1.1em;
+    animation-delay: 0.3s;
 }
 
 @keyframes fadeDown {
     from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-20px);
     }
     to {
         opacity: 1;
@@ -91,9 +84,6 @@ header p {
         transform: translateY(0);
     }
 }
-
-
-
 
 /* ==========================================================================
    CONTEÚDO PRINCIPAL - Área central da página
@@ -185,3 +175,75 @@ footer {
         padding: 15px;
     }
 }
+
+/* ==========================================================================
+  Barra de navegação - Estilo para a barra de navegação
+   ========================================================================== */
+
+   .nav-principal {
+       position: sticky;
+       top: 0;
+       background-color: rgba(20, 20, 20, 0.85);
+       padding: 12px 0;
+       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+       z-index: 100;
+       text-align: center;
+       backdrop-filter: blur(5px);
+   }
+
+   .nav-container {
+       display: flex;
+       justify-content: center;
+       flex-wrap: wrap;
+       gap: 15px;
+       max-width: 1200px;
+       margin: 0 auto;
+       padding: 0 15px;
+   }
+
+   .nav-item {
+       color: #fff;
+       text-decoration: none;
+       padding: 8px 15px;
+       border-radius: 25px;
+       font-weight: 500;
+       transition: all 0.3s ease;
+       display: flex;
+       align-items: center;
+       gap: 5px;
+       background-color: rgba(255, 255, 255, 0.1);
+   }
+
+   .nav-item i {
+       font-size: 1.1em;
+   }
+
+   .nav-item:hover {
+       background-color: rgba(255, 255, 255, 0.2);
+       transform: translateY(-2px);
+   }
+
+
+   @media (max-width: 768px) {
+       .nav-container {
+           gap: 8px;
+       }
+
+       .nav-item {
+           padding: 6px 10px;
+           font-size: 0.9em;
+       }
+   }
+
+   @media (max-width: 480px) {
+       .nav-container {
+           flex-direction: row;
+           overflow-x: auto;
+           justify-content: flex-start;
+           padding-bottom: 5px;
+       }
+
+       .nav-principal {
+           padding: 8px 0;
+       }
+   }
