@@ -418,7 +418,7 @@ header {
     padding: 20px;
     text-align: center;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+    z-index: 10;
     overflow: hidden;
     animation: fadeDown 0.8s ease-out;
 }
@@ -448,7 +448,6 @@ header p {
     animation-delay: 0.3s;
 }
 
-/* Animações */
 @keyframes fadeDown {
     from {
         opacity: 0;
