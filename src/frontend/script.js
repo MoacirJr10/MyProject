@@ -414,5 +414,42 @@ document.addEventListener('DOMContentLoaded', function() {
     atualizarHistorico();
 });
 
+                  // Like Button//
+
+document.addEventListener('DOMContentLoaded', function() {
+    const likeButton = document.getElementById('like-button');
+    const likesCount = document.getElementById('likes-count');
+
+
+    let likes = localStorage.getItem('portfolioLikes') || 0;
+    likesCount.textContent = likes;
+
+
+    const hasLiked = localStorage.getItem('hasLiked') === 'true';
+    if (hasLiked) {
+        likeButton.classList.add('liked');
+    }
+
+    likeButton.addEventListener('click', function() {
+        if (!hasLiked) {
+
+            likes = Number(likes) + 1;
+            likesCount.textContent = likes;
+
+
+            localStorage.setItem('portfolioLikes', likes);
+            localStorage.setItem('hasLiked', 'true');
+
+
+            likeButton.classList.add('liked');
+
+
+            likeButton.classList.remove('pulse');
+            setTimeout(() => {
+                likeButton.classList.add('pulse');
+            }, 10);
+        }
+    });
+});
 
 
