@@ -408,6 +408,64 @@ body::before {
     opacity: 0;
   }
 }
+/* ==========================================================================
+   CABEÇALHO - Estilo para o topo da página
+   ========================================================================== */
+header {
+    position: relative;
+    background: rgba(20, 20, 20, 0.3);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    overflow: hidden;
+    animation: fadeDown 0.8s ease-out;
+}
+
+.header-content {
+    position: relative;
+    z-index: 1;
+}
+
+header h1,
+header p {
+    opacity: 0;
+    transform: translateY(-10px);
+    animation: slideIn 0.8s ease-out forwards;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.2em;
+    font-weight: bold;
+    animation-delay: 0.1s;
+}
+
+header p {
+    margin: 8px 0 0;
+    font-size: 1.1em;
+    animation-delay: 0.3s;
+}
+
+/* Animações */
+@keyframes fadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
 /* ==========================================================================
    Contador de Curtidas - Estilo para o contador de curtidas
@@ -460,9 +518,16 @@ body::before {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
+
 
 
