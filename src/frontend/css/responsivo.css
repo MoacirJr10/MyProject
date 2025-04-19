@@ -17,7 +17,7 @@
         padding: 0;
     }
 
-    /* Header e Menu Aprimorado */
+
     .header-principal {
         flex-direction: column;
         padding: 1rem;
@@ -123,7 +123,7 @@
         background-color: rgba(255, 255, 255, 0.1);
     }
 
-    /* Containers e Seções */
+
     .container {
         padding: 1rem;
         width: 100%;
@@ -136,7 +136,7 @@
         scroll-margin-top: 4.5rem;
     }
 
-    /* Layout Flexível */
+
     .flex-container,
     .habilidades-container,
     .habilidades-grid,
@@ -145,7 +145,7 @@
         gap: 1.5rem;
     }
 
-    /* Perfil */
+
     .profile-image-container {
         margin: 0 auto 1.5rem;
         max-width: 180px;
@@ -249,7 +249,7 @@
         transition: 0s;
     }
 
-    /* Footer */
+
     .footer-content {
         flex-direction: column;
         text-align: center;
@@ -297,7 +297,7 @@
         background-color: rgba(255, 255, 255, 0.2);
     }
 
-    /* Timeline */
+
     .timeline-item {
         flex-direction: column;
         padding: 1rem 0;
@@ -381,13 +381,13 @@
         font-size: 1.1rem;
     }
 
-    /* Evitar zoom no iOS ao clicar em campos de formulário */
+
     input, textarea, select {
         font-size: 16px;
         padding: 0.75rem;
     }
 
-    /* Ajustar espaçamento vertical */
+
     .container {
         padding: 0.75rem;
     }
@@ -399,7 +399,7 @@
         margin-bottom: 0.75rem;
     }
 
-    /* Melhorar espaçamento em elementos empilhados */
+
     .flex-container,
     .habilidades-container,
     .habilidades-grid,
@@ -438,7 +438,7 @@
         margin-bottom: 1rem;
     }
 
-    /* Otimizar espaço em telas muito pequenas */
+
     .container {
         padding: 0.5rem;
     }
@@ -453,19 +453,19 @@
     }
 }
 
-/* Adicionar suporte para gestos de deslize */
+
 @media (max-width: 768px) {
     .swipe-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
         display: flex;
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
 
     .swipe-container::-webkit-scrollbar {
-        display: none; /* Chrome, Safari, Opera*/
+        display: none;
     }
 
     .swipe-item {
@@ -479,7 +479,7 @@
         margin-right: 0;
     }
 
-    /* Indicador de mais conteúdo para deslizar */
+
     .swipe-indicator {
         display: flex;
         justify-content: center;
@@ -500,7 +500,7 @@
     }
 }
 
-/* Animações de entrada com IntersectionObserver */
+
 @media (max-width: 768px) {
     .fade-in {
         opacity: 0;

@@ -16,16 +16,17 @@ body {
     flex-direction: column;
     min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
+    background: linear-gradient(135deg, #000000, #1a1a1a, #2c2c2c);
     color: var(--text-color);
     margin: 0;
     padding: 0;
-    background-image: url('imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
+
+
 
 
 /* ==========================================================================
@@ -61,7 +62,7 @@ main {
    ========================================================================== */
 footer {
     background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
-    background-image: url('imagens/fundo.jpg');
+    background-image: url('../imagens/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

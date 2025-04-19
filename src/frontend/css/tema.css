@@ -10,7 +10,7 @@ body {
 header {
   position: relative;
   background: linear-gradient(120deg, #0d0d0d 60%, var(--dark-bg));
-  background-image: url('imagens/fundo.jpg');
+  background-image: url('../imagens/fundo.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

@@ -360,67 +360,36 @@ p {
                                     BACKGROUND ANIMADO
    ========================================================================== */
 body {
-  margin: 0;
-  padding: 0;
-  background-color: #111;
-  font-family: sans-serif;
-  color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #000000, #1a1a1a, #2c2c2c);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #111;
-  z-index: -2;
-}
-
-#bgCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.4;
-}
-
-.bubble {
-  position: absolute;
-  bottom: -100px;
-  background: radial-gradient(circle, #555, #222);
-  border-radius: 50%;
-  opacity: 0.3;
-  animation: floatUp linear infinite;
-}
-
-@keyframes floatUp {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(-110vh) scale(1.3);
-    opacity: 0;
-  }
-}
 /* ==========================================================================
    CABEÇALHO - Estilo para o topo da página
    ========================================================================== */
 header {
     position: relative;
-    background: rgba(20, 20, 20, 0.3);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
     color: #fff;
-    padding: 20px;
+    padding: 24px 20px;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     z-index: 10;
     overflow: hidden;
     animation: fadeDown 0.8s ease-out;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
 }
 
 .header-content {
@@ -437,15 +406,17 @@ header p {
 
 header h1 {
     margin: 0;
-    font-size: 2.2em;
-    font-weight: bold;
+    font-size: 2.4em;
+    font-weight: 600;
     animation-delay: 0.1s;
+    color: #e0e0e0;
 }
 
 header p {
-    margin: 8px 0 0;
-    font-size: 1.1em;
+    margin: 10px 0 0;
+    font-size: 1.05em;
     animation-delay: 0.3s;
+    color: #c4c4c4;
 }
 
 @keyframes fadeDown {

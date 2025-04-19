@@ -16,7 +16,7 @@
     position: fixed;
     width: 70px;
     height: 150vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('imagens/fundo2.png');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('../imagens/fundo2.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
