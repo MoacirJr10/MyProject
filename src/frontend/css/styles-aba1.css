@@ -91,8 +91,8 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
-    padding: 20px;
+    gap: 40px;
+    padding: 60px 20px;
     text-align: left;
 }
 
@@ -100,10 +100,30 @@ section {
     display: flex;
     align-items: center;
     gap: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
+.profile-image {
+    flex: 1 0 300px;
+    max-width: 350px;
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .profile-content {
-    flex: 1;
+    flex: 2 1 500px;
+    font-size: 1.1em;
+    line-height: 1.7;
+    color: #333
+}
+
+.profile-content p {
+    margin-bottom: 16px;}
 }
 
 /* ==========================================================================
@@ -354,150 +374,3 @@ p {
     color: white;
     cursor: pointer;
 }
-
-
-/* ==========================================================================
-                                    BACKGROUND ANIMADO
-   ========================================================================== */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #000000, #1a1a1a, #2c2c2c);
-    color: var(--text-color);
-    margin: 0;
-    padding: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-}
-
-/* ==========================================================================
-   CABEÇALHO - Estilo para o topo da página
-   ========================================================================== */
-header {
-    position: relative;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(6px);
-    color: #fff;
-    padding: 24px 20px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    overflow: hidden;
-    animation: fadeDown 0.8s ease-out;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.3s ease;
-}
-
-.header-content {
-    position: relative;
-    z-index: 1;
-}
-
-header h1,
-header p {
-    opacity: 0;
-    transform: translateY(-10px);
-    animation: slideIn 0.8s ease-out forwards;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.4em;
-    font-weight: 600;
-    animation-delay: 0.1s;
-    color: #e0e0e0;
-}
-
-header p {
-    margin: 10px 0 0;
-    font-size: 1.05em;
-    animation-delay: 0.3s;
-    color: #c4c4c4;
-}
-
-@keyframes fadeDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==========================================================================
-   Contador de Curtidas - Estilo para o contador de curtidas
-   ========================================================================== */
-.likes-counter {
-    margin-top: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-#likes-count {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #fff;
-    background-color: rgba(0, 0, 0, 0.2);
-    padding: 5px 12px;
-    border-radius: 15px;
-    min-width: 40px;
-    text-align: center;
-}
-
-#like-button {
-    background-color: rgba(255, 255, 255, 0.2);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-#like-button i {
-    color: #ff5a5a;
-    font-size: 1.2em;
-    transition: all 0.3s ease;
-}
-
-#like-button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
-}
-
-#like-button.liked {
-    animation: pulse 0.4s ease;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-
-
-
