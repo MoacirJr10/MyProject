@@ -1,4 +1,3 @@
-// Função para mostrar abas
 function mostrarAba(abaId) {
 
     const abas = document.querySelectorAll('.tab-content');
@@ -23,7 +22,7 @@ function mostrarAba(abaId) {
     }
 }
 
-// Fumigação em Bloco
+
 function calcular(event) {
     if (event) event.preventDefault();
 
@@ -51,7 +50,7 @@ function calcular(event) {
     salvarNoHistorico(metragemCubica, sache, pastilha, comprimido);
 }
 
-// Cálculo de Área
+
 function calcularArea(event) {
     if (event) event.preventDefault();
 
@@ -67,7 +66,7 @@ function calcularArea(event) {
     document.getElementById('resultadoArea').innerHTML = `Área: ${area.toFixed(2)} m²`;
 }
 
-// Fumigação em Silo
+
 function calcularFumigacaoSilo(event) {
     if (event) event.preventDefault();
 
@@ -140,7 +139,7 @@ function calcularDiametro(event) {
     }
 }
 
-// Conversor de Medidas
+
 function converterParaCentimetros(event) {
     if (event) event.preventDefault();
 
@@ -183,7 +182,7 @@ function converterParaMilhas(event) {
     document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas.toFixed(4)} milhas`;
 }
 
-// Financeiro
+
 let gastos = [];
 let graficoGastos = null;
 
@@ -336,7 +335,7 @@ function atualizarGrafico() {
     });
 }
 
-// Histórico
+
 let historico = [];
 
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
@@ -378,7 +377,7 @@ function atualizarHistorico() {
         historico = [];
     }
 
-    // Exibir histórico
+
     const container = document.querySelector('.historico-container');
     if (!container) return;
 
@@ -414,42 +413,5 @@ document.addEventListener('DOMContentLoaded', function() {
     atualizarHistorico();
 });
 
-                  // Like Button//
-
-document.addEventListener('DOMContentLoaded', function() {
-    const likeButton = document.getElementById('like-button');
-    const likesCount = document.getElementById('likes-count');
-
-
-    let likes = localStorage.getItem('portfolioLikes') || 0;
-    likesCount.textContent = likes;
-
-
-    const hasLiked = localStorage.getItem('hasLiked') === 'true';
-    if (hasLiked) {
-        likeButton.classList.add('liked');
-    }
-
-    likeButton.addEventListener('click', function() {
-        if (!hasLiked) {
-
-            likes = Number(likes) + 1;
-            likesCount.textContent = likes;
-
-
-            localStorage.setItem('portfolioLikes', likes);
-            localStorage.setItem('hasLiked', 'true');
-
-
-            likeButton.classList.add('liked');
-
-
-            likeButton.classList.remove('pulse');
-            setTimeout(() => {
-                likeButton.classList.add('pulse');
-            }, 10);
-        }
-    });
-});
 
 
