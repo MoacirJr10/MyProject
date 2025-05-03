@@ -129,114 +129,126 @@ section {
    SEÇÃO PROJETOS - Cards e grid de projetos
    ========================================================================== */
 #projetos {
-    padding: 20px;
+    padding: 2rem 0;
 }
 
 #projetos h2 {
-    font-size: 2.2em;
-    margin-bottom: 30px;
+    font-size: 2rem;
+    margin-bottom: 1rem;
     position: relative;
-    padding-bottom: 10px;
+    padding-bottom: 0.5rem;
 }
 
-#projetos h2:after {
+#projetos h2::after {
     content: '';
     position: absolute;
     bottom: 0;
-    left: 0;
-    width: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
     height: 3px;
-    background-color: var(--primary-color);
+    border-radius: 2px;
 }
 
 .projetos-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 1rem;
+    padding: 0 1.5rem;
+    align-items: stretch;
 }
 
 .projeto-card {
-    background-color: var(--card-bg);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--shadow-normal);
-    transition: var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(8px);
 }
 
 .projeto-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 
 .projeto-imagem {
     width: 100%;
-    height: 200px;
+    height: 150px;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .projeto-imagem img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: var(--transition-normal);
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    opacity: 0.9;
 }
 
 .projeto-card:hover .projeto-imagem img {
     transform: scale(1.05);
+    opacity: 1;
 }
 
 .projeto-conteudo {
-    padding: 20px;
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.projeto-texto {
+    flex-grow: 1;
 }
 
 .projeto-tecnologias {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 20px 0;
+    gap: 0.6rem;
+    margin: 1rem 0;
 }
 
 .projeto-tecnologias span {
-    background-color: rgba(79, 70, 229, 0.2);
+    background-color: rgba(79, 70, 229, 0.12);
     color: var(--text-color);
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.85em;
+    padding: 0.4rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(79, 70, 229, 0.25);
 }
 
 .projeto-links {
     display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: center;
 }
 
-/* ==========================================================================
-   BOTÕES - Estilos para botões de projetos
-   ========================================================================== */
-.btn-projeto {
-    display: inline-block;
-    padding: 8px 16px;
+.projeto-links a {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    min-width: 100px;
+    text-align: center;
+    flex: 1;
+    max-width: 140px;
     background-color: var(--primary-color);
-    color: white;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
     text-decoration: none;
-    border-radius: 5px;
-    font-weight: 600;
-    transition: var(--transition-normal);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-projeto:hover {
+.projeto-links a:hover {
     background-color: var(--secondary-color);
     transform: translateY(-2px);
 }
 
-.btn-secundario {
-    background-color: transparent;
-    border: 1px solid var(--primary-color);
-}
-
-.btn-secundario:hover {
-    background-color: rgba(79, 70, 229, 0.1);
-}
 
 /* ==========================================================================
    NAVEGAÇÃO - Menu de navegação
