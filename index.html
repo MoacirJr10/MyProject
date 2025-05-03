@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="src/frontend/css/responsivo.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
@@ -34,43 +35,58 @@
                     <img src="src/frontend/imagens/Moacir1.jpeg" alt="Moacir Pereira" class="perfil-foto">
                 </div>
                 <div class="profile-content">
-                    <p>Olá! Sou Moacir Pereira, estudante de Engenharia de Computação, apaixonado por tecnologia e desenvolvimento de software.</p>
-                    <p>Atualmente estou focado no estudo da programação, com ênfase nas linguagens HTML, CSS, JavaScript e Java. Busco constantemente aprimorar minhas habilidades técnicas e colaborar em projetos inovadores.</p>
-                    <p>Meu objetivo é desenvolver soluções tecnológicas que possam impactar positivamente a vida das pessoas e contribuir para um mundo mais conectado e eficiente.</p>
+                    <p>Olá! Sou Moacir Pereira, estudante de Engenharia de Computação, apaixonado por tecnologia e
+                        desenvolvimento de software.</p>
+                    <p>Atualmente estou focado no estudo da programação, com ênfase nas linguagens HTML,
+                        CSS, JavaScript e Java. Busco constantemente aprimorar minhas habilidades técnicas e colaborar
+                        em projetos inovadores.</p>
+                    <p>Meu objetivo é desenvolver soluções tecnológicas que possam impactar positivamente a vida das
+                        pessoas e contribuir para um mundo mais conectado e eficiente.</p>
                 </div>
             </div>
         </div>
     </section>
-
-
     <section id="habilidades" class="secao-padrao secao-alternada">
         <div class="container">
             <h2>Minhas Habilidades</h2>
             <div class="habilidades-grid">
-                <div class="habilidade-card"><i class="fab fa-html5"></i><h3>HTML5</h3></div>
-                <div class="habilidade-card"><i class="fab fa-css3-alt"></i><h3>CSS3</h3></div>
-                <div class="habilidade-card"><i class="fab fa-js"></i><h3>JavaScript</h3></div>
-                <div class="habilidade-card"><i class="fab fa-java"></i><h3>Java</h3></div>
-                <div class="habilidade-card"><i class="devicon-nodejs-plain colored"></i><h3>Node.js</h3></div>
-                <div class="habilidade-card"><i class="devicon-postgresql-plain colored"></i><h3>PostgreSQL</h3></div>
-                <div class="habilidade-card"><i class="devicon-sqlite-plain colored"></i><h3>SQLite3</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-brands fa-html5 fa-2x" style="color: #e34f26;"></i>
+                    <h3>HTML5</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-brands fa-css3-alt fa-2x" style="color: #2965f1;"></i>
+                    <h3>CSS3</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-brands fa-square-js fa-2x" style="color: #f7df1e;"></i>
+                    <h3>JavaScript</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-brands fa-java fa-2x" style="color: #007396;"></i>
+                    <h3>Java</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-brands fa-node-js fa-2x" style="color: #68a063;"></i>
+                    <h3>Node.js</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-solid fa-database fa-2x" style="color: #336791;"></i>
+                    <h3>PostgreSQL</h3></div>
+                <div class="habilidade-card">
+                    <i class="fa-solid fa-server fa-2x" style="color: #003b57;"></i>
+                    <h3>SQLite3</h3></div>
             </div>
         </div>
     </section>
-
 
     <section id="projetos" class="secao-padrao">
         <div class="container">
             <h2>Meus Projetos</h2>
             <div class="projetos-grid">
-                <!-- Projeto 1 -->
                 <article class="projeto-card">
                     <div class="projeto-imagem">
                         <img src="src/frontend/imagens/img.png" alt="Projeto Fumigação">
                     </div>
                     <div class="projeto-conteudo">
                         <h3>Projeto Fumigação</h3>
-                        <p>Sistema desenvolvido para otimizar o trabalho de fumigação, controle de áreas tratadas e relatórios automáticos.</p>
+                        <p>Sistema desenvolvido para otimizar o trabalho de fumigação, controle de áreas tratadas e
+                            relatórios automáticos.</p>
                         <div class="projeto-tecnologias">
                             <span><i class="fab fa-html5"></i> HTML</span>
                             <span><i class="fab fa-css3-alt"></i> CSS</span>
@@ -85,7 +101,6 @@
                         </div>
                     </div>
                 </article>
-
 
                 <article class="projeto-card">
                     <div class="projeto-imagem">
@@ -116,33 +131,58 @@
 
     <section id="formacao" class="secao-padrao secao-alternada">
         <div class="container">
-            <h2>Formação Acadêmica</h2>
+            <h2 class="titulo-secao">Formação Acadêmica</h2>
+
             <div class="timeline">
                 <div class="timeline-item">
+                    <div class="timeline-marcador">
+                        <div class="timeline-ponto"></div>
+                        <div class="timeline-linha"></div>
+                    </div>
                     <div class="timeline-conteudo">
-                        <h3>Bacharelado em Engenharia de Computação</h3>
-                        <p>Cruzeiro Do Sul Virtual</p>
-                        <p>Previsão de conclusão: 2028</p>
+                        <div class="formacao-cabecalho">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>Bacharelado em Engenharia de Computação</h3>
+                        </div>
+                        <div class="formacao-detalhes">
+                            <p class="instituicao"><i class="fas fa-university"></i> Cruzeiro Do Sul Virtual</p>
+                            <p class="periodo"><i class="fas fa-calendar-alt"></i> Previsão de conclusão: 2028</p>
+                            <p class="status"><i class="fas fa-spinner"></i> Em andamento</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-
     <section id="curriculo" class="secao-padrao">
         <div class="container">
-            <h2>Currículo</h2>
-            <div class="curriculo-container">
-                <p>Meu currículo está disponível para download. Clique no botão abaixo para acessá-lo.</p>
-                <a href="src/frontend/curriculo/Moacir%20Pereira%20Da%20Silva%20Junior.pdf" class="btn-curriculo"
-                   target="_blank" style="display: block; text-align: center; margin: 10px auto; width: fit-content;">
-                    Baixar Currículo
-                </a>
+            <div class="curriculo-header">
+                <h2 class="curriculo-titulo">Currículo Profissional</h2>
+                <div class="curriculo-detalhe"></div>
+            </div>
+            <div class="curriculo-content">
+                <div class="curriculo-texto">
+                    <p>Explore minha jornada profissional e formação acadêmica. Meu currículo está
+                        disponível para download em formato PDF.</p>
+                    <p class="curriculo-dica">Clique no botão abaixo para baixar ou visualizar.</p>
+                </div>
+                <div class="curriculo-actions">
+                    <a href="src/frontend/curriculo/Moacir%20Pereira%20Da%20Silva%20Junior.pdf"
+                       class="btn-curriculo"
+                       target="_blank"
+                       download="Moacir_Pereira_Curriculo.pdf">
+                        <i class="fa-regular fa-file-pdf"></i> Baixar Currículo
+                    </a>
+                    <a href="src/frontend/curriculo/Moacir%20Pereira%20Da%20Silva%20Junior.pdf"
+                       class="btn-preview"
+                       target="_blank">
+                        <i class="fas fa-eye"></i> Visualizar Online
+                    </a>
+                </div>
             </div>
         </div>
     </section>
-
 
     <section id="contato" class="secao-padrao">
         <div class="container">
@@ -150,9 +190,12 @@
             <div class="contato-flex">
                 <div class="contato-info">
                     <div class="social-links">
-                        <a href="https://www.instagram.com/moacir00/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.linkedin.com/in/moacir-pereira-670b7b1a7/" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://github.com/MoacirJr10" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="https://www.instagram.com/moacir00/" target="_blank" class="social-link"><i
+                                class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/moacir-pereira-670b7b1a7/" target="_blank"
+                           class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com/MoacirJr10" target="_blank" class="social-link"><i
+                                class="fab fa-github"></i></a>
                     </div>
                 </div>
             </div>
@@ -166,5 +209,6 @@
 </main>
 
 <script src="src/frontend/javascript/script.js"></script>
+<script src="src/frontend/javascript/particles-background.js"></script>
 </body>
 </html>

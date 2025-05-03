@@ -120,35 +120,7 @@
         </div>
     </div>
     <section id="teste" class="aba furniture-quote-section" style="display: none;">
-        <div class="quote-container">
-            <header class="section-header">
-                <h2>Orçamento de Móveis Planejados</h2>
-                <p class="section-description">Preencha os detalhes abaixo para gerar um orçamento personalizado</p>
-            </header>
-            <form id="formOrcamento" class="quote-form">
-                <div class="form-group">
-                    <label for="cliente">Cliente:</label>
-                    <input type="text" id="cliente" name="cliente" placeholder="Nome completo do cliente" required>
-                </div>
-                <div class="form-group">
-                    <label for="descricao">Descrição:</label>
-                    <textarea id="descricao" name="descricao" rows="4" placeholder="Descreva os móveis planejados com detalhes" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="valor">Valor (R$):</label>
-                    <input type="number" id="valor" name="valor" min="0" step="0.01" placeholder="0,00" required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn primary" onclick="gerarOrcamento()">
-                        <i class="icon-doc"></i> Gerar Orçamento
-                    </button>
-                    <button type="button" class="btn secondary" onclick="gerarPDF()">
-                        <i class="icon-pdf"></i> Exportar PDF
-                    </button>
-                </div>
-            </form>
-            <div id="orcamentoResultado" class="quote-result" aria-live="polite"></div>
-        </div>
+
     </section>
     <div id="historico" class="tab-content" style="display: none;">
         <h3>Histórico de Cálculos</h3>
@@ -157,20 +129,7 @@
     </div>
 </div>
 
-
 <script src="javascript/script.js"></script>
-<script src="javascript/orcamento.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<script>
-    function mostrarAba(id) {
-      const abas = document.querySelectorAll('.tab-content');
-      abas.forEach(aba => aba.style.display = 'none');
-      document.getElementById(id).style.display = 'block';
-    }
-</script>
-
+<script src="javascript/particles-background.js"></script>
 </body>
 </html>
