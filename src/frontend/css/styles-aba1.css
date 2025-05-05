@@ -22,11 +22,11 @@
     align-items: center;
     gap: 2rem;
     flex-wrap: wrap;
-    transition: var(--transition-normal);
 }
 
 .profile-image {
-    flex: 0 0 200px;
+    flex: 0 0 150px;
+    max-width: 100px;
 
 }
 
@@ -36,7 +36,8 @@
 }
 
 .perfil-foto:hover {
-transform: scale(1.05) rotateZ(1deg);
+transform: scale(1.03) rotateZ(0.5deg);
+box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -46,7 +47,7 @@ transform: scale(1.05) rotateZ(1deg);
     border-radius: 10px;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    trasition: transform 0.2s ease;
+    transition: transform 0.3s ease;
 }
 
 
@@ -288,6 +289,9 @@ nav ul li a:hover {
    ========================================================================== */
 h1, h2, h3 {
     color: var(--primary-color);
+    transition:color 0.3s ease, transform 0.3s ease;
+    position: relative;
+    display: inline-block;
 }
 
 h1 {
@@ -363,6 +367,8 @@ p {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
 }
 
 .habilidade-card i {
@@ -373,6 +379,7 @@ p {
 .habilidade-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
 /* ==========================================================================
@@ -403,6 +410,8 @@ p {
         border: 1px solid rgba(255,255,255,0.1);
         backdrop-filter: blur(5px);
         transition: all 0.3s ease;
+        background-color: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
 
     }
 
