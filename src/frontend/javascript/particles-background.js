@@ -7,48 +7,127 @@ function initParticlesBackground() {
   canvas.style.height = '100vh';
   canvas.style.zIndex = '-1';
   canvas.style.opacity = '0.5';
+  canvas.style.pointerEvents = 'none';
   document.body.prepend(canvas);
 
   const ctx = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+
+  const config = {
+    particleDensity: 0.00015,
+    baseSpeed: 0.3,
+    maxSize: 3,
+    minSize: 1,
+    lineMaxDistance: 150,
+    color: 'rgba(100, 149, 237, 0.8)',
+    lineColor: 'rgba(100, 149, 237, 0.3)'
+  };
+
+
+  const screenArea = width * height;
+  const particleCount = Math.min(
+    Math.max(
+      Math.floor(screenArea * config.particleDensity),
+      30
+    ),
+    150
+  );
 
   const particles = [];
-  const particleCount = window.innerWidth < 768 ? 30 : 80;
 
   for (let i = 0; i < particleCount; i++) {
     particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 3 + 1,
-      speedX: Math.random() * 1 - 0.5,
-      speedY: Math.random() * 1 - 0.5
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() * (config.maxSize - config.minSize) + config.minSize,
+      speedX: (Math.random() * 2 - 1) * config.baseSpeed,
+      speedY: (Math.random() * 2 - 1) * config.baseSpeed,
+      originalSpeedX: 0,
+      originalSpeedY: 0
     });
+
+
+    particles[i].originalSpeedX = particles[i].speedX;
+    particles[i].originalSpeedY = particles[i].speedY;
   }
 
+
+  let mouseX = null;
+  let mouseY = null;
+  const mouseRadius = 150;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('mouseout', () => {
+    mouseX = null;
+    mouseY = null;
+  });
+
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, width, height);
 
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
+
+      if (mouseX !== null && mouseY !== null) {
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < mouseRadius) {
+          const force = (mouseRadius - distance) / mouseRadius;
+          const angle = Math.atan2(dy, dx);
+
+          p.speedX = p.originalSpeedX - Math.cos(angle) * force * 2;
+          p.speedY = p.originalSpeedY - Math.sin(angle) * force * 2;
+        } else {
+
+          p.speedX += (p.originalSpeedX - p.speedX) * 0.05;
+          p.speedY += (p.originalSpeedY - p.speedY) * 0.05;
+        }
+      }
+
       p.x += p.speedX;
       p.y += p.speedY;
 
-      if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-      if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      if (p.x < 0) {
+        p.x = 0;
+        p.speedX *= -1;
+      } else if (p.x > width) {
+        p.x = width;
+        p.speedX *= -1;
+      }
 
-      ctx.fillStyle = 'rgba(100, 149, 237, 0.8)';
+      if (p.y < 0) {
+        p.y = 0;
+        p.speedY *= -1;
+      } else if (p.y > height) {
+        p.y = height;
+        p.speedY *= -1;
+      }
+
+      ctx.fillStyle = config.color;
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
       ctx.fill();
 
       for (let j = i + 1; j < particles.length; j++) {
         const p2 = particles[j];
-        const distance = Math.sqrt(Math.pow(p.x - p2.x, 2) + Math.pow(p.y - p2.y, 2));
+        const dx = p.x - p2.x;
+        const dy = p.y - p2.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 100) {
-          ctx.strokeStyle = `rgba(100, 149, 237, ${1 - distance/100})`;
+        if (distance < config.lineMaxDistance) {
+          const opacity = 1 - (distance / config.lineMaxDistance);
+          ctx.strokeStyle = `rgba(100, 149, 237, ${opacity * 0.3})`;
           ctx.lineWidth = 0.5;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
@@ -61,16 +140,41 @@ function initParticlesBackground() {
     requestAnimationFrame(animate);
   }
 
+  function handleResize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const scaleX = width / canvas.width;
+    const scaleY = height / canvas.height;
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].x *= scaleX;
+      particles[i].y *= scaleY;
+    }
+  }
+
+
+  let resizeTimeout;
   window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(handleResize, 100);
   });
 
   animate();
 }
 
-if (document.readyState === 'complete') {
-  initParticlesBackground();
+function initWhenReady() {
+  if (document.body) {
+    initParticlesBackground();
+  } else {
+    document.addEventListener('DOMContentLoaded', initParticlesBackground);
+  }
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  setTimeout(initWhenReady, 0);
 } else {
-  document.addEventListener('DOMContentLoaded', initParticlesBackground);
+  document.addEventListener('DOMContentLoaded', initWhenReady);
 }
