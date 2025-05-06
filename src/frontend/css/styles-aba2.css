@@ -538,3 +538,53 @@
 .imagens-container {
     transition: all 0.3s ease;
 }
+
+/* ==========================================================================
+   INPUTS GLOBAIS - Compactos e modernos
+   ========================================================================== */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="time"],
+input[type="search"],
+input[type="tel"] {
+    padding: 8px 12px;
+    border: 1px solid rgba(79, 70, 229, 0.3);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.04);
+    color: var(--text-color);
+    font-size: 0.95em;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(2px);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.4);
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="date"]::placeholder,
+input[type="time"]::placeholder,
+input[type="search"]::placeholder,
+input[type="tel"]::placeholder {
+    color: rgba(226, 232, 240, 0.5);
+}
+

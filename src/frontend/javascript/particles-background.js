@@ -98,21 +98,22 @@ function initParticlesBackground() {
       p.x += p.speedX;
       p.y += p.speedY;
 
-      if (p.x < 0) {
-        p.x = 0;
-        p.speedX *= -1;
-      } else if (p.x > width) {
-        p.x = width;
-        p.speedX *= -1;
+      if (p.x - p.size < 0) {
+      p.x = p.size;
+      p.speedX *= -1;
+      }else if (p.x + p.size > width) {
+      p.x = width - p.size;
+      p.speedX *= -1;
+     }
+
+      if (p.y - p.size < 0) {
+      p.y = p.size;
+      p.speedY *= -1;
+      } else if (p.y + p.size > height) {
+      p.y = height - p.size;
+      p.speedY *= -1;
       }
 
-      if (p.y < 0) {
-        p.y = 0;
-        p.speedY *= -1;
-      } else if (p.y > height) {
-        p.y = height;
-        p.speedY *= -1;
-      }
 
       ctx.fillStyle = config.color;
       ctx.beginPath();

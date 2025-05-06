@@ -1,36 +1,29 @@
 function mostrarAba(abaId) {
-
     const abas = document.querySelectorAll('.tab-content');
     abas.forEach(aba => {
         aba.style.display = 'none';
     });
-
 
     const abaSelecionada = document.getElementById(abaId);
     if (abaSelecionada) {
         abaSelecionada.style.display = 'block';
     }
 
-
     if (abaId === 'financeiro') {
         atualizarGrafico();
-    }
-
-
-    if (abaId === 'historico') {
+    } else if (abaId === 'historico') {
         atualizarHistorico();
     }
 }
 
-
 function calcular(event) {
     if (event) event.preventDefault();
 
-    const altura = parseFloat(document.getElementById('altura').value);
-    const largura = parseFloat(document.getElementById('largura').value);
-    const comprimento = parseFloat(document.getElementById('comprimento').value);
+    const altura = parseFloat(document.getElementById('altura')?.value);
+    const largura = parseFloat(document.getElementById('largura')?.value);
+    const comprimento = parseFloat(document.getElementById('comprimento')?.value);
 
-    if (isNaN(altura) || isNaN(largura) || isNaN(comprimento)) {
+    if ([altura, largura, comprimento].some(val => isNaN(val))) {
         alert("Por favor, insira todos os valores corretamente.");
         return;
     }
@@ -50,12 +43,11 @@ function calcular(event) {
     salvarNoHistorico(metragemCubica, sache, pastilha, comprimido);
 }
 
-
 function calcularArea(event) {
     if (event) event.preventDefault();
 
-    const largura = parseFloat(document.getElementById('larguraArea').value);
-    const comprimento = parseFloat(document.getElementById('comprimentoArea').value);
+    const largura = parseFloat(document.getElementById('larguraArea')?.value);
+    const comprimento = parseFloat(document.getElementById('comprimentoArea')?.value);
 
     if (isNaN(largura) || isNaN(comprimento) || largura <= 0 || comprimento <= 0) {
         alert("Por favor, insira valores positivos para largura e comprimento.");
@@ -66,13 +58,12 @@ function calcularArea(event) {
     document.getElementById('resultadoArea').innerHTML = `Área: ${area.toFixed(2)} m²`;
 }
 
-
 function calcularFumigacaoSilo(event) {
     if (event) event.preventDefault();
 
-    const diametro = parseFloat(document.getElementById('diametroSilo').value);
-    const altura = parseFloat(document.getElementById('alturaSilo').value);
-    const tipoMaterial = document.getElementById('tipoMaterial').value;
+    const diametro = parseFloat(document.getElementById('diametroSilo')?.value);
+    const altura = parseFloat(document.getElementById('alturaSilo')?.value);
+    const tipoMaterial = document.getElementById('tipoMaterial')?.value;
 
     if (isNaN(diametro) || isNaN(altura)) {
         alert("Por favor, insira todos os valores corretamente.");
@@ -83,29 +74,14 @@ function calcularFumigacaoSilo(event) {
     const volume = Math.PI * Math.pow(raio, 2) * altura;
 
     let dosagemPorM3;
-    let tempoExposicao;
+    let tempoExposicao = "10 dias";
 
     switch (tipoMaterial) {
-        case 'milho':
-            dosagemPorM3 = 4;
-            tempoExposicao = "10 dias";
-            break;
-        case 'soja':
-            dosagemPorM3 = 5;
-            tempoExposicao = "10 dias";
-            break;
-        case 'arroz':
-            dosagemPorM3 = 3;
-            tempoExposicao = "10 dias";
-            break;
-        case 'amendoim':
-            dosagemPorM3 = 5;
-            tempoExposicao = "10 dias";
-            break;
-        case 'sorgo':
-            dosagemPorM3 = 4.5;
-            tempoExposicao = "10 dias";
-            break;
+        case 'milho': dosagemPorM3 = 4; break;
+        case 'soja': dosagemPorM3 = 5; break;
+        case 'arroz': dosagemPorM3 = 3; break;
+        case 'amendoim': dosagemPorM3 = 5; break;
+        case 'sorgo': dosagemPorM3 = 4.5; break;
         default:
             alert("Tipo de material não reconhecido.");
             return;
@@ -123,13 +99,13 @@ function calcularFumigacaoSilo(event) {
 
 function mostrarCampoCircunferencia() {
     const container = document.getElementById('circunferencia-container');
-    container.style.display = 'block';
+    if (container) container.style.display = 'block';
 }
 
 function calcularDiametro(event) {
     if (event) event.preventDefault();
 
-    const circunferencia = parseFloat(document.getElementById('circunferenciaSilo').value);
+    const circunferencia = parseFloat(document.getElementById('circunferenciaSilo')?.value);
     if (!isNaN(circunferencia) && circunferencia > 0) {
         const diametro = circunferencia / Math.PI;
         document.getElementById('diametroSilo').value = diametro.toFixed(2);
@@ -139,11 +115,10 @@ function calcularDiametro(event) {
     }
 }
 
-
 function converterParaCentimetros(event) {
     if (event) event.preventDefault();
 
-    const metros = parseFloat(document.getElementById('metros').value);
+    const metros = parseFloat(document.getElementById('metros')?.value);
 
     if (isNaN(metros)) {
         alert("Por favor, insira um valor em metros.");
@@ -157,7 +132,7 @@ function converterParaCentimetros(event) {
 function converterParaQuilometros(event) {
     if (event) event.preventDefault();
 
-    const metros = parseFloat(document.getElementById('metros').value);
+    const metros = parseFloat(document.getElementById('metros')?.value);
 
     if (isNaN(metros)) {
         alert("Por favor, insira um valor em metros.");
@@ -171,7 +146,7 @@ function converterParaQuilometros(event) {
 function converterParaMilhas(event) {
     if (event) event.preventDefault();
 
-    const metros = parseFloat(document.getElementById('metros').value);
+    const metros = parseFloat(document.getElementById('metros')?.value);
 
     if (isNaN(metros)) {
         alert("Por favor, insira um valor em metros.");
@@ -182,19 +157,16 @@ function converterParaMilhas(event) {
     document.getElementById('resultadoConversao').innerHTML = `${metros} metros = ${milhas.toFixed(4)} milhas`;
 }
 
-
 let gastos = [];
 let graficoGastos = null;
 
 function inicializarControleFinanceiro() {
-
     try {
         gastos = JSON.parse(localStorage.getItem('gastos')) || [];
     } catch (e) {
         console.error("Erro ao carregar gastos:", e);
         gastos = [];
     }
-
 
     const formGasto = document.getElementById('form-gasto');
     if (formGasto) {
@@ -210,10 +182,10 @@ function inicializarControleFinanceiro() {
 }
 
 function adicionarGasto() {
-    const descricao = document.getElementById('descricao').value.trim();
-    const valor = parseFloat(document.getElementById('valor').value);
-    const data = document.getElementById('data').value;
-    const tipoPagamento = document.getElementById('tipo-pagamento').value;
+    const descricao = document.getElementById('descricao')?.value.trim();
+    const valor = parseFloat(document.getElementById('valor')?.value);
+    const data = document.getElementById('data')?.value;
+    const tipoPagamento = document.getElementById('tipo-pagamento')?.value;
 
     if (!descricao || isNaN(valor) || valor <= 0 || !data || !tipoPagamento) {
         alert("Por favor, preencha todos os campos corretamente.");
@@ -223,7 +195,6 @@ function adicionarGasto() {
     const gasto = { descricao, valor, data, tipoPagamento };
     gastos.push(gasto);
     localStorage.setItem('gastos', JSON.stringify(gastos));
-
 
     document.getElementById('form-gasto').reset();
 
@@ -261,19 +232,13 @@ function removerGasto(index) {
 }
 
 function atualizarResumoFinanceiro() {
-
     const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
     document.getElementById('total-gasto').textContent = totalGasto.toFixed(2);
 
-
     const gastosPorTipo = {};
     gastos.forEach(gasto => {
-        if (!gastosPorTipo[gasto.tipoPagamento]) {
-            gastosPorTipo[gasto.tipoPagamento] = 0;
-        }
-        gastosPorTipo[gasto.tipoPagamento] += gasto.valor;
+        gastosPorTipo[gasto.tipoPagamento] = (gastosPorTipo[gasto.tipoPagamento] || 0) + gasto.valor;
     });
-
 
     const listaGastosPorTipo = document.getElementById('gastos-por-tipo');
     listaGastosPorTipo.innerHTML = '';
@@ -291,23 +256,17 @@ function atualizarGrafico() {
 
     const ctx = canvas.getContext('2d');
 
-
     const tipos = {};
     gastos.forEach(gasto => {
-        if (!tipos[gasto.tipoPagamento]) {
-            tipos[gasto.tipoPagamento] = 0;
-        }
-        tipos[gasto.tipoPagamento] += gasto.valor;
+        tipos[gasto.tipoPagamento] = (tipos[gasto.tipoPagamento] || 0) + gasto.valor;
     });
 
     const labels = Object.keys(tipos);
     const data = Object.values(tipos);
 
-
     if (graficoGastos) {
         graficoGastos.destroy();
     }
-
 
     graficoGastos = new Chart(ctx, {
         type: 'doughnut',
@@ -335,7 +294,6 @@ function atualizarGrafico() {
     });
 }
 
-
 let historico = [];
 
 function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
@@ -347,19 +305,14 @@ function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
         comprimido: comprimido
     };
 
-
     try {
-        const historicoSalvo = localStorage.getItem('historicoCalculos');
-        if (historicoSalvo) {
-            historico = JSON.parse(historicoSalvo);
-        }
+        historico = JSON.parse(localStorage.getItem('historicoCalculos')) || [];
     } catch (e) {
         console.error("Erro ao carregar histórico:", e);
+        historico = [];
     }
 
-
     historico.push(calculo);
-
 
     try {
         localStorage.setItem('historicoCalculos', JSON.stringify(historico));
@@ -370,13 +323,11 @@ function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
 
 function atualizarHistorico() {
     try {
-        const historicoSalvo = localStorage.getItem('historicoCalculos');
-        historico = historicoSalvo ? JSON.parse(historicoSalvo) : [];
+        historico = JSON.parse(localStorage.getItem('historicoCalculos')) || [];
     } catch (e) {
         console.error("Erro ao carregar histórico:", e);
         historico = [];
     }
-
 
     const container = document.querySelector('.historico-container');
     if (!container) return;
@@ -403,15 +354,7 @@ function limparHistorico() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-
     mostrarAba('cubica');
-
-
     inicializarControleFinanceiro();
-
-
     atualizarHistorico();
 });
-
-
-
