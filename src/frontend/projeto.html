@@ -1,134 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+  <head>
     <title>Calculadora</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles-aba2.css">
-    <link rel="stylesheet" href="css/styles-comum.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles-aba2.css" />
+    <link rel="stylesheet" href="css/styles-comum.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
 
-</head>
+  <body>
+    <nav class="menu-lateral">
+      <ul>
+        <li onclick="window.location.href='../../index.html'">
+          <i class="fas fa-home"></i> <span>Início</span>
+        </li>
+        <li onclick="mostrarAba('cubica')">
+          <i class="fas fa-cube"></i> <span>Fumigação em Blocos</span>
+        </li>
+        <li onclick="mostrarAba('fumigacao-silo')">
+          <i class="fas fa-warehouse"></i> <span>Fumigação em Silo</span>
+        </li>
+        <li onclick="mostrarAba('area')">
+          <i class="fas fa-ruler-combined"></i> <span>Cálculo de Área</span>
+        </li>
+        <li onclick="mostrarAba('conversoes')">
+          <i class="fas fa-exchange-alt"></i> <span>Conversões</span>
+        </li>
+        <li onclick="mostrarAba('financeiro')">
+          <i class="fas fa-chart-line"></i> <span>Financeiro</span>
+        </li>
+        <li onclick="mostrarAba('teste')">
+          <i class="fas fa-flask"></i> <span>Teste</span>
+        </li>
+        <li onclick="mostrarAba('historico')">
+          <i class="fas fa-history"></i> <span>Histórico</span>
+        </li>
+      </ul>
+    </nav>
 
-<body>
-<nav class="menu-lateral">
-    <ul>
-        <li onclick="window.location.href='../../index.html'"> <i class="fas fa-home"></i> <span>Início</span></li>
-        <li onclick="mostrarAba('cubica')"> <i class="fas fa-cube"></i> <span>Fumigação em Blocos</span></li>
-        <li onclick="mostrarAba('fumigacao-silo')"> <i class="fas fa-warehouse"></i> <span>Fumigação em Silo</span></li>
-        <li onclick="mostrarAba('area')"> <i class="fas fa-ruler-combined"></i> <span>Cálculo de Área</span></li>
-        <li onclick="mostrarAba('conversoes')"> <i class="fas fa-exchange-alt"></i> <span>Conversões</span></li>
-        <li onclick="mostrarAba('financeiro')"> <i class="fas fa-chart-line"></i> <span>Financeiro</span></li>
-        <li onclick="mostrarAba('teste')"> <i class="fas fa-flask"></i> <span>Teste</span></li>
-        <li onclick="mostrarAba('historico')"> <i class="fas fa-history"></i> <span>Histórico</span></li>
-    </ul>
-</nav>
+    <div class="container">
+      <div id="inicio" style="display: none">Inicio</div>
 
-
-<div class="container">
-    <div id="inicio" style="display: none;">Inicio</div>
-
-    <div id="cubica" class="tab-content" style="display: none;">
+      <div id="cubica" class="tab-content" style="display: none">
         <h3>Fumigação em Blocos</h3>
-        <input type="number" id="altura" placeholder="Altura (m)">
-        <input type="number" id="largura" placeholder="Largura (m)">
-        <input type="number" id="comprimento" placeholder="Comprimento (m)">
+        <input type="number" id="altura" placeholder="Altura (m)" />
+        <input type="number" id="largura" placeholder="Largura (m)" />
+        <input type="number" id="comprimento" placeholder="Comprimento (m)" />
         <button class="btn" onclick="calcular(event)">Calcular</button>
         <div id="resultado" class="result"></div>
-    </div>
+      </div>
 
-    <div id="fumigacao-silo" class="tab-content" style="display: none;">
+      <div id="fumigacao-silo" class="tab-content" style="display: none">
         <h3>Fumigação em Silo</h3>
-        <input type="number" id="diametroSilo" placeholder="Diâmetro do Silo (m)">
-        <input type="number" id="alturaSilo" placeholder="Altura do Silo (m)">
+        <input
+          type="number"
+          id="diametroSilo"
+          placeholder="Diâmetro do Silo (m)"
+        />
+        <input type="number" id="alturaSilo" placeholder="Altura do Silo (m)" />
         <select id="tipoMaterial">
-            <option value="milho">Milho</option>
-            <option value="soja">Soja</option>
-            <option value="arroz">Arroz</option>
-            <option value="amendoim">Amendoim</option>
-            <option value="sorgo">Sorgo</option>
+          <option value="milho">Milho</option>
+          <option value="soja">Soja</option>
+          <option value="arroz">Arroz</option>
+          <option value="amendoim">Amendoim</option>
+          <option value="sorgo">Sorgo</option>
         </select>
-        <button class="btn" onclick="calcularFumigacaoSilo(event)">Calcular Fumigação</button>
-        <button class="btn" onclick="mostrarCampoCircunferencia()">Não sei o diâmetro</button>
+        <button class="btn" onclick="calcularFumigacaoSilo(event)">
+          Calcular Fumigação
+        </button>
+        <button class="btn" onclick="mostrarCampoCircunferencia()">
+          Não sei o diâmetro
+        </button>
 
-        <div id="circunferencia-container" style="display:none;">
-            <h4>Ou, se você não souber o diâmetro, insira a circunferência:</h4>
-            <input type="number" id="circunferenciaSilo" placeholder="Circunferência do Silo (m)">
-            <button class="btn" onclick="calcularDiametro(event)">Calcular Diâmetro</button>
+        <div id="circunferencia-container" style="display: none">
+          <h4>Ou, se você não souber o diâmetro, insira a circunferência:</h4>
+          <input
+            type="number"
+            id="circunferenciaSilo"
+            placeholder="Circunferência do Silo (m)"
+          />
+          <button class="btn" onclick="calcularDiametro(event)">
+            Calcular Diâmetro
+          </button>
         </div>
         <div id="diametro-result"></div>
         <div id="resultadoFumigacaoSilo" class="result"></div>
-    </div>
+      </div>
 
-    <div id="area" class="tab-content" style="display: none;">
+      <div id="area" class="tab-content" style="display: none">
         <h3>Cálculo de Área Quadrada</h3>
-        <input type="number" id="larguraArea" placeholder="Largura (m)" min="0">
-        <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0">
+        <input
+          type="number"
+          id="larguraArea"
+          placeholder="Largura (m)"
+          min="0"
+        />
+        <input
+          type="number"
+          id="comprimentoArea"
+          placeholder="Comprimento (m)"
+          min="0"
+        />
         <button class="btn" onclick="calcularArea(event)">Calcular Área</button>
         <div id="resultadoArea" class="result"></div>
-    </div>
+      </div>
 
-    <div id="conversoes" class="tab-content" style="display: none;">
+      <div id="conversoes" class="tab-content" style="display: none">
         <h3>Conversões de Unidade</h3>
-        <input type="number" id="metros" placeholder="Metros (m)">
-        <button class="btn" onclick="converterParaCentimetros(event)">Converter para cm</button>
-        <button class="btn" onclick="converterParaQuilometros(event)">Converter para km</button>
-        <button class="btn" onclick="converterParaMilhas(event)">Converter para milhas</button>
+        <input type="number" id="metros" placeholder="Metros (m)" />
+        <button class="btn" onclick="converterParaCentimetros(event)">
+          Converter para cm
+        </button>
+        <button class="btn" onclick="converterParaQuilometros(event)">
+          Converter para km
+        </button>
+        <button class="btn" onclick="converterParaMilhas(event)">
+          Converter para milhas
+        </button>
         <div id="resultadoConversao" class="result"></div>
-    </div>
+      </div>
 
-    <div id="financeiro" class="tab-content" style="display: none;">
+      <div id="financeiro" class="tab-content" style="display: none">
         <h3>Controle Financeiro</h3>
         <form id="form-gasto">
-            <input type="text" id="descricao" placeholder="Descrição do gasto" required>
-            <input type="number" id="valor" placeholder="Valor (R$)" step="0.01" min="0" required>
-            <input type="date" id="data" required>
-            <select id="tipo-pagamento" required>
-                <option value="credito"> Cartão de Crédito</option>
-                <option value="debito">  Cartão de Débito</option>
-                <option value="pix">     Pix</option>
-                <option value="dinheiro">Dinheiro</option>
-            </select>
-            <button type="submit" class="btn">Adicionar Gasto</button>
+          <input
+            type="text"
+            id="descricao"
+            placeholder="Descrição do gasto"
+            required
+          />
+          <input
+            type="number"
+            id="valor"
+            placeholder="Valor (R$)"
+            step="0.01"
+            min="0"
+            required
+          />
+          <input type="date" id="data" required />
+          <select id="tipo-pagamento" required>
+            <option value="credito">Cartão de Crédito</option>
+            <option value="debito">Cartão de Débito</option>
+            <option value="pix">Pix</option>
+            <option value="dinheiro">Dinheiro</option>
+          </select>
+          <button type="submit" class="btn">Adicionar Gasto</button>
         </form>
 
         <div id="lista-gastos">
-            <h4>Gastos Adicionados:</h4>
-            <table id="gastos">
-                <thead>
-                <tr>
-                    <th>Descrição</th>
-                    <th>Valor</th>
-                    <th>Tipo</th>
-                    <th>Ações</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+          <h4>Gastos Adicionados:</h4>
+          <table id="gastos">
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Tipo</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
 
         <div id="resumo-financeiro">
-            <h4>Resumo:</h4>
-            <p>Total Gasto: R$ <span id="total-gasto">0.00</span></p>
-            <p>Gasto por Tipo:</p>
-            <ul id="gastos-por-tipo"></ul>
+          <h4>Resumo:</h4>
+          <p>Total Gasto: R$ <span id="total-gasto">0.00</span></p>
+          <p>Gasto por Tipo:</p>
+          <ul id="gastos-por-tipo"></ul>
         </div>
 
         <div id="grafico-container">
-            <canvas id="graficoGastos"></canvas>
+          <canvas id="graficoGastos"></canvas>
         </div>
-    </div>
-    <section id="teste" class="aba furniture-quote-section" style="display: none;">
-
-    </section>
-    <div id="historico" class="tab-content" style="display: none;">
+      </div>
+      <section
+        id="teste"
+        class="aba furniture-quote-section"
+        style="display: none"
+      ></section>
+      <div id="historico" class="tab-content" style="display: none">
         <h3>Histórico de Cálculos</h3>
-        <button class="btn" onclick="limparHistorico()">Limpar Histórico</button>
+        <button class="btn" onclick="limparHistorico()">
+          Limpar Histórico
+        </button>
         <div class="historico-container"></div>
+      </div>
     </div>
-</div>
 
-<script src="javascript/script.js"></script>
-<script src="javascript/particles-background.js"></script>
-</body>
+    <script src="javascript/script.js"></script>
+    <script src="javascript/particles-background.js"></script>
+  </body>
 </html>
