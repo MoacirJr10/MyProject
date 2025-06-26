@@ -2,561 +2,577 @@
    1. VARIÁVEIS GLOBAIS - Definição de cores, sombras e valores de transição
    ========================================================================== */
 :root {
-    --primary-color: #4f46e5;
-    --secondary-color: #818cf8;
-    --text-color: #e0e7ff;
-    --dark-bg: #1f2937;
-    --card-bg: #2d3748;
-    --shadow-normal: 0 4px 8px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.4);
-    --transition-normal: all 0.3s ease;
-    --border-radius: 10px;
+  --primary-color: #4f46e5;
+  --secondary-color: #818cf8;
+  --text-color: #e0e7ff;
+  --dark-bg: #1f2937;
+  --card-bg: #2d3748;
+  --shadow-normal: 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-hover: 0 8px 16px rgba(0, 0, 0, 0.4);
+  --transition-normal: all 0.3s ease;
+  --border-radius: 10px;
 }
 
 /* ==========================================================================
    2. LAYOUT DE SEÇÕES - Estilos para seções de conteúdo
    ========================================================================== */
 section {
-    margin-bottom: 3rem;
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .secao-padrao {
-    padding: 60px 0;
+  padding: 60px 0;
 }
 
 .secao-alternada {
-    background-color: rgba(0, 0, 0, 0.03);
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 /* ==========================================================================
    3. TIPOGRAFIA - Estilos para títulos e textos
    ========================================================================== */
-h1, h2, h3 {
-    color: var(--primary-color);
-    transition: color 0.3s ease, transform 0.3s ease;
-    position: relative;
-    display: inline-block;
+h1,
+h2,
+h3 {
+  color: var(--primary-color);
+  transition: color 0.3s ease, transform 0.3s ease;
+  position: relative;
+  display: inline-block;
 }
 
-h1:hover, h2:hover, h3:hover {
-    color: var(--secondary-color);
-    transform: translateY(-2px);
+h1:hover,
+h2:hover,
+h3:hover {
+  color: var(--secondary-color);
+  transform: translateY(-2px);
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
 }
 
 h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 h3 {
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
 }
 
 p {
-    font-size: 1.1em;
-    line-height: 1.7;
-    margin-bottom: 15px;
-    color: var(--text-color);
+  font-size: 1.1em;
+  line-height: 1.7;
+  margin-bottom: 15px;
+  color: var(--text-color);
 }
 
 /* ==========================================================================
    4. NAVEGAÇÃO - Menu de navegação
    ========================================================================== */
 nav {
-    padding: 15px 0;
+  padding: 15px 0;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 nav ul li {
-    margin: 0 1rem;
+  margin: 0 1rem;
 }
 
 nav ul li a {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: var(--transition-normal);
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: var(--transition-normal);
 }
 
 nav ul li a:hover {
-    color: var(--primary-color);
-    background-color: rgba(255, 255, 255, 0.05);
+  color: var(--primary-color);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* ==========================================================================
    5. FOTO DE PERFIL E FLEX CONTAINER
    ========================================================================== */
 .flex-container {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    max-width: 1000px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  width: 100%;
 }
 
 .profile-image {
-    flex: 0 0 250px;
-    max-width: 400px;
+  flex: 0 0 250px;
+  max-width: 400px;
 }
 
 .profile-content {
-    flex: 1;
-    min-width: 300px;
-    line-height: 1.5;
-    color: #333;
+  flex: 1;
+  min-width: 300px;
+  line-height: 1.5;
+  color: #333;
 }
 
 .profile-content p {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .perfil-foto {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    object-fit: cover;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .perfil-foto:hover {
-    transform: scale(1.03) rotateZ(0.5deg);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.03) rotateZ(0.5deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 768px) {
-    .flex-container {
-        flex-direction: column;
-        text-align: center;
-    }
+  .flex-container {
+    flex-direction: column;
+    text-align: center;
+  }
 
-    .profile-image {
-        margin-bottom: 1.5rem;
-    }
+  .profile-image {
+    margin-bottom: 1.5rem;
+  }
 }
 
 /* ==========================================================================
    6. SEÇÃO SOBRE - Estilos específicos para a seção de biografia
    ========================================================================== */
 #sobre {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 40px 20px;
-    text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 20px;
+  text-align: left;
 }
 
 .profile-image img {
-    width: 100%;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* ==========================================================================
    7. SEÇÃO PROJETOS - Cards e grid de projetos
    ========================================================================== */
 #projetos {
-    padding: 2rem 0;
+  padding: 2rem 0;
 }
 
 #projetos h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    position: relative;
-    padding-bottom: 0.5rem;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  position: relative;
+  padding-bottom: 0.5rem;
 }
 
 #projetos h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 3px;
-    border-radius: 2px;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 3px;
+  border-radius: 2px;
 }
 
 .projetos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    gap: 1rem;
-    padding: 0 1.5rem;
-    align-items: stretch;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1rem;
+  padding: 0 1.5rem;
+  align-items: stretch;
 }
 
 .projeto-card {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-    backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  backdrop-filter: blur(8px);
 }
 
 .projeto-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
 }
 
 .projeto-imagem {
-    width: 100%;
-    height: 150px;
-    overflow: hidden;
-    flex-shrink: 0;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .projeto-imagem img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-    opacity: 0.9;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0.9;
 }
 
 .projeto-card:hover .projeto-imagem img {
-    transform: scale(1.05);
-    opacity: 1;
+  transform: scale(1.05);
+  opacity: 1;
 }
 
 .projeto-conteudo {
-    padding: 1rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .projeto-texto {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .projeto-tecnologias {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
 }
 
 .projeto-tecnologias span {
-    background-color: rgba(79, 70, 229, 0.12);
-    color: var(--text-color);
-    padding: 0.4rem 0.9rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    border: 1px solid rgba(79, 70, 229, 0.25);
+  background-color: rgba(79, 70, 229, 0.12);
+  color: var(--text-color);
+  padding: 0.4rem 0.9rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  border: 1px solid rgba(79, 70, 229, 0.25);
 }
 
 .projeto-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    justify-content: center;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: center;
 }
 
 .projeto-links a {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
-    min-width: 100px;
-    text-align: center;
-    flex: 1;
-    max-width: 140px;
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+  padding: 0.6rem 1.2rem;
+  min-width: 100px;
+  text-align: center;
+  flex: 1;
+  max-width: 140px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .projeto-links a:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-2px);
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
 }
 
 /* ==========================================================================
    8. REDES SOCIAIS - Links de mídias sociais
    ========================================================================== */
 .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .social-link {
-    color: var(--text-color);
-    text-decoration: none;
-    font-size: 1.3em;
-    transition: var(--transition-normal);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 5px;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1.3em;
+  transition: var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 5px;
 }
 
 .social-link i {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
 .social-link:hover {
-    color: var(--primary-color);
-    transform: translateY(-3px);
+  color: var(--primary-color);
+  transform: translateY(-3px);
 }
 
 /* ==========================================================================
    9. HABILIDADES - Grid e cards de habilidades
    ========================================================================== */
 .habilidades-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    color: white;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  color: white;
 }
 
 .habilidade-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 }
 
 .habilidade-card i {
-    font-size: 2rem;
-    margin-bottom: 10px;
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
 .habilidade-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    cursor: pointer;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 /* ==========================================================================
    10. FORMAÇÃO ACADÊMICA - Timeline e conteúdo
    ========================================================================== */
 .timeline-conteudo {
-    flex: 1;
-    padding: 20px;
-    border-radius: 8px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.1);
+  flex: 1;
+  padding: 20px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .timeline-conteudo:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .formacao-cabecalho {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .formacao-cabecalho i {
-    font-size: 1.5rem;
-    color: inherit;
-    opacity: 0.8;
-    margin-right: 15px;
+  font-size: 1.5rem;
+  color: inherit;
+  opacity: 0.8;
+  margin-right: 15px;
 }
 
 .formacao-cabecalho h3 {
-    margin: 0;
-    color: inherit;
+  margin: 0;
+  color: inherit;
 }
 
 .formacao-detalhes p {
-    margin: 8px 0;
-    display: flex;
-    align-items: center;
+  margin: 8px 0;
+  display: flex;
+  align-items: center;
 }
 
 .formacao-detalhes i {
-    margin-right: 10px;
-    width: 20px;
-    text-align: center;
-    opacity: 0.7;
+  margin-right: 10px;
+  width: 20px;
+  text-align: center;
+  opacity: 0.7;
 }
 
 .instituicao {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .periodo {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
 /* ==========================================================================
    11. CURRÍCULO - Seção de currículo e botões
    ========================================================================== */
 #curriculo {
-    position: relative;
-    padding: 80px 0;
+  position: relative;
+  padding: 80px 0;
 }
 
 .curriculo-header {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
+  text-align: center;
+  margin-bottom: 50px;
+  position: relative;
 }
 
 .curriculo-titulo {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 15px;
-    position: relative;
-    display: inline-block;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
 }
 
 .curriculo-detalhe {
-    width: 80px;
-    height: 4px;
-    margin: 0 auto;
-    border-radius: 2px;
+  width: 80px;
+  height: 4px;
+  margin: 0 auto;
+  border-radius: 2px;
 }
 
 .curriculo-content {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .curriculo-texto p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: var(--text-color);
-    margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin-bottom: 15px;
 }
 
 .curriculo-dica {
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-style: italic;
 }
 
 .curriculo-actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.btn-curriculo, .btn-preview {
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    transform: translateY(0);
+.btn-curriculo,
+.btn-preview {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  transform: translateY(0);
 }
 
 .btn-curriculo {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: white;
-    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-dark)
+  );
+  color: white;
+  box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
 }
 
 .btn-preview {
-    background: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
 }
 
-.btn-curriculo:hover, .btn-preview:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+.btn-curriculo:hover,
+.btn-preview:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
 }
 
 .btn-curriculo:hover {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+  background: linear-gradient(
+    135deg,
+    var(--primary-dark),
+    var(--primary-darker)
+  );
 }
 
 .btn-preview:hover {
-    background: rgba(var(--primary-rgb), 0.1);
+  background: rgba(var(--primary-rgb), 0.1);
 }
 
-.btn-curriculo i, .btn-preview i {
-    font-size: 1.1rem;
+.btn-curriculo i,
+.btn-preview i {
+  font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
-    .curriculo-content {
-        padding: 30px 20px;
-    }
+  .curriculo-content {
+    padding: 30px 20px;
+  }
 
-    .curriculo-actions {
-        flex-direction: column;
-        gap: 15px;
-    }
+  .curriculo-actions {
+    flex-direction: column;
+    gap: 15px;
+  }
 
-    .btn-curriculo, .btn-preview {
-        width: 100%;
-        justify-content: center;
-    }
+  .btn-curriculo,
+  .btn-preview {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ==========================================================================
    12. SCROLL-TOP - Botão de rolagem para o topo
    ========================================================================== */
 .scroll-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--primary-color);
-    border: none;
-    padding: 10px;
-    border-radius: 50%;
-    color: white;
-    cursor: pointer;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary-color);
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
 }

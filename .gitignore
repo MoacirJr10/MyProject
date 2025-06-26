@@ -39,3 +39,5 @@ dist/
 
 # dataconnect generated files
 .dataconnect
+node_modules/
+.env
