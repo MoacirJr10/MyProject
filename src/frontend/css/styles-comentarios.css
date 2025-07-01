@@ -1,13 +1,13 @@
 #comentarios {
   padding: 40px 20px;
-  background-color: var(--dark-bg);
+  background-color: rgba(30, 30, 30, 0.85);
   color: var(--text-color);
-  border-top: 2px solid var(--primary-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  border-top: 2px solid rgba(100, 100, 255, 0.4);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 #comentarios h2 {
-  color: var(--primary-color);
+  color: rgba(100, 150, 255, 0.8);
   font-size: 1.8rem;
   margin-bottom: 20px;
   text-align: center;
@@ -25,15 +25,14 @@
 #comentarios input,
 #comentarios textarea {
   padding: 10px 14px;
-  background-color: var(--card-bg);
-  border: 1px solid var(--secondary-color);
+  background-color: rgba(50, 50, 50, 0.8);
+  border: 1px solid rgba(200, 200, 255, 0.2);
   border-radius: var(--border-radius);
   color: var(--text-color);
   font-size: 0.95rem;
   resize: vertical;
   transition: var(--transition-normal);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
-}
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 
 #comentarios textarea {
   min-height: 90px;
@@ -42,14 +41,14 @@
 
 #comentarios input:focus,
 #comentarios textarea:focus {
-  border-color: var(--primary-color);
+  border-color: rgba(100, 150, 255, 0.6);
   outline: none;
-  box-shadow: 0 0 0 2px var(--secondary-color);
+  box-shadow: 0 0 0 2px rgba(100, 100, 255, 0.2);
 }
 
 #comentarios button {
-  background-color: var(--primary-color);
-  color: #fff;
+  background-color: rgba(100, 150, 255, 0.85);
+  color: var(--primary-color);
   padding: 10px 16px;
   border: none;
   border-radius: var(--border-radius);
@@ -57,12 +56,12 @@
   font-size: 0.95rem;
   cursor: pointer;
   transition: var(--transition-normal);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 #comentarios button:hover {
-  background-color: var(--secondary-color);
-  box-shadow: var(--shadow-hover);
+  background-color: rgba(200, 200, 255, 0.25);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 #comments {
@@ -73,17 +72,17 @@
 }
 
 #comments p {
-  background-color: var(--card-bg);
+  background-color: rgba(50, 50, 50, 0.75);
   padding: 12px 15px;
-  border-left: 4px solid var(--primary-color);
+  border-left: 4px solid rgba(100, 150, 255, 0.4);
   border-radius: var(--border-radius);
   margin-bottom: 10px;
   color: var(--text-color);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #comments p strong {
-  color: var(--secondary-color);
+  color: rgba(200, 200, 255, 0.6);
 }
 
 @media (max-width: 600px) {
