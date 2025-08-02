@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3000/api/comments";
+const comments = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("comment-form");
@@ -11,25 +11,29 @@ document.addEventListener("DOMContentLoaded", () => {
       const message = document.getElementById("message").value.trim();
 
       if (!name || !message) {
-        alert("Preencha todos os campos.");
+        alert("Por favor, preencha todos os campos.");
         return;
       }
 
       try {
-        const res = await fetch(apiUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, message }),
-        });
 
-        if (!res.ok) throw new Error("Erro ao enviar comentário");
+        const newComment = {
+          id: Date.now(),
+          name,
+          message,
+          date: new Date().toISOString(),
+        };
+        comments.push(newComment);
+
 
         document.getElementById("name").value = "";
         document.getElementById("message").value = "";
+
+
         await loadComments();
       } catch (err) {
-        console.error(err);
-        alert("Erro ao enviar comentário.");
+        console.error("Erro ao enviar comentário:", err);
+        alert("Ocorreu um erro ao enviar o comentário. Tente novamente.");
       }
     });
 
@@ -39,18 +43,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadComments() {
   try {
-    const res = await fetch(apiUrl);
-    if (!res.ok) throw new Error("Erro ao carregar comentários");
-
-    const data = await res.json();
     const commentsDiv = document.getElementById("comments");
+    const commentList = commentsDiv.querySelector(".comment-list");
 
-    commentsDiv.innerHTML = data
-      .map((c) => `<p><strong>${c.name}</strong>: ${c.message}</p>`)
+
+    commentList.innerHTML = comments
+      .map(
+        (comment) => `
+        <article class="comment" data-id="${comment.id}">
+          <header class="comment-header">
+            <strong class="comment-author">${sanitizeInput(comment.name)}</strong>
+            <time datetime="${comment.date}">${formatDate(comment.date)}</time>
+          </header>
+          <p class="comment-body">${sanitizeInput(comment.message)}</p>
+        </article>
+      `
+      )
       .join("");
+
+
+    commentsDiv.setAttribute("aria-live", "polite");
   } catch (err) {
-    console.error(err);
-    document.getElementById("comments").innerHTML =
-      "<p>Erro ao carregar comentários.</p>";
+    console.error("Erro ao carregar comentários:", err);
+    const commentList = document.querySelector(".comment-list");
+    commentList.innerHTML = "<p>Erro ao carregar comentários.</p>";
   }
+}
+
+
+function formatDate(isoString) {
+  const date = new Date(isoString);
+  return date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+
+function sanitizeInput(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
 }

@@ -262,24 +262,48 @@
     <section id="comentarios" class="secao-padrao">
         <div class="container">
             <h2>Deixe um Comentário</h2>
-            <form id="comment-form">
-                <input
-                        type="text"
-                        id="name"
-                        placeholder="Seu nome"
-                        required
-                />
-                <textarea
-                        id="message"
-                        rows="4"
-                        placeholder="Sua mensagem"
-                        required
-                ></textarea>
-                <button type="submit">Enviar</button>
+            <form id="comment-form" aria-labelledby="comment-form-title">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Digite seu nome"
+                            required
+                            aria-required="true"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="message">Mensagem</label>
+                    <textarea
+                            id="message"
+                            name="message"
+                            rows="5"
+                            placeholder="Escreva sua mensagem"
+                            required
+                            aria-required="true"
+                    ></textarea>
+                </div>
+                <button type="submit" aria-label="Enviar comentário">Enviar Comentário</button>
             </form>
-            <div id="comments"></div>
+            <div id="comments" aria-live="polite">
+                <h3>Comentários</h3>
+                <div class="comment-list">
+
+                    <article class="comment">
+                        <header class="comment-header">
+                            <strong class="comment-author">Nome do Usuário</strong>
+                            <time datetime="2025-08-02T12:00:00-03:00">02/08/2025 às 12:00</time>
+                        </header>
+                        <p class="comment-body"></p>
+                    </article>
+                </div>
+            </div>
         </div>
+        <script type="module" src="backend/routes/comments.js"></script>
     </section>
+
     <section id="contato" class="secao-padrao">
         <div class="container">
             <h2>Redes Sociais</h2>
