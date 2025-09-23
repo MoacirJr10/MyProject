@@ -16,7 +16,7 @@ Back-end
 
 Node.js → Ambiente de execução server-side
 
-SQLite3 → Banco de dados leve para armazenamento local (se usado para armazenar dados de projetos ou mensagens).
+PostgreSQL → Banco de dados relacional para armazenamento de dados.
 
 Hospedagem:
 
