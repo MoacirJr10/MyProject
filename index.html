@@ -115,11 +115,19 @@
             <div class="projetos-grid">
                 <article class="projeto-card">
                     <div class="projeto-imagem">
-                        <img
-                                src="src/frontend/imagens/img.png"
-                                alt="Projeto Fumigação"
-                        />
+                        <div class="slider-container">
+                            <div class="slider">
+                                <img src="src/frontend/imagens/img2.jpeg" alt="Projeto Fumigação 1">
+                                <img src="src/frontend/imagens/img4.jpeg" alt="Projeto Fumigação 2">
+                                <img src="src/frontend/imagens/img3.jpeg" alt="Projeto Fumigação 3">
+                                <img src="src/frontend/imagens/img.png" alt="Projeto Fumigação 4">
+                            </div>
+                            <button class="prev">&#10094;</button>
+                            <button class="next">&#10095;</button>
+                        </div>
                     </div>
+
+
                     <div class="projeto-conteudo">
                         <h3>Projeto Fumigação</h3>
                         <p>
@@ -146,15 +154,21 @@
                             </a>
                         </div>
                     </div>
+
                 </article>
 
                 <article class="projeto-card">
                     <div class="projeto-imagem">
-                        <img
-                                src="src/frontend/imagens/orcamento-moveis.jpeg"
-                                alt="Projeto Orçamento Moveis"
-                        />
+                        <div class="slider-container">
+                            <div class="slider">
+                                <img src="src/frontend/imagens/orcamento-moveis.jpeg" alt="Orçamento Móveis">
+                                <img src="src/frontend/imagens/inicio.jpeg" alt="Tela Inicial">
+                            </div>
+                            <button class="prev">&#10094;</button>
+                            <button class="next">&#10095;</button>
+                        </div>
                     </div>
+
                     <div class="projeto-conteudo">
                         <h3>Projeto Orçamento de Móveis</h3>
                         <p>
@@ -163,15 +177,11 @@
                         </p>
                         <div class="projeto-tecnologias">
                             <span><i class="fab fa-java"></i> Java</span>
-                            <span
-                            ><i class="devicon-spring-plain colored"></i> Spring
-                    Boot</span
-                            >
                         </div>
                         <div class="projeto-links">
                             <a href="#" class="btn-projeto">Em Desenvolvimento</a>
                             <a
-                                    href="https://github.com/MoacirJr10/orcamento-moveis"
+                                    href="https://github.com/MoacirJr10/OrcamentoMoveisPlanejados"
                                     class="btn-projeto btn-secundario"
                             >
                                 <i class="fab fa-github"></i> GitHub</a
@@ -186,6 +196,12 @@
                         </div>
                     </div>
                 </article>
+                <!-- Modal para abrir imagens -->
+                <div id="imageModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="modalImg">
+                    <div id="caption"></div>
+                </div>
             </div>
         </div>
     </section>

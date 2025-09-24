@@ -395,3 +395,49 @@ document.addEventListener("DOMContentLoaded", function () {
   inicializarControleFinanceiro();
   atualizarHistorico();
 });
+
+/* Setas Slids cards */
+document.querySelectorAll('.projeto-card').forEach(card => {
+  const slider = card.querySelector('.slider');
+  const images = card.querySelectorAll('.slider img');
+  const prevBtn = card.querySelector('.prev');
+  const nextBtn = card.querySelector('.next');
+
+  let index = 0;
+
+  function showImage(i) {
+    index = (i + images.length) % images.length;
+    slider.style.transform = `translateX(${-index * 100}%)`;
+  }
+
+  if (prevBtn && nextBtn) {
+    prevBtn.addEventListener('click', () => showImage(index - 1));
+    nextBtn.addEventListener('click', () => showImage(index + 1));
+  }
+});
+// Modal
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+const captionText = document.getElementById("caption");
+const closeBtn = document.querySelector(".modal .close");
+
+// Ao clicar em qualquer imagem do slider, abre o modal
+document.querySelectorAll('.slider img').forEach(img => {
+  img.addEventListener('click', () => {
+    modal.style.display = "block";
+    modalImg.src = img.src;
+    captionText.textContent = img.alt;
+  });
+});
+
+// Fechar modal
+closeBtn.addEventListener('click', () => {
+  modal.style.display = "none";
+});
+
+// Fechar clicando fora da imagem
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = "none";
+  }
+});
