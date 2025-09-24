@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/comments";
+const comments = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("comment-form");
@@ -16,20 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name, message }),
-        });
 
-        if (!response.ok) {
-          throw new Error("Falha ao enviar comentário");
-        }
+        const newComment = {
+          id: Date.now(),
+          name,
+          message,
+          date: new Date().toISOString(),
+        };
+        comments.push(newComment);
+
 
         document.getElementById("name").value = "";
         document.getElementById("message").value = "";
+
 
         await loadComments();
       } catch (err) {
@@ -44,32 +43,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadComments() {
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-      throw new Error("Falha ao carregar comentários");
-    }
-    const comments = await response.json();
-
     const commentsDiv = document.getElementById("comments");
     const commentList = commentsDiv.querySelector(".comment-list");
 
-    if (comments.length === 0) {
-      commentList.innerHTML = "<p>Ainda não há comentários. Seja o primeiro a comentar!</p>";
-    } else {
-      commentList.innerHTML = comments
-        .map(
-          (comment) => `
+
+    commentList.innerHTML = comments
+      .map(
+        (comment) => `
         <article class="comment" data-id="${comment.id}">
           <header class="comment-header">
             <strong class="comment-author">${sanitizeInput(comment.name)}</strong>
-            <time datetime="${comment.created_at}">${formatDate(comment.created_at)}</time>
+            <time datetime="${comment.date}">${formatDate(comment.date)}</time>
           </header>
           <p class="comment-body">${sanitizeInput(comment.message)}</p>
         </article>
       `
-        )
-        .join("");
-    }
+      )
+      .join("");
+
 
     commentsDiv.setAttribute("aria-live", "polite");
   } catch (err) {

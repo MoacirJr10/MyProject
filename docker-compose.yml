@@ -3,7 +3,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: comentarios_db
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: 60242221
       POSTGRES_DB: commentsdb
     volumes:
       - pgdata:/var/lib/postgresql/data
