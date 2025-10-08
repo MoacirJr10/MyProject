@@ -2,14 +2,14 @@
   "name": "comments-backend",
   "version": "1.0.0",
   "type": "module",
+  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "db:init": "node database.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.6.1",
-    "express": "^4.21.2",
-    "sqlite3": "^5.1.7"
+    "express": "^4.18.2",
+    "sqlite": "^5.0.1",
+    "sqlite3": "^5.1.6"
   }
 }
