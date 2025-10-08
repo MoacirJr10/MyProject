@@ -35,18 +35,17 @@ function initParticlesBackground() {
   const particles = [];
 
   for (let i = 0; i < particleCount; i++) {
+    const speedX = (Math.random() * 2 - 1) * config.baseSpeed;
+    const speedY = (Math.random() * 2 - 1) * config.baseSpeed;
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
       size: Math.random() * (config.maxSize - config.minSize) + config.minSize,
-      speedX: (Math.random() * 2 - 1) * config.baseSpeed,
-      speedY: (Math.random() * 2 - 1) * config.baseSpeed,
-      originalSpeedX: 0,
-      originalSpeedY: 0,
+      speedX: speedX,
+      speedY: speedY,
+      originalSpeedX: speedX,
+      originalSpeedY: speedY,
     });
-
-    particles[i].originalSpeedX = particles[i].speedX;
-    particles[i].originalSpeedY = particles[i].speedY;
   }
 
   let mouseX = null;
@@ -69,40 +68,42 @@ function initParticlesBackground() {
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
 
-      if (mouseX !== null && mouseY !== null) {
-        const dx = mouseX - p.x;
-        const dy = mouseY - p.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+      const dxMouse = mouseX - p.x;
+      const dyMouse = mouseY - p.y;
+      const mouseDistance = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
 
-        if (distance < mouseRadius) {
-          const force = (mouseRadius - distance) / mouseRadius;
-          const angle = Math.atan2(dy, dx);
+      if (mouseX !== null && mouseY !== null && mouseDistance < mouseRadius) {
+        const force = (mouseRadius - mouseDistance) / mouseRadius;
+        const angle = Math.atan2(dyMouse, dxMouse);
 
-          p.speedX = p.originalSpeedX - Math.cos(angle) * force * 2;
-          p.speedY = p.originalSpeedY - Math.sin(angle) * force * 2;
-        } else {
-          p.speedX += (p.originalSpeedX - p.speedX) * 0.05;
-          p.speedY += (p.originalSpeedY - p.speedY) * 0.05;
-        }
+        p.speedX = p.originalSpeedX - Math.cos(angle) * force * 2;
+        p.speedY = p.originalSpeedY - Math.sin(angle) * force * 2;
+      } else {
+        p.speedX += (p.originalSpeedX - p.speedX) * 0.05;
+        p.speedY += (p.originalSpeedY - p.speedY) * 0.05;
       }
 
       p.x += p.speedX;
       p.y += p.speedY;
 
-      if (p.x - p.size < 0) {
-        p.x = p.size;
+      if (p.x < p.size) {
         p.speedX *= -1;
-      } else if (p.x + p.size > width) {
-        p.x = width - p.size;
+        p.originalSpeedX *= -1;
+        p.x = p.size + (p.size - p.x);
+      } else if (p.x > width - p.size) {
         p.speedX *= -1;
+        p.originalSpeedX *= -1;
+        p.x = width - p.size - (p.x - (width - p.size));
       }
 
-      if (p.y - p.size < 0) {
-        p.y = p.size;
+      if (p.y < p.size) {
         p.speedY *= -1;
-      } else if (p.y + p.size > height) {
-        p.y = height - p.size;
+        p.originalSpeedY *= -1;
+        p.y = p.size + (p.size - p.y);
+      } else if (p.y > height - p.size) {
         p.speedY *= -1;
+        p.originalSpeedY *= -1;
+        p.y = height - p.size - (p.y - (height - p.size));
       }
 
       ctx.fillStyle = config.color;
@@ -132,13 +133,15 @@ function initParticlesBackground() {
   }
 
   function handleResize() {
+    const oldWidth = width;
+    const oldHeight = height;
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
 
-    const scaleX = width / canvas.width;
-    const scaleY = height / canvas.height;
+    const scaleX = width / oldWidth;
+    const scaleY = height / oldHeight;
 
     for (let i = 0; i < particles.length; i++) {
       particles[i].x *= scaleX;
