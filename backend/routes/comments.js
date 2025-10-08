@@ -1,49 +1,72 @@
-import express from "express";
-import pool from "../db.js";
+import express from 'express';
+import db from '../db.js';
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+// GET all comments (hierarchically)
+router.get('/', async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM comments ORDER BY created_at DESC");
-    res.json(result.rows);
+    const comments = await db.all('SELECT * FROM comments ORDER BY created_at DESC');
+    
+    const commentsById = {};
+    comments.forEach(comment => {
+      commentsById[comment.id] = { ...comment, replies: [] };
+    });
+
+    const nestedComments = [];
+    comments.forEach(comment => {
+      if (comment.parent_id) {
+        const parent = commentsById[comment.parent_id];
+        if (parent) {
+          parent.replies.push(commentsById[comment.id]);
+        }
+      } else {
+        nestedComments.push(commentsById[comment.id]);
+      }
+    });
+
+    res.json(nestedComments);
   } catch (err) {
-    console.error("Erro ao buscar comentários:", err);
-    res.status(500).json({ error: "Erro ao buscar comentários" });
+    console.error('Erro ao buscar comentários:', err);
+    res.status(500).json({ error: 'Erro ao buscar comentários' });
   }
 });
 
-router.post("/", async (req, res) => {
+// POST a new comment or reply
+router.post('/', async (req, res) => {
   try {
-    const { name, message } = req.body;
+    const { name, message, parent_id = null } = req.body;
     if (!name || !message) {
-      return res.status(400).json({ error: "Nome e mensagem são obrigatórios" });
+      return res.status(400).json({ error: 'Nome e mensagem são obrigatórios' });
     }
 
-    const result = await pool.query(
-      "INSERT INTO comments (name, message) VALUES ($1, $2) RETURNING *",
-      [name, message]
+    const result = await db.run(
+      'INSERT INTO comments (name, message, parent_id) VALUES (?, ?, ?)',
+      [name, message, parent_id]
     );
-    res.json(result.rows[0]);
+
+    const newComment = await db.get('SELECT * FROM comments WHERE id = ?', result.lastID);
+    res.status(201).json(newComment);
   } catch (err) {
-    console.error("Erro ao adicionar comentário:", err);
-    res.status(500).json({ error: "Erro ao adicionar comentário" });
+    console.error('Erro ao adicionar comentário:', err);
+    res.status(500).json({ error: 'Erro ao adicionar comentário' });
   }
 });
 
-router.delete("/:id", async (req, res) => {
+// DELETE a comment
+router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await pool.query("DELETE FROM comments WHERE id = $1", [id]);
+    const result = await db.run('DELETE FROM comments WHERE id = ?', id);
 
-    if (result.rowCount === 0) {
-      return res.status(404).json({ error: "Comentário não encontrado" });
+    if (result.changes === 0) {
+      return res.status(404).json({ error: 'Comentário não encontrado' });
     }
 
-    res.json({ message: `Comentário com ID ${id} removido com sucesso.` });
+    res.json({ message: `Comentário com ID ${id} e suas respostas foram removidos.` });
   } catch (err) {
-    console.error("Erro ao deletar comentário:", err);
-    res.status(500).json({ error: "Erro ao deletar comentário" });
+    console.error('Erro ao deletar comentário:', err);
+    res.status(500).json({ error: 'Erro ao deletar comentário' });
   }
 });
 

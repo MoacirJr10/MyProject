@@ -1,13 +1,22 @@
-import { Pool } from "pg";
-import dotenv from "dotenv";
-dotenv.config();
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: 5432,
+// open the database file
+const db = await open({
+  filename: './comments.db',
+  driver: sqlite3.Database
 });
 
-export default pool;
+// create the comments table if it doesn't exist
+await db.exec(`
+  CREATE TABLE IF NOT EXISTS comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    parent_id INTEGER,
+    FOREIGN KEY (parent_id) REFERENCES comments(id) ON DELETE CASCADE
+  )
+`);
+
+export default db;
