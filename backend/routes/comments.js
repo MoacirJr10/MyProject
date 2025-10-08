@@ -1,25 +1,10 @@
 import express from 'express';
 import pool from '../db.js';
-import jwt from 'jsonwebtoken'; // Importar jwt para o middleware
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const router = express.Router();
-
-// Middleware para verificar JWT (copiado do server.js para ser self-contained)
-const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
-
-  if (token == null) return res.status(401).json({ error: 'Token não fornecido' });
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: 'Token inválido ou expirado' });
-    req.user = user; // Adiciona as informações do usuário (incluindo isAdmin) à requisição
-    next();
-  });
-};
 
 // Rota para buscar todos os comentários (de forma hierárquica)
 router.get('/', async (req, res) => {
@@ -72,11 +57,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Rota para deletar um comentário (agora protegida por JWT e verificação de administrador)
-router.delete('/:id', authenticateToken, async (req, res) => {
+// Rota para deletar um comentário (agora com verificação de token de administrador via header)
+router.delete('/:id', async (req, res) => {
   try {
-    if (!req.user.isAdmin) {
-      return res.status(403).json({ error: 'Acesso negado. Apenas administradores podem deletar comentários.' });
+    const adminToken = req.headers['x-admin-token'];
+    if (!adminToken || adminToken !== process.env.ADMIN_TOKEN) {
+      return res.status(403).json({ error: 'Acesso negado. Token de administrador inválido.' });
     }
 
     const { id } = req.params;

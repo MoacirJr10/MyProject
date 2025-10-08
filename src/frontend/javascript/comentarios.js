@@ -1,96 +1,11 @@
-const BACKEND_BASE_URL = "https://myproject-8k82.onrender.com"; // ATUALIZE ESTA URL QUANDO FIZER O DEPLOY DO BACKEND!
-const COMMENTS_API_URL = `${BACKEND_BASE_URL}/api/comments`;
-const AUTH_API_URL = `${BACKEND_BASE_URL}/api/auth/google`;
+const BACKEND_URL = "http://localhost:3000/api/comments"; // ATUALIZE ESTA URL QUANDO FIZER O DEPLOY DO BACKEND!
 
 let replyingToId = null;
 let replyingToName = null;
 
-// Variáveis para o estado de autenticação
-let currentUser = null; // { token, isAdmin, name, email }
-
-// Função global para lidar com a resposta do Google Sign-In
-window.handleCredentialResponse = async (response) => {
-  if (response.credential) {
-    try {
-      const res = await fetch(AUTH_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id_token: response.credential }),
-      });
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-
-      const data = await res.json();
-      currentUser = data; // Armazena as informações do usuário
-      localStorage.setItem("userToken", data.token);
-      localStorage.setItem("isAdmin", data.isAdmin);
-      localStorage.setItem("userName", data.name);
-      localStorage.setItem("userEmail", data.email);
-
-      updateUIOnLogin();
-      loadComments(); // Recarrega comentários para atualizar botões de exclusão
-    } catch (error) {
-      console.error("Erro ao autenticar com o backend:", error);
-      alert("Falha na autenticação. Tente novamente.");
-    }
-  }
-};
-
-function logout() {
-  currentUser = null;
-  localStorage.removeItem("userToken");
-  localStorage.removeItem("isAdmin");
-  localStorage.removeItem("userName");
-  localStorage.removeItem("userEmail");
-  updateUIOnLogout();
-  loadComments(); // Recarrega comentários para remover botões de exclusão
-}
-
-function updateUIOnLogin() {
-  document.getElementById("g_id_signin").style.display = "none";
-  document.getElementById("logout-button").style.display = "inline-block";
-  document.getElementById("user-info").textContent = `Logado como: ${currentUser.name} (${currentUser.email})`;
-  document.getElementById("user-info").style.display = "block";
-  // Preenche o campo de nome do formulário se o usuário estiver logado
-  document.getElementById("name").value = currentUser.name;
-  document.getElementById("name").readOnly = true; // Torna o campo somente leitura
-}
-
-function updateUIOnLogout() {
-  document.getElementById("g_id_signin").style.display = "block";
-  document.getElementById("logout-button").style.display = "none";
-  document.getElementById("user-info").style.display = "none";
-  document.getElementById("user-info").textContent = "";
-  document.getElementById("name").value = "";
-  document.getElementById("name").readOnly = false;
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("comment-form");
   const cancelReplyButton = document.getElementById("cancel-reply");
-  const logoutButton = document.getElementById("logout-button");
-
-  // Tenta carregar o estado do usuário do localStorage
-  const storedToken = localStorage.getItem("userToken");
-  const storedIsAdmin = localStorage.getItem("isAdmin") === "true"; // Converte para booleano
-  const storedUserName = localStorage.getItem("userName");
-  const storedUserEmail = localStorage.getItem("userEmail");
-
-  if (storedToken && storedUserName && storedUserEmail) {
-    currentUser = {
-      token: storedToken,
-      isAdmin: storedIsAdmin,
-      name: storedUserName,
-      email: storedUserEmail,
-    };
-    updateUIOnLogin();
-  } else {
-    updateUIOnLogout();
-  }
 
   if (form) {
     form.addEventListener("submit", async (e) => {
@@ -114,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
           commentData.parent_id = replyingToId;
         }
 
-        const response = await fetch(COMMENTS_API_URL, {
+        const response = await fetch(BACKEND_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -126,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        document.getElementById("name").value = currentUser ? currentUser.name : "";
+        document.getElementById("name").value = "";
         document.getElementById("message").value = "";
         resetReplyState();
         loadComments();
@@ -137,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     cancelReplyButton.addEventListener("click", resetReplyState);
-    logoutButton.addEventListener("click", logout);
 
     loadComments();
   }
@@ -148,7 +62,7 @@ async function loadComments() {
     const commentsDiv = document.getElementById("comments");
     const commentList = commentsDiv.querySelector(".comment-list");
 
-    const response = await fetch(COMMENTS_API_URL);
+    const response = await fetch(BACKEND_URL);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -183,9 +97,7 @@ function renderComment(comment) {
     repliesHtml = repliesContainer.outerHTML;
   }
 
-  const deleteButtonHtml = (currentUser && currentUser.isAdmin)
-    ? `<button type="button" class="delete-button" data-id="${comment.id}">Apagar</button>`
-    : "";
+  const deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}">Apagar</button>`;
 
   commentArticle.innerHTML = `
     <header class="comment-header">
@@ -208,28 +120,28 @@ function renderComment(comment) {
     document.getElementById("message").focus();
   });
 
-  // Adiciona listener para o botão de apagar APENAS se ele existir
   const deleteButton = commentArticle.querySelector(".delete-button");
   if (deleteButton) {
     deleteButton.addEventListener("click", async (e) => {
       const commentId = e.target.dataset.id;
+      const adminToken = prompt("Para apagar, insira o token de administrador:");
 
-      if (!currentUser || !currentUser.isAdmin || !currentUser.token) {
-        alert("Você não tem permissão para apagar comentários.");
+      if (!adminToken) {
+        alert("Exclusão cancelada. Token não fornecido.");
         return;
       }
 
       if (confirm("Tem certeza que deseja apagar este comentário e todas as suas respostas?")) {
         try {
-          const response = await fetch(`${COMMENTS_API_URL}/${commentId}`, {
+          const response = await fetch(`${BACKEND_URL}/${commentId}`, {
             method: "DELETE",
             headers: {
-              "Authorization": `Bearer ${currentUser.token}`, // Envia o JWT
+              "X-Admin-Token": adminToken,
             },
           });
 
           if (response.status === 403) {
-            alert("Acesso negado. Você não é o administrador.");
+            alert("Acesso negado. Token de administrador inválido.");
             return;
           }
 
