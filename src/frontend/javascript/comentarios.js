@@ -12,15 +12,23 @@ function handleCredentialResponse(response) {
     try {
         const payload = JSON.parse(atob(response.credential.split('.')[1]));
 
-        // Preenche nome e foto
+        // Preenche nome
         document.getElementById("user-name").textContent = payload.name;
-        document.getElementById("user-avatar").src = payload.picture; // Pega a foto do Google
+
+        // Preenche foto (com fallback se não tiver)
+        const avatarImg = document.getElementById("user-avatar");
+        if (payload.picture) {
+            avatarImg.src = payload.picture;
+        } else {
+            // Ícone genérico se não tiver foto
+            avatarImg.src = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+        }
 
         document.getElementById("name").value = payload.name;
         document.getElementById("name").readOnly = true;
 
         document.getElementById("google-login-container").style.display = "none";
-        document.getElementById("user-info").style.display = "flex"; // Mostra a área com foto
+        document.getElementById("user-info").style.display = "flex";
 
         loadComments();
     } catch (e) {
@@ -32,7 +40,7 @@ function logout() {
     userToken = null;
     document.getElementById("name").value = "";
     document.getElementById("name").readOnly = false;
-    document.getElementById("user-avatar").src = ""; // Limpa a foto
+    document.getElementById("user-avatar").src = "";
 
     document.getElementById("google-login-container").style.display = "flex";
     document.getElementById("user-info").style.display = "none";
