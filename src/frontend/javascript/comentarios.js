@@ -1,5 +1,5 @@
-// URL do Cloudflare Tunnel (Atualizado em 07/02/2026 - 00:25)
-const BACKEND_URL = "https://circuit-affiliate-entertainment-been.trycloudflare.com/api/comments";
+// URL do Cloudflare Tunnel (Atualizado em 07/02/2026 - 00:29)
+const BACKEND_URL = "https://trio-amp-studios-tone.trycloudflare.com/api/comments";
 
 let replyingToId = null;
 let replyingToName = null;
