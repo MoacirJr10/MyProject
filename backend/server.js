@@ -22,12 +22,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 function createTable() {
+    // Adicionamos created_at se não existir
     db.run(`CREATE TABLE IF NOT EXISTS comments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         message TEXT NOT NULL,
         parent_id INTEGER,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        created_at TEXT,
         FOREIGN KEY(parent_id) REFERENCES comments(id)
     )`);
 }
@@ -85,8 +86,11 @@ app.post('/api/comments', (req, res) => {
         return;
     }
 
-    const sql = `INSERT INTO comments (name, message, parent_id) VALUES (?, ?, ?)`;
-    const params = [name, message, parent_id || null];
+    // CORREÇÃO DE DATA: Gera a data ISO (UTC) no momento da requisição
+    const createdAt = new Date().toISOString();
+
+    const sql = `INSERT INTO comments (name, message, parent_id, created_at) VALUES (?, ?, ?, ?)`;
+    const params = [name, message, parent_id || null, createdAt];
 
     db.run(sql, params, function(err) {
         if (err) {
@@ -98,7 +102,7 @@ app.post('/api/comments', (req, res) => {
             name,
             message,
             parent_id,
-            created_at: new Date()
+            created_at: createdAt // Retorna a mesma data exata que salvou
         });
     });
 });
