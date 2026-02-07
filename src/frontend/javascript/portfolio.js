@@ -25,12 +25,10 @@ function inicializarSliders() {
     if (prevBtn && nextBtn) {
       prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation(); // Impede que o clique feche/abra o card
         showImage(index - 1);
       });
       nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        e.stopPropagation(); // Impede que o clique feche/abra o card
         showImage(index + 1);
       });
     }
@@ -48,8 +46,7 @@ function inicializarModal() {
 
   // Ao clicar em qualquer imagem do slider, abre o modal
   document.querySelectorAll('.slider img').forEach(img => {
-    img.addEventListener('click', (e) => {
-      e.stopPropagation(); // Impede que o clique feche/abra o card
+    img.addEventListener('click', () => {
       modal.style.display = "block";
       modalImg.src = img.src;
       captionText.textContent = img.alt;
