@@ -82,15 +82,10 @@
     <div id="conteudo-post">
         <p style="text-align: center;">Carregando...</p>
     </div>
-
-    <!-- Seção de Comentários (Reaproveitada) -->
-    <section id="comentarios" style="display: none;"> <!-- Oculto por padrão, ativado se necessário -->
-        <h2>Comentários</h2>
-        <!-- ... (Código de comentários omitido pois movemos para a Home, mas mantido aqui caso queira reativar por post) ... -->
-    </section>
 </main>
 
 <script src="src/frontend/javascript/theme.js"></script>
+<script src="src/frontend/javascript/lightbox.js"></script> <!-- NOVO SCRIPT -->
 <script>
     // Script para carregar o conteúdo do post
     document.addEventListener('DOMContentLoaded', async () => {
@@ -132,14 +127,11 @@
                 setTimeout(() => {
                     const codeBlocks = container.querySelectorAll('pre');
                     codeBlocks.forEach(pre => {
-                        // Se o código for maior que 200px, colapsa
                         if (pre.scrollHeight > 200) {
                             pre.classList.add('collapsed');
-
                             const btn = document.createElement('button');
                             btn.className = 'btn-expand-code';
                             btn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver código completo';
-
                             btn.onclick = () => {
                                 if (pre.classList.contains('collapsed')) {
                                     pre.classList.remove('collapsed');
@@ -147,16 +139,13 @@
                                 } else {
                                     pre.classList.add('collapsed');
                                     btn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver código completo';
-                                    // Rola suavemente de volta para o topo do código
                                     pre.scrollIntoView({ behavior: 'smooth', block: 'center' });
                                 }
                             };
-
-                            // Insere o botão logo após o <pre>
                             pre.parentNode.insertBefore(btn, pre.nextSibling);
                         }
                     });
-                }, 100); // Pequeno delay para garantir renderização
+                }, 100);
 
             } else {
                 document.getElementById('conteudo-post').innerHTML = "<p>Post não encontrado.</p>";

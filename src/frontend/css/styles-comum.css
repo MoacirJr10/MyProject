@@ -12,7 +12,7 @@
     --input-bg: #ffffff;
     --input-border: #888888;
     --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    --code-bg: #1e1e1e; /* Fundo escuro para código */
+    --code-bg: #1e1e1e;
 }
 
 /* TEMA ESCURO */
@@ -161,7 +161,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   BLOCOS DE CÓDIGO (EXPANSÍVEIS)
+   BLOCOS DE CÓDIGO
    ========================================================================== */
 pre {
     background-color: var(--code-bg);
@@ -174,13 +174,11 @@ pre {
     border: 1px solid var(--border-color);
 }
 
-/* Estado Recolhido (Padrão para códigos grandes) */
 pre.collapsed {
-    max-height: 150px; /* Altura inicial */
+    max-height: 150px;
     overflow-y: hidden;
 }
 
-/* Gradiente para indicar que tem mais conteúdo */
 pre.collapsed::after {
     content: "";
     position: absolute;
@@ -192,7 +190,6 @@ pre.collapsed::after {
     pointer-events: none;
 }
 
-/* Botão Ver Mais */
 .btn-expand-code {
     display: block;
     width: 100%;
@@ -206,7 +203,7 @@ pre.collapsed::after {
     font-weight: 600;
     cursor: pointer;
     border-radius: 0 0 8px 8px;
-    margin-top: -20px; /* Cola no pre */
+    margin-top: -20px;
     margin-bottom: 20px;
     transition: background 0.2s;
 }
@@ -215,10 +212,73 @@ pre.collapsed::after {
     background-color: var(--border-color);
 }
 
+/* ==========================================================================
+   LIGHTBOX (ZOOM NA IMAGEM)
+   ========================================================================== */
+.lightbox-modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 2000;
+    padding-top: 50px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo preto quase opaco */
+    backdrop-filter: blur(5px);
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    animation: zoomIn 0.3s;
+}
+
+@keyframes zoomIn {
+    from {transform: scale(0.8); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.lightbox-close:hover,
+.lightbox-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Cursor de zoom nas imagens de conteúdo */
+.detalhe-texto img, .card-img {
+    cursor: zoom-in;
+    transition: transform 0.2s;
+}
+
+.detalhe-texto img:hover {
+    transform: scale(1.01);
+}
+
 /* Responsivo */
 @media (max-width: 600px) {
     .header-container {
         flex-direction: column;
         gap: 15px;
+    }
+    .lightbox-content {
+        width: 100%;
     }
 }
