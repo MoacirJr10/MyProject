@@ -440,9 +440,11 @@
                 </div>
             </div>
 
-            <div id="user-info" style="display: none; text-align: center; margin-bottom: 15px; color: var(--secondary-color);">
-                Logado como: <span id="user-name"></span>
-                <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 0.8em; cursor: pointer;">Sair</button>
+            <!-- Área do Usuário Logado (Com Foto) -->
+            <div id="user-info" style="display: none; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--secondary-color);">
+                <img id="user-avatar" src="" alt="Avatar" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--primary-color);">
+                <span>Logado como: <span id="user-name" style="font-weight: bold;"></span></span>
+                <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 0.8em; cursor: pointer; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px;">Sair</button>
             </div>
 
             <form id="comment-form">

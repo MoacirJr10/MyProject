@@ -12,14 +12,16 @@ function handleCredentialResponse(response) {
     try {
         const payload = JSON.parse(atob(response.credential.split('.')[1]));
 
+        // Preenche nome e foto
         document.getElementById("user-name").textContent = payload.name;
+        document.getElementById("user-avatar").src = payload.picture; // Pega a foto do Google
+
         document.getElementById("name").value = payload.name;
         document.getElementById("name").readOnly = true;
 
         document.getElementById("google-login-container").style.display = "none";
-        document.getElementById("user-info").style.display = "block";
+        document.getElementById("user-info").style.display = "flex"; // Mostra a área com foto
 
-        // Recarrega comentários enviando o novo token para ver o que pode apagar
         loadComments();
     } catch (e) {
         console.error("Erro login:", e);
@@ -30,6 +32,7 @@ function logout() {
     userToken = null;
     document.getElementById("name").value = "";
     document.getElementById("name").readOnly = false;
+    document.getElementById("user-avatar").src = ""; // Limpa a foto
 
     document.getElementById("google-login-container").style.display = "flex";
     document.getElementById("user-info").style.display = "none";
@@ -96,7 +99,6 @@ async function loadComments() {
     const commentsDiv = document.getElementById("comments");
     const commentList = commentsDiv.querySelector(".comment-list");
 
-    // Prepara headers (se tiver token, envia)
     const headers = {};
     if (userToken) {
         headers['Authorization'] = `Bearer ${userToken}`;
@@ -146,7 +148,6 @@ function renderComment(comment) {
     repliesHtml = repliesContainer.outerHTML;
   }
 
-  // Lógica de Botão: Só mostra se o servidor disse que pode (can_delete = true)
   let deleteButtonHtml = "";
   if (comment.can_delete) {
       deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="color: #ff4444; margin-left: 10px;">Apagar</button>`;
