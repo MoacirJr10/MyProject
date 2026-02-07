@@ -1,9 +1,7 @@
 // URL do Cloudflare Tunnel
 const BACKEND_URL = "https://trio-amp-studios-tone.trycloudflare.com/api/comments";
 
-// SEU EMAIL DE ADMINISTRADOR (Para mostrar o botão de apagar em tudo)
-const ADMIN_EMAIL = "moacir.pereira@exemplo.com";
-
+// Variáveis de estado
 let replyingToId = null;
 let replyingToName = null;
 let userToken = null;
@@ -13,18 +11,23 @@ let userEmail = null;
 function handleCredentialResponse(response) {
     userToken = response.credential;
 
-    // Decodifica o token para pegar nome e email (apenas para mostrar na tela)
-    const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    userEmail = payload.email;
+    // Decodifica o token apenas para mostrar o nome na tela (Visual)
+    // A validação de segurança real acontece no Backend
+    try {
+        const payload = JSON.parse(atob(response.credential.split('.')[1]));
+        userEmail = payload.email;
 
-    document.getElementById("user-name").textContent = payload.name;
-    document.getElementById("name").value = payload.name; // Preenche o nome automaticamente
-    document.getElementById("name").readOnly = true; // Bloqueia edição do nome
+        document.getElementById("user-name").textContent = payload.name;
+        document.getElementById("name").value = payload.name;
+        document.getElementById("name").readOnly = true;
 
-    document.getElementById("google-login-container").style.display = "none";
-    document.getElementById("user-info").style.display = "block";
+        document.getElementById("google-login-container").style.display = "none";
+        document.getElementById("user-info").style.display = "block";
 
-    loadComments(); // Recarrega para mostrar botões de apagar
+        loadComments();
+    } catch (e) {
+        console.error("Erro ao processar login", e);
+    }
 }
 
 function logout() {
@@ -59,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const commentData = {
           name,
           message,
-          token: userToken // Envia o token se estiver logado
+          token: userToken // Envia o token criptografado do Google
         };
 
         if (replyingToId) {
@@ -135,14 +138,11 @@ function renderComment(comment) {
     repliesHtml = repliesContainer.outerHTML;
   }
 
-  // Lógica para mostrar o botão de apagar
+  // Lógica do Botão de Apagar
   let deleteButtonHtml = "";
 
-  // Se eu sou o Admin OU se eu sou o dono do comentário (verificado pelo backend depois)
-  // Nota: O backend faz a verificação real de segurança. Aqui é só visual.
-  // Como não recebemos o email dos outros usuários por privacidade,
-  // só mostramos o botão se estivermos logados. O backend vai barrar se não for nosso.
-
+  // Se o usuário estiver logado, mostramos o botão.
+  // Se ele clicar e não for o dono/admin, o servidor bloqueia e retorna erro.
   if (userToken) {
       deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="background-color: #ff4444; margin-left: 10px;">Apagar</button>`;
   }
@@ -178,11 +178,11 @@ function renderComment(comment) {
           const response = await fetch(`${BACKEND_URL}/${commentId}`, {
             method: "DELETE",
             headers: {
-              "Authorization": `Bearer ${userToken}` // Envia o token do Google
+              "Authorization": `Bearer ${userToken}` // Envia o token para validação no servidor
             },
           });
 
-          if (response.status === 403) {
+          if (response.status === 403 || response.status === 401) {
             alert("Você não tem permissão para apagar este comentário.");
             return;
           }
