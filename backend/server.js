@@ -9,11 +9,12 @@ const { OAuth2Client } = require('google-auth-library');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+// Limpa espaços extras e garante que as variáveis existam
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.trim() : null;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.trim() : null;
 
 if (!CLIENT_ID || !ADMIN_EMAIL) {
-    console.error("ERRO CRÍTICO: Variáveis de ambiente não configuradas.");
+    console.error("ERRO CRÍTICO: Variáveis de ambiente não configuradas corretamente no arquivo .env");
     process.exit(1);
 }
 
@@ -114,7 +115,7 @@ app.post('/api/comments', async (req, res) => {
     });
 });
 
-// DELETE (Com Logs de Debug)
+// DELETE (Com Logs Detalhados)
 app.delete('/api/comments/:id', async (req, res) => {
     const token = req.headers['authorization'];
     const id = req.params.id;
@@ -124,28 +125,33 @@ app.delete('/api/comments/:id', async (req, res) => {
     const userData = await verifyGoogleToken(token.replace("Bearer ", ""));
     if (!userData) return res.status(403).json({ error: "Token inválido." });
 
-    const userEmail = userData.email.toLowerCase(); // Força minúsculo
-    const adminEmail = ADMIN_EMAIL.toLowerCase();   // Força minúsculo
+    // Normaliza os emails para minúsculo e sem espaços
+    const userEmail = userData.email.toLowerCase().trim();
+    const adminEmail = ADMIN_EMAIL.toLowerCase().trim();
 
-    console.log(`Tentativa de apagar ID ${id} por: ${userEmail}`);
+    console.log(`--- TENTATIVA DE APAGAR ---`);
+    console.log(`ID do Comentário: ${id}`);
+    console.log(`Quem está tentando: [${userEmail}]`);
+    console.log(`Email do Admin configurado: [${adminEmail}]`);
 
     db.get(`SELECT user_email FROM comments WHERE id = ?`, [id], (err, row) => {
         if (err || !row) return res.status(404).json({ error: "Comentário não encontrado." });
 
-        const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
+        const ownerEmail = row.user_email ? row.user_email.toLowerCase().trim() : null;
+        console.log(`Dono do comentário: [${ownerEmail}]`);
 
-        console.log(`Dono do comentário: ${ownerEmail} | Admin: ${adminEmail}`);
-
+        // Verifica se é Admin OU Dono
         if (userEmail === adminEmail || userEmail === ownerEmail) {
+            console.log(">> PERMISSÃO CONCEDIDA <<");
+
             db.run(`DELETE FROM comments WHERE parent_id = ?`, id, () => {
                 db.run(`DELETE FROM comments WHERE id = ?`, id, (err) => {
                     if (err) return res.status(400).json({ error: err.message });
-                    console.log("Apagado com sucesso.");
                     res.json({ message: "Deletado." });
                 });
             });
         } else {
-            console.log("Permissão negada.");
+            console.log(">> PERMISSÃO NEGADA: Emails não batem <<");
             return res.status(403).json({ error: "Sem permissão." });
         }
     });
