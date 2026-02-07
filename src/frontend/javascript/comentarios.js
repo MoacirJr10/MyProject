@@ -20,7 +20,6 @@ function handleCredentialResponse(response) {
         if (payload.picture) {
             avatarImg.src = payload.picture;
         } else {
-            // Ícone genérico se não tiver foto
             avatarImg.src = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
         }
 
@@ -30,6 +29,7 @@ function handleCredentialResponse(response) {
         document.getElementById("google-login-container").style.display = "none";
         document.getElementById("user-info").style.display = "flex";
 
+        // Recarrega para atualizar os botões de apagar (agora que sabemos quem é o usuário)
         loadComments();
     } catch (e) {
         console.error("Erro login:", e);
@@ -45,16 +45,26 @@ function logout() {
     document.getElementById("google-login-container").style.display = "flex";
     document.getElementById("user-info").style.display = "none";
 
+    // Recarrega para remover os botões de apagar
     loadComments();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // CARREGA OS COMENTÁRIOS IMEDIATAMENTE (PÚBLICO)
+  loadComments();
+
   const form = document.getElementById("comment-form");
   const cancelReplyButton = document.getElementById("cancel-reply");
 
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // Verifica se está logado antes de deixar enviar
+      if (!userToken) {
+          alert("Por favor, faça login com o Google para comentar.");
+          return;
+      }
 
       const name = document.getElementById("name").value.trim();
       const message = document.getElementById("message").value.trim();
@@ -97,8 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     cancelReplyButton.addEventListener("click", resetReplyState);
-
-    loadComments();
   }
 });
 
@@ -124,7 +132,7 @@ async function loadComments() {
     commentList.innerHTML = "";
 
     if (comments.length === 0) {
-        commentList.innerHTML = "<p style='opacity: 0.6; font-size: 0.9rem;'>Seja o primeiro a comentar!</p>";
+        commentList.innerHTML = "<p style='opacity: 0.6; font-size: 0.9rem; text-align: center;'>Seja o primeiro a comentar!</p>";
     } else {
         comments.forEach((comment) => {
             commentList.appendChild(renderComment(comment));
@@ -136,7 +144,7 @@ async function loadComments() {
     console.error("Erro load:", err);
     const commentList = document.querySelector(".comment-list");
     if (commentList) {
-        commentList.innerHTML = "<p>Comentários indisponíveis.</p>";
+        commentList.innerHTML = "<p style='text-align: center;'>Comentários indisponíveis no momento.</p>";
     }
   }
 }
@@ -161,6 +169,9 @@ function renderComment(comment) {
       deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="color: #ff4444; margin-left: 10px;">Apagar</button>`;
   }
 
+  // Botão de responder só aparece se estiver logado?
+  // Não, pode aparecer, mas ao clicar pede login. Vamos deixar visível.
+
   commentArticle.innerHTML = `
     <header class="comment-header">
       <strong class="comment-author">${sanitizeInput(comment.name)}</strong>
@@ -175,6 +186,10 @@ function renderComment(comment) {
   `;
 
   commentArticle.querySelector(".reply-button").addEventListener("click", (e) => {
+    if (!userToken) {
+        alert("Faça login para responder.");
+        return;
+    }
     replyingToId = e.target.dataset.id;
     replyingToName = e.target.dataset.name;
     document.getElementById("reply-info").textContent = `Respondendo a: ${replyingToName}`;
