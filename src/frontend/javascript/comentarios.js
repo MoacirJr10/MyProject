@@ -1,4 +1,5 @@
-const BACKEND_URL = "http://192.168.15.14:3000/api/comments"; // IP do seu servidor Ubuntu
+// URL do Cloudflare Tunnel (Atualizado)
+const BACKEND_URL = "https://analyze-equally-souls-barry.trycloudflare.com/api/comments";
 
 let replyingToId = null;
 let replyingToName = null;
@@ -47,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loadComments();
       } catch (err) {
         console.error("Erro ao enviar comentário:", err);
-        alert("Ocorreu um erro ao enviar o comentário. Verifique se o servidor está ligado.");
+        alert("Erro ao conectar com o servidor. Verifique se o backend está online.");
       }
     });
 
@@ -79,7 +80,7 @@ async function loadComments() {
     console.error("Erro ao carregar comentários:", err);
     const commentList = document.querySelector(".comment-list");
     if (commentList) {
-        commentList.innerHTML = "<p>Não foi possível carregar os comentários (Servidor Offline).</p>";
+        commentList.innerHTML = "<p>Não foi possível carregar os comentários.</p>";
     }
   }
 }
