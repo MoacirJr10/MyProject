@@ -183,84 +183,85 @@ nav ul li a:hover {
 }
 
 /* ==========================================================================
-   7. SEÇÃO PROJETOS - Cards e grid de projetos
+   7. SEÇÃO PROJETOS - Lista Expansível
    ========================================================================== */
 #projetos {
   padding: 2rem 0;
 }
 
-#projetos h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
-#projetos h2::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70px;
-  height: 3px;
-  border-radius: 2px;
-}
-
-.projetos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 1rem;
-  padding: 0 1.5rem;
-  align-items: stretch;
-}
-
-.projeto-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--border-radius);
+.projetos-lista {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  backdrop-filter: blur(8px);
+  gap: 15px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.projeto-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+.lista-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  cursor: pointer;
+}
+
+.lista-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary-color);
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.projeto-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.projeto-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seta-expandir {
+  transition: transform 0.3s ease;
+}
+
+.lista-item:hover .seta-expandir {
+  transform: rotate(180deg);
+}
+
+.projeto-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease;
+  opacity: 0;
+}
+
+.lista-item:hover .projeto-body {
+  max-height: 800px; /* Altura suficiente para o conteúdo */
+  opacity: 1;
 }
 
 .projeto-imagem {
   width: 100%;
-  height: 150px;
+  height: 250px;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .projeto-imagem img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  opacity: 0.9;
-}
-
-.projeto-card:hover .projeto-imagem img {
-  transform: scale(1.05);
-  opacity: 1;
 }
 
 .projeto-conteudo {
-  padding: 1rem;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.projeto-texto {
-  flex-grow: 1;
+  padding: 20px;
 }
 
 .projeto-tecnologias {
@@ -305,6 +306,7 @@ nav ul li a:hover {
   background-color: var(--secondary-color);
   transform: translateY(-2px);
 }
+
 /* Slider dentro do card */
 .slider-container {
   position: relative;
@@ -324,7 +326,6 @@ nav ul li a:hover {
   height: 100%;
   object-fit: cover;
   flex-shrink: 0;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 /* Botões do slider */
@@ -341,6 +342,7 @@ nav ul li a:hover {
   font-size: 20px;
   border-radius: 50%;
   transition: background 0.3s ease;
+  z-index: 10;
 }
 
 .prev { left: 10px; }
