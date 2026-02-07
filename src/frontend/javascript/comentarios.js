@@ -1,21 +1,16 @@
 // URL do Cloudflare Tunnel
 const BACKEND_URL = "https://trio-amp-studios-tone.trycloudflare.com/api/comments";
 
-// Variáveis de estado
 let replyingToId = null;
 let replyingToName = null;
 let userToken = null;
-let userEmail = null;
 
 // Função chamada pelo Google após login
 function handleCredentialResponse(response) {
     userToken = response.credential;
 
-    // Decodifica o token apenas para mostrar o nome na tela (Visual)
-    // A validação de segurança real acontece no Backend
     try {
         const payload = JSON.parse(atob(response.credential.split('.')[1]));
-        userEmail = payload.email;
 
         document.getElementById("user-name").textContent = payload.name;
         document.getElementById("name").value = payload.name;
@@ -24,15 +19,15 @@ function handleCredentialResponse(response) {
         document.getElementById("google-login-container").style.display = "none";
         document.getElementById("user-info").style.display = "block";
 
+        // Recarrega comentários enviando o novo token para ver o que pode apagar
         loadComments();
     } catch (e) {
-        console.error("Erro ao processar login", e);
+        console.error("Erro login:", e);
     }
 }
 
 function logout() {
     userToken = null;
-    userEmail = null;
     document.getElementById("name").value = "";
     document.getElementById("name").readOnly = false;
 
@@ -62,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const commentData = {
           name,
           message,
-          token: userToken // Envia o token criptografado do Google
+          token: userToken
         };
 
         if (replyingToId) {
@@ -85,8 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
         resetReplyState();
         loadComments();
       } catch (err) {
-        console.error("Erro técnico:", err);
-        alert("Não foi possível enviar seu comentário no momento.");
+        console.error("Erro envio:", err);
+        alert("Não foi possível enviar seu comentário.");
       }
     });
 
@@ -101,24 +96,37 @@ async function loadComments() {
     const commentsDiv = document.getElementById("comments");
     const commentList = commentsDiv.querySelector(".comment-list");
 
-    const response = await fetch(BACKEND_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    // Prepara headers (se tiver token, envia)
+    const headers = {};
+    if (userToken) {
+        headers['Authorization'] = `Bearer ${userToken}`;
     }
+
+    const response = await fetch(BACKEND_URL, {
+        method: 'GET',
+        headers: headers
+    });
+
+    if (!response.ok) throw new Error("Erro API");
+
     const comments = await response.json();
 
     commentList.innerHTML = "";
 
-    comments.forEach((comment) => {
-      commentList.appendChild(renderComment(comment));
-    });
+    if (comments.length === 0) {
+        commentList.innerHTML = "<p style='opacity: 0.6; font-size: 0.9rem;'>Seja o primeiro a comentar!</p>";
+    } else {
+        comments.forEach((comment) => {
+            commentList.appendChild(renderComment(comment));
+        });
+    }
 
     commentsDiv.setAttribute("aria-live", "polite");
   } catch (err) {
-    console.error("Erro técnico ao carregar:", err);
+    console.error("Erro load:", err);
     const commentList = document.querySelector(".comment-list");
     if (commentList) {
-        commentList.innerHTML = "<p>Os comentários estão indisponíveis no momento.</p>";
+        commentList.innerHTML = "<p>Comentários indisponíveis.</p>";
     }
   }
 }
@@ -138,13 +146,10 @@ function renderComment(comment) {
     repliesHtml = repliesContainer.outerHTML;
   }
 
-  // Lógica do Botão de Apagar
+  // Lógica de Botão: Só mostra se o servidor disse que pode (can_delete = true)
   let deleteButtonHtml = "";
-
-  // Se o usuário estiver logado, mostramos o botão.
-  // Se ele clicar e não for o dono/admin, o servidor bloqueia e retorna erro.
-  if (userToken) {
-      deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="background-color: #ff4444; margin-left: 10px;">Apagar</button>`;
+  if (comment.can_delete) {
+      deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="color: #ff4444; margin-left: 10px;">Apagar</button>`;
   }
 
   commentArticle.innerHTML = `
@@ -173,28 +178,20 @@ function renderComment(comment) {
     deleteButton.addEventListener("click", async (e) => {
       const commentId = e.target.dataset.id;
 
-      if (confirm("Deseja apagar este comentário?")) {
+      if (confirm("Apagar comentário?")) {
         try {
           const response = await fetch(`${BACKEND_URL}/${commentId}`, {
             method: "DELETE",
             headers: {
-              "Authorization": `Bearer ${userToken}` // Envia o token para validação no servidor
+              "Authorization": `Bearer ${userToken}`
             },
           });
 
-          if (response.status === 403 || response.status === 401) {
-            alert("Você não tem permissão para apagar este comentário.");
-            return;
-          }
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
+          if (!response.ok) throw new Error("Erro delete");
 
           loadComments();
         } catch (err) {
-          console.error("Erro ao deletar:", err);
-          alert("Não foi possível apagar o comentário.");
+          alert("Erro ao apagar.");
         }
       }
     });

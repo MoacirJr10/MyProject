@@ -9,12 +9,12 @@ const { OAuth2Client } = require('google-auth-library');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Limpa espaços extras e garante que as variáveis existam
+// Limpa espaços extras
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.trim() : null;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.trim() : null;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.trim().toLowerCase() : null;
 
 if (!CLIENT_ID || !ADMIN_EMAIL) {
-    console.error("ERRO CRÍTICO: Variáveis de ambiente não configuradas corretamente no arquivo .env");
+    console.error("ERRO CRÍTICO: Variáveis de ambiente não configuradas corretamente.");
     process.exit(1);
 }
 
@@ -45,20 +45,32 @@ function createTable() {
 }
 
 async function verifyGoogleToken(token) {
+    if (!token) return null;
     try {
         const ticket = await client.verifyIdToken({
-            idToken: token,
+            idToken: token.replace("Bearer ", ""),
             audience: CLIENT_ID,
         });
         return ticket.getPayload();
     } catch (error) {
-        console.error("Erro Token:", error.message);
+        // Token inválido ou expirado, apenas ignora
         return null;
     }
 }
 
-// GET
-app.get('/api/comments', (req, res) => {
+// GET: Listar comentários (Agora verifica permissões)
+app.get('/api/comments', async (req, res) => {
+    // Verifica quem está pedindo a lista
+    const token = req.headers['authorization'];
+    let currentUserEmail = null;
+
+    if (token) {
+        const userData = await verifyGoogleToken(token);
+        if (userData) {
+            currentUserEmail = userData.email.toLowerCase();
+        }
+    }
+
     const sql = `SELECT * FROM comments ORDER BY created_at DESC`;
     db.all(sql, [], (err, rows) => {
         if (err) return res.status(400).json({ error: err.message });
@@ -68,7 +80,20 @@ app.get('/api/comments', (req, res) => {
 
         rows.forEach(row => {
             row.replies = [];
+
+            // Lógica de Permissão: O servidor decide quem pode apagar
+            const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
+
+            // Se for Admin OU Dono, marca como deletável
+            if (currentUserEmail && (currentUserEmail === ADMIN_EMAIL || currentUserEmail === ownerEmail)) {
+                row.can_delete = true;
+            } else {
+                row.can_delete = false;
+            }
+
+            // Remove email real por segurança antes de enviar
             delete row.user_email;
+
             commentsMap[row.id] = row;
         });
 
@@ -115,35 +140,24 @@ app.post('/api/comments', async (req, res) => {
     });
 });
 
-// DELETE (Com Logs Detalhados)
+// DELETE
 app.delete('/api/comments/:id', async (req, res) => {
     const token = req.headers['authorization'];
     const id = req.params.id;
 
     if (!token) return res.status(401).json({ error: "Login necessário." });
 
-    const userData = await verifyGoogleToken(token.replace("Bearer ", ""));
+    const userData = await verifyGoogleToken(token);
     if (!userData) return res.status(403).json({ error: "Token inválido." });
 
-    // Normaliza os emails para minúsculo e sem espaços
-    const userEmail = userData.email.toLowerCase().trim();
-    const adminEmail = ADMIN_EMAIL.toLowerCase().trim();
-
-    console.log(`--- TENTATIVA DE APAGAR ---`);
-    console.log(`ID do Comentário: ${id}`);
-    console.log(`Quem está tentando: [${userEmail}]`);
-    console.log(`Email do Admin configurado: [${adminEmail}]`);
+    const userEmail = userData.email.toLowerCase();
 
     db.get(`SELECT user_email FROM comments WHERE id = ?`, [id], (err, row) => {
         if (err || !row) return res.status(404).json({ error: "Comentário não encontrado." });
 
-        const ownerEmail = row.user_email ? row.user_email.toLowerCase().trim() : null;
-        console.log(`Dono do comentário: [${ownerEmail}]`);
+        const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
 
-        // Verifica se é Admin OU Dono
-        if (userEmail === adminEmail || userEmail === ownerEmail) {
-            console.log(">> PERMISSÃO CONCEDIDA <<");
-
+        if (userEmail === ADMIN_EMAIL || userEmail === ownerEmail) {
             db.run(`DELETE FROM comments WHERE parent_id = ?`, id, () => {
                 db.run(`DELETE FROM comments WHERE id = ?`, id, (err) => {
                     if (err) return res.status(400).json({ error: err.message });
@@ -151,7 +165,6 @@ app.delete('/api/comments/:id', async (req, res) => {
                 });
             });
         } else {
-            console.log(">> PERMISSÃO NEGADA: Emails não batem <<");
             return res.status(403).json({ error: "Sem permissão." });
         }
     });
