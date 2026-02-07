@@ -5,7 +5,9 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
+    <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         .detalhe-container {
             max-width: 800px;
@@ -80,6 +82,12 @@
     <div id="conteudo-post">
         <p style="text-align: center;">Carregando...</p>
     </div>
+
+    <!-- Seção de Comentários (Reaproveitada) -->
+    <section id="comentarios" style="display: none;"> <!-- Oculto por padrão, ativado se necessário -->
+        <h2>Comentários</h2>
+        <!-- ... (Código de comentários omitido pois movemos para a Home, mas mantido aqui caso queira reativar por post) ... -->
+    </section>
 </main>
 
 <script src="src/frontend/javascript/theme.js"></script>
@@ -95,10 +103,7 @@
         }
 
         try {
-            // Caminho absoluto para garantir que funcione
             const response = await fetch('src/data/posts.json');
-            if (!response.ok) throw new Error("Erro ao carregar JSON");
-
             const posts = await response.json();
             const post = posts.find(p => p.id === id);
 
@@ -109,7 +114,6 @@
                 if (post.github) {
                     botoesHtml += `<a href="${post.github}" target="_blank" class="btn"><i class="fab fa-github"></i> Ver no GitHub</a>`;
                 }
-                // Se tiver demo e não for o próprio link da página (loop), mostra botão
                 if (post.demo && !post.demo.includes('detalhes.html')) {
                     botoesHtml += `<a href="${post.demo}" class="btn"><i class="fas fa-play"></i> Testar App</a>`;
                 }
@@ -123,6 +127,37 @@
                     <div class="detalhe-texto">${post.conteudo || post.resumo}</div>
                     <div class="detalhe-botoes">${botoesHtml}</div>
                 `;
+
+                // --- LÓGICA DE EXPANDIR CÓDIGO ---
+                setTimeout(() => {
+                    const codeBlocks = container.querySelectorAll('pre');
+                    codeBlocks.forEach(pre => {
+                        // Se o código for maior que 200px, colapsa
+                        if (pre.scrollHeight > 200) {
+                            pre.classList.add('collapsed');
+
+                            const btn = document.createElement('button');
+                            btn.className = 'btn-expand-code';
+                            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver código completo';
+
+                            btn.onclick = () => {
+                                if (pre.classList.contains('collapsed')) {
+                                    pre.classList.remove('collapsed');
+                                    btn.innerHTML = '<i class="fas fa-chevron-up"></i> Recolher código';
+                                } else {
+                                    pre.classList.add('collapsed');
+                                    btn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver código completo';
+                                    // Rola suavemente de volta para o topo do código
+                                    pre.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
+                            };
+
+                            // Insere o botão logo após o <pre>
+                            pre.parentNode.insertBefore(btn, pre.nextSibling);
+                        }
+                    });
+                }, 100); // Pequeno delay para garantir renderização
+
             } else {
                 document.getElementById('conteudo-post').innerHTML = "<p>Post não encontrado.</p>";
             }
