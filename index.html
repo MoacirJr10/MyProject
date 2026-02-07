@@ -21,6 +21,8 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <!-- Biblioteca do Google Identity -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
@@ -420,6 +422,29 @@
     <section id="comentarios" class="secao-padrao">
         <div class="container">
             <h2>Deixe um Comentário</h2>
+
+            <!-- Botão de Login do Google -->
+            <div id="google-login-container" style="margin-bottom: 20px; display: flex; justify-content: center;">
+                <div id="g_id_onload"
+                     data-client_id="632537958246-1d68is3nfk1jis98ur4k88925p8ack4g.apps.googleusercontent.com"
+                     data-callback="handleCredentialResponse"
+                     data-auto_prompt="false">
+                </div>
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-size="large"
+                     data-theme="outline"
+                     data-text="sign_in_with"
+                     data-shape="rectangular"
+                     data-logo_alignment="left">
+                </div>
+            </div>
+
+            <div id="user-info" style="display: none; text-align: center; margin-bottom: 15px; color: var(--secondary-color);">
+                Logado como: <span id="user-name"></span>
+                <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 0.8em; cursor: pointer;">Sair</button>
+            </div>
+
             <form id="comment-form">
                 <div class="form-group">
                     <label for="name">Nome:</label>

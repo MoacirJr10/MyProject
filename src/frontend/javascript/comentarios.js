@@ -1,8 +1,43 @@
 // URL do Cloudflare Tunnel
 const BACKEND_URL = "https://trio-amp-studios-tone.trycloudflare.com/api/comments";
 
+// SEU EMAIL DE ADMINISTRADOR (Para mostrar o botão de apagar em tudo)
+const ADMIN_EMAIL = "moacir.pereira@exemplo.com";
+
 let replyingToId = null;
 let replyingToName = null;
+let userToken = null;
+let userEmail = null;
+
+// Função chamada pelo Google após login
+function handleCredentialResponse(response) {
+    userToken = response.credential;
+
+    // Decodifica o token para pegar nome e email (apenas para mostrar na tela)
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    userEmail = payload.email;
+
+    document.getElementById("user-name").textContent = payload.name;
+    document.getElementById("name").value = payload.name; // Preenche o nome automaticamente
+    document.getElementById("name").readOnly = true; // Bloqueia edição do nome
+
+    document.getElementById("google-login-container").style.display = "none";
+    document.getElementById("user-info").style.display = "block";
+
+    loadComments(); // Recarrega para mostrar botões de apagar
+}
+
+function logout() {
+    userToken = null;
+    userEmail = null;
+    document.getElementById("name").value = "";
+    document.getElementById("name").readOnly = false;
+
+    document.getElementById("google-login-container").style.display = "flex";
+    document.getElementById("user-info").style.display = "none";
+
+    loadComments();
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("comment-form");
@@ -24,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const commentData = {
           name,
           message,
+          token: userToken // Envia o token se estiver logado
         };
 
         if (replyingToId) {
@@ -42,13 +78,12 @@ document.addEventListener("DOMContentLoaded", () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        document.getElementById("name").value = "";
         document.getElementById("message").value = "";
         resetReplyState();
         loadComments();
       } catch (err) {
-        console.error("Erro técnico:", err); // Log para você (desenvolvedor) ver no console
-        alert("Não foi possível enviar seu comentário no momento. Tente novamente mais tarde.");
+        console.error("Erro técnico:", err);
+        alert("Não foi possível enviar seu comentário no momento.");
       }
     });
 
@@ -80,7 +115,6 @@ async function loadComments() {
     console.error("Erro técnico ao carregar:", err);
     const commentList = document.querySelector(".comment-list");
     if (commentList) {
-        // Mensagem amigável e discreta
         commentList.innerHTML = "<p>Os comentários estão indisponíveis no momento.</p>";
     }
   }
@@ -101,7 +135,17 @@ function renderComment(comment) {
     repliesHtml = repliesContainer.outerHTML;
   }
 
-  const deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}">Apagar</button>`;
+  // Lógica para mostrar o botão de apagar
+  let deleteButtonHtml = "";
+
+  // Se eu sou o Admin OU se eu sou o dono do comentário (verificado pelo backend depois)
+  // Nota: O backend faz a verificação real de segurança. Aqui é só visual.
+  // Como não recebemos o email dos outros usuários por privacidade,
+  // só mostramos o botão se estivermos logados. O backend vai barrar se não for nosso.
+
+  if (userToken) {
+      deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="background-color: #ff4444; margin-left: 10px;">Apagar</button>`;
+  }
 
   commentArticle.innerHTML = `
     <header class="comment-header">
@@ -128,23 +172,18 @@ function renderComment(comment) {
   if (deleteButton) {
     deleteButton.addEventListener("click", async (e) => {
       const commentId = e.target.dataset.id;
-      const adminToken = prompt("Senha de Administrador:");
 
-      if (!adminToken) {
-        return;
-      }
-
-      if (confirm("Deseja realmente apagar este comentário?")) {
+      if (confirm("Deseja apagar este comentário?")) {
         try {
           const response = await fetch(`${BACKEND_URL}/${commentId}`, {
             method: "DELETE",
             headers: {
-              "X-Admin-Token": adminToken,
+              "Authorization": `Bearer ${userToken}` // Envia o token do Google
             },
           });
 
           if (response.status === 403) {
-            alert("Senha incorreta.");
+            alert("Você não tem permissão para apagar este comentário.");
             return;
           }
 
@@ -175,6 +214,7 @@ function resetReplyState() {
 }
 
 function formatDate(isoString) {
+  if (!isoString) return "";
   const date = new Date(isoString);
   return date.toLocaleString("pt-BR", {
     day: "2-digit",
