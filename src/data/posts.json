@@ -7,7 +7,7 @@
     "data": "07 Fev 2026",
     "resumo": "Sistema completo para controle de pragas em silos com cálculos automáticos.",
     "conteudo": "<p>Este projeto foi desenvolvido para otimizar o trabalho de fumigação em silos agrícolas. Utilizando HTML, CSS e JavaScript, criei uma ferramenta que calcula automaticamente a dosagem de pastilhas e sachês baseada no volume do silo.</p><p>O sistema também conta com um módulo de histórico local para registrar as aplicações realizadas.</p>",
-    "imagem": "src/frontend/imagens/img2.jpeg",
+    "imagem": "src/frontend/imagens/fumigacao/img2.jpeg",
     "github": "https://github.com/MoacirJr10/MyProject",
     "demo": "src/frontend/projeto.html"
   },
@@ -30,7 +30,7 @@
     "data": "20 Jan 2026",
     "resumo": "Aplicação em Java para geração de orçamentos rápidos para marcenaria.",
     "conteudo": "<p>Aplicação Desktop desenvolvida em Java para auxiliar marceneiros. O sistema permite cadastrar materiais, calcular custos de produção e gerar um preço final de venda com margem de lucro configurável.</p>",
-    "imagem": "src/frontend/imagens/orcamento-moveis.jpeg",
+    "imagem": "src/frontend/imagens/java/orcamento-moveis.jpeg",
     "github": "https://github.com/MoacirJr10/OrcamentoMoveisPlanejados"
   },
   {
@@ -41,7 +41,7 @@
     "data": "15 Dez 2025",
     "resumo": "Integração de sensores e displays para visualização de dados em tempo real.",
     "conteudo": "<p>Projeto focado em IoT utilizando o microcontrolador ESP32. O objetivo foi criar uma interface visual em um display OLED de 0.96 polegadas para exibir dados coletados de sensores em tempo real.</p>",
-    "imagem": "https://cdn-icons-png.flaticon.com/512/2888/2888704.png",
+    "imagem": "src/frontend/imagens/arduino/esp32-oled.jpeg",
     "github": "https://github.com/MoacirJr10/ESP32-oled-test"
   },
   {
@@ -52,7 +52,7 @@
     "data": "10 Nov 2025",
     "resumo": "Coleta de dados ambientais utilizando sensores diversos.",
     "conteudo": "<p>Experimentos práticos de eletrônica para leitura de temperatura, umidade e luminosidade, processando os dados através de um Arduino Uno.</p>",
-    "imagem": "https://cdn-icons-png.flaticon.com/512/2888/2888704.png",
+    "imagem": "src/frontend/imagens/arduino/sensor1.jpeg",
     "github": "https://github.com/MoacirJr10/arduino_sensor"
   },
   {
@@ -63,7 +63,18 @@
     "data": "05 Out 2025",
     "resumo": "Interface homem-máquina utilizando displays de cristal líquido.",
     "conteudo": "<p>Implementação de menus e exibição de informações em displays LCD 16x2, criando uma interface amigável para projetos de automação.</p>",
-    "imagem": "https://cdn-icons-png.flaticon.com/512/2888/2888704.png",
+    "imagem": "src/frontend/imagens/arduino/lcd1.jpeg",
     "github": "https://github.com/MoacirJr10/lcd-arduino"
+  },
+  {
+    "id": 7,
+    "tipo": "projeto",
+    "categoria": "Automação Windows",
+    "titulo": "SysBot - Automação e Manutenção",
+    "data": "08 Fev 2026",
+    "resumo": "Ferramenta completa para manutenção, limpeza e diagnóstico do Windows via script.",
+    "conteudo": "<h3>🚀 O que é o SysBot?</h3><p>O SysBot é uma ferramenta poderosa organizada em módulos para facilitar a vida de técnicos e usuários avançados. Ele automatiza tarefas repetitivas e diagnósticos complexos.</p><h4>Principais Módulos:</h4><ul><li><strong>Manutenção:</strong> Windows Update, SFC e DISM.</li><li><strong>Hardware:</strong> Resumo detalhado de CPU, GPU e RAM.</li><li><strong>Rede:</strong> Testes de conectividade e velocidade.</li><li><strong>Limpeza:</strong> Remoção segura de arquivos temporários e cache.</li><li><strong>Otimização:</strong> Desfragmentação e ajustes de energia.</li></ul><h3>📸 Galeria do Projeto</h3><div style='display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-bottom:20px;'><img src='src/frontend/imagens/sysbot/sysbot2.jpeg' style='width:100%; border-radius:8px;'><img src='src/frontend/imagens/sysbot/sysbot3.jpeg' style='width:100%; border-radius:8px;'><img src='src/frontend/imagens/sysbot/sysbot4.jpeg' style='width:100%; border-radius:8px;'><img src='src/frontend/imagens/sysbot/sysbot5.jpeg' style='width:100%; border-radius:8px;'></div><h3>💻 Como Usar</h3><ol><li>Baixe os arquivos do repositório.</li><li>Clique com o botão direito em <code>run_admin.bat</code>.</li><li>Selecione 'Executar como administrador'.</li></ol><p>Compatível com Windows 10 e 11 (total) e Windows 7/8.1 (parcial).</p>",
+    "imagem": "src/frontend/imagens/sysbot/sysbot1.jpeg",
+    "github": "https://github.com/MoacirJr10/SysBot"
   }
 ]
