@@ -1,451 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <title>Moacir Pereira | Portfólio</title>
+    <title>Moacir Pereira</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
-    <link rel="stylesheet" href="src/frontend/css/styles-aba1.css"/>
-    <link rel="stylesheet" href="src/frontend/css/responsivo.css"/>
-    <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/>
-
-    <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-            rel="stylesheet"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+    <link rel="stylesheet" href="src/frontend/css/blog-style.css"/>
+    <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/> <!-- Adicionado CSS de comentários -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <!-- Biblioteca do Google Identity -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 <body>
-<nav class="nav-principal">
-    <div class="nav-container">
-        <a href="#sobre" class="nav-item"><i class="fas fa-user"></i> Sobre</a>
-        <a href="#habilidades" class="nav-item"
-        ><i class="fas fa-code"></i> Habilidades</a
-        >
-        <a href="#projetos" class="nav-item"
-        ><i class="fas fa-laptop-code"></i> Projetos</a
-        >
-        <a href="#formacao" class="nav-item"
-        ><i class="fas fa-graduation-cap"></i> Formação</a
-        >
-        <!-- Link Currículo Removido -->
-        <a href="#contato" class="nav-item"
-        ><i class="fas fa-address-book"></i> Contato</a
-        >
+
+<!-- Header Padrão -->
+<header class="main-header">
+    <div class="header-container">
+        <a href="index.html" class="logo">Moacir Pereira</a>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link active">Blog</a>
+            <a href="sobre.html" class="nav-link">Sobre</a>
+            <a href="src/frontend/projeto.html" class="nav-link">Apps</a>
+            <button id="theme-toggle" class="theme-btn" aria-label="Alternar Tema">
+                <i class="fas fa-moon"></i>
+            </button>
+        </nav>
     </div>
-</nav>
+</header>
 
-<main>
-    <section id="sobre" class="secao-padrao">
-        <div class="container">
-            <h2>Sobre Mim</h2>
-            <div class="flex-container">
-                <div class="profile-image">
-                    <img
-                            src="src/frontend/imagens/Moacir1.jpeg"
-                            alt="Moacir Pereira"
-                            class="perfil-foto"
-                    />
-                </div>
-                <div class="profile-content">
-                    <p>
-                        Olá! Sou Moacir Pereira, estudante de Engenharia de Computação.
-                    </p>
-                    <p>
-                        Atualmente estou focado no estudo da programação e de hardware,
-                        com ênfase nas linguagens HTML, CSS, JavaScript e Java. Busco
-                        constantemente aprimorar as minhas habilidades técnicas.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="habilidades" class="secao-padrao secao-alternada">
-        <div class="container">
-            <h2>As minhas Habilidades</h2>
-            <div class="habilidades-grid">
-                <div class="habilidade-card">
-                    <i class="fa-brands fa-html5 fa-2x" style="color: #e34f26"></i>
-                    <h3>HTML5</h3>
-                </div>
-                <div class="habilidade-card">
-                    <i class="fa-brands fa-css3-alt fa-2x" style="color: #2965f1"></i>
-                    <h3>CSS3</h3>
-                </div>
-                <div class="habilidade-card">
-                    <i
-                            class="fa-brands fa-square-js fa-2x"
-                            style="color: #f7df1e"
-                    ></i>
-                    <h3>JavaScript</h3>
-                </div>
-                <div class="habilidade-card">
-                    <i class="fa-brands fa-java fa-2x" style="color: #007396"></i>
-                    <h3>Java</h3>
-                </div>
-                <div class="habilidade-card">
-                    <i class="fa-brands fa-node-js fa-2x" style="color: #68a063"></i>
-                    <h3>Node.js</h3>
-                </div>
-                <div class="habilidade-card">
-                    <i class="fa-solid fa-database fa-2x" style="color: #336791"></i>
-                    <h3>PostgreSQL</h3>
-                </div>
-                <div class="habilidade-card">
-                    <i class="devicon-cplusplus-plain" style="font-size: 2em; color: #00599c;"></i>
-                    <h3>C++</h3>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- Filtros -->
+<div class="filtros">
+    <button class="btn-filtro ativo" onclick="filtrar('noticia')">Artigos</button>
+    <button class="btn-filtro" onclick="filtrar('projeto')">Projetos</button>
+</div>
 
-    <section id="projetos" class="secao-padrao">
-        <div class="container">
-            <h2>Meus Projetos</h2>
-            <div class="projetos-grid">
-
-                <!-- Projeto 1 - Fumigação -->
-                <article class="projeto-card">
-                    <div class="projeto-imagem">
-                        <div class="slider-container">
-                            <div class="slider">
-                                <img src="src/frontend/imagens/img2.jpeg" alt="Projeto Fumigação 1">
-                                <img src="src/frontend/imagens/img4.jpeg" alt="Projeto Fumigação 2">
-                                <img src="src/frontend/imagens/img3.jpeg" alt="Projeto Fumigação 3">
-                                <img src="src/frontend/imagens/img.png" alt="Projeto Fumigação 4">
-                            </div>
-                            <button class="prev">&#10094;</button>
-                            <button class="next">&#10095;</button>
-                        </div>
-                    </div>
-
-                    <div class="projeto-conteudo">
-                        <h3>Projeto Fumigação</h3>
-                        <p>
-                            Sistema desenvolvido para otimizar o trabalho de fumigação,
-                            controle de áreas tratadas e relatórios automáticos.
-                        </p>
-                        <div class="projeto-tecnologias">
-                            <span><i class="fab fa-html5"></i> HTML</span>
-                            <span><i class="fab fa-css3-alt"></i> CSS</span>
-                            <span><i class="fab fa-js"></i> JavaScript</span>
-                            <span><i class="devicon-nodejs-plain colored"></i> Node.js</span>
-                        </div>
-                        <div class="projeto-links">
-                            <a href="src/frontend/projeto.html" class="btn-projeto">Ver Detalhes</a>
-                            <a href="https://github.com/MoacirJr10/MyProject" class="btn-projeto btn-secundario">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Projeto 2 - Orçamento de Móveis -->
-                <article class="projeto-card">
-                    <div class="projeto-imagem">
-                        <div class="slider-container">
-                            <div class="slider">
-                                <img src="src/frontend/imagens/orcamento-moveis.jpeg" alt="Orçamento Móveis">
-                                <img src="src/frontend/imagens/inicio.jpeg" alt="Tela Inicial">
-                            </div>
-                            <button class="prev">&#10094;</button>
-                            <button class="next">&#10095;</button>
-                        </div>
-                    </div>
-
-                    <div class="projeto-conteudo">
-                        <h3>Projeto Orçamento de Móveis</h3>
-                        <p>
-                            Aplicação em Java para geração de orçamento de móveis
-                            planejados, continuo a desenvolver toda a estrutura.
-                        </p>
-                        <div class="projeto-tecnologias">
-                            <span><i class="fab fa-java"></i> Java</span>
-                        </div>
-                        <div class="projeto-links">
-                            <a href="#" class="btn-projeto">Em Desenvolvimento</a>
-                            <a href="https://github.com/MoacirJr10/OrcamentoMoveisPlanejados"
-                               class="btn-projeto btn-secundario">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                            <a href="https://miro.com/..." class="btn-projeto btn-secundario" target="_blank">
-                                <i class="fas fa-project-diagram"></i> Ver Fluxograma
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Projeto 3 - ESP32 OLED -->
-                <article class="projeto-card">
-                    <div class="projeto-imagem">
-                        <div class="slider-container">
-                            <div class="slider">
-                                <img src="src/frontend/arduino/esp32-oled.jpeg" alt="ESP32 OLED Test">
-                                <img src="src/frontend/arduino/esp32-oled2.jpeg" alt="ESP32 OLED Test 2">
-                            </div>
-                            <button class="prev">&#10094;</button>
-                            <button class="next">&#10095;</button>
-                        </div>
-                    </div>
-
-                    <div class="projeto-conteudo">
-                        <h3>Projeto ESP32 OLED Test</h3>
-                        <p>
-                            Projeto para testar o display OLED com ESP32 e exibição de dados dinâmicos.
-                        </p>
-                        <div class="projeto-tecnologias">
-                            <span><i class="fab fa-arduino"></i> Arduino/ESP32</span>
-                            <span><i class="fas fa-microchip"></i> IoT</span>
-                        </div>
-                        <div class="projeto-links">
-                            <a href="https://github.com/MoacirJr10/ESP32-oled-test" class="btn-projeto btn-secundario">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Projeto 4 - Arduino Sensor -->
-                <article class="projeto-card">
-                    <div class="projeto-imagem">
-                        <div class="slider-container">
-                            <div class="slider">
-                                <img src="src/frontend/arduino/sensor1.jpeg" alt="Arduino Sensor 1">
-                                <img src="src/frontend/arduino/sensor2.jpeg" alt="Arduino Sensor 2">
-                            </div>
-                            <button class="prev">&#10094;</button>
-                            <button class="next">&#10095;</button>
-                        </div>
-                    </div>
-
-                    <div class="projeto-conteudo">
-                        <h3>Projeto Arduino Sensor</h3>
-                        <p>
-                            Experimentos com sensores conectados ao Arduino para coleta de dados em tempo real.
-                        </p>
-                        <div class="projeto-tecnologias">
-                            <span><i class="fab fa-arduino"></i> Arduino</span>
-                            <span><i class="fas fa-thermometer-half"></i> Sensores</span>
-                        </div>
-                        <div class="projeto-links">
-                            <a href="https://github.com/MoacirJr10/arduino_sensor" class="btn-projeto btn-secundario">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Projeto 5 - OLED Arduino -->
-                <article class="projeto-card">
-                    <div class="projeto-imagem">
-                        <div class="slider-container">
-                            <div class="slider">
-                                <img src="src/frontend/arduino/oled1.jpeg" alt="OLED Arduino 1">
-                                <img src="src/frontend/arduino/oled2.jpeg" alt="OLED Arduino 2">
-                            </div>
-                            <button class="prev">&#10094;</button>
-                            <button class="next">&#10095;</button>
-                        </div>
-                    </div>
-
-                    <div class="projeto-conteudo">
-                        <h3>Projeto OLED Arduino</h3>
-                        <p>
-                            Projeto para exibição de informações em display OLED com Arduino.
-                        </p>
-                        <div class="projeto-tecnologias">
-                            <span><i class="fab fa-arduino"></i> Arduino</span>
-                            <span><i class="fas fa-tv"></i> Displays</span>
-                        </div>
-                        <div class="projeto-links">
-                            <a href="https://github.com/MoacirJr10/oled-arduino" class="btn-projeto btn-secundario">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Projeto 6 - LCD Arduino -->
-                <article class="projeto-card">
-                    <div class="projeto-imagem">
-                        <div class="slider-container">
-                            <div class="slider">
-                                <img src="src/frontend/arduino/lcd1.jpeg" alt="LCD Arduino 1">
-                                <img src="src/frontend/arduino/lcd2.jpeg" alt="LCD Arduino 2">
-                            </div>
-                            <button class="prev">&#10094;</button>
-                            <button class="next">&#10095;</button>
-                        </div>
-                    </div>
-
-                    <div class="projeto-conteudo">
-                        <h3>Projeto LCD Arduino</h3>
-                        <p>
-                            Projeto para controle e exibição de dados em display LCD com Arduino.
-                        </p>
-                        <div class="projeto-tecnologias">
-                            <span><i class="fab fa-arduino"></i> Arduino</span>
-                            <span><i class="fas fa-desktop"></i> Displays</span>
-                        </div>
-                        <div class="projeto-links">
-                            <a href="https://github.com/MoacirJr10/lcd-arduino" class="btn-projeto btn-secundario">
-                                <i class="fab fa-github"></i> GitHub
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Modal para abrir imagens -->
-                <div id="imageModal" class="modal">
-                    <span class="close">&times;</span>
-                    <img class="modal-content" id="modalImg">
-                    <div id="caption"></div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <section id="formacao" class="secao-padrao secao-alternada">
-        <div class="container">
-            <h2 class="titulo-secao">Formação Acadêmica</h2>
-
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marcador">
-                        <div class="timeline-ponto"></div>
-                        <div class="timeline-linha"></div>
-                    </div>
-                    <div class="timeline-conteudo">
-                        <div class="formacao-cabecalho">
-                            <i class="fas fa-graduation-cap"></i>
-                            <h3>Bacharelado em Engenharia de Computação</h3>
-                        </div>
-                        <div class="formacao-detalhes">
-                            <p class="instituicao">
-                                <i class="fas fa-university"></i> Cruzeiro Do Sul Virtual
-                            </p>
-                            <p class="periodo">
-                                <i class="fas fa-calendar-alt"></i> Previsão de conclusão:
-                                2028
-                            </p>
-                            <p class="status">
-                                <i class="fas fa-spinner"></i> Em andamento
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção Currículo Removida -->
-
-    <section id="contato" class="secao-padrao">
-        <div class="container">
-            <h2>Redes Sociais</h2>
-            <div class="contato-flex">
-                <div class="contato-info">
-                    <div class="social-links">
-                        <a
-                                href="https://www.instagram.com/moacir00/"
-                                target="_blank"
-                                class="social-link"
-                        ><i class="fab fa-instagram"></i
-                        ></a>
-                        <a
-                                href="https://www.linkedin.com/in/moacir-pereira-670b7b1a7/"
-                                target="_blank"
-                                class="social-link"
-                        ><i class="fab fa-linkedin"></i
-                        ></a>
-                        <a
-                                href="https://github.com/MoacirJr10"
-                                target="_blank"
-                                class="social-link"
-                        ><i class="fab fa-github"></i
-                        ></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção de Comentários -->
-    <section id="comentarios" class="secao-padrao">
-        <div class="container">
-            <h2>Deixe um Comentário</h2>
-
-            <!-- Botão de Login do Google -->
-            <div id="google-login-container" style="margin-bottom: 20px; display: flex; justify-content: center;">
-                <div id="g_id_onload"
-                     data-client_id="632537958246-1d68is3nfk1jis98ur4k88925p8ack4g.apps.googleusercontent.com"
-                     data-callback="handleCredentialResponse"
-                     data-auto_prompt="false">
-                </div>
-                <div class="g_id_signin"
-                     data-type="standard"
-                     data-size="large"
-                     data-theme="outline"
-                     data-text="sign_in_with"
-                     data-shape="rectangular"
-                     data-logo_alignment="left">
-                </div>
-            </div>
-
-            <!-- Área do Usuário Logado (Com Foto) -->
-            <div id="user-info" style="display: none; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--secondary-color);">
-                <!-- ADICIONADO referrerpolicy="no-referrer" -->
-                <img id="user-avatar" src="" alt="Avatar" referrerpolicy="no-referrer" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--primary-color);">
-                <span>Logado como: <span id="user-name" style="font-weight: bold;"></span></span>
-                <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 0.8em; cursor: pointer; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; border-radius: 4px;">Sair</button>
-            </div>
-
-            <form id="comment-form">
-                <div class="form-group">
-                    <label for="name">Nome:</label>
-                    <input type="text" id="name" required placeholder="Seu nome">
-                </div>
-                <div class="form-group">
-                    <label for="message">Mensagem:</label>
-                    <textarea id="message" required placeholder="Sua mensagem"></textarea>
-                </div>
-                <div id="reply-info" style="color: var(--secondary-color); margin-bottom: 10px;"></div>
-                <button type="submit" class="btn">Enviar</button>
-                <button type="button" id="cancel-reply" class="btn" style="display: none; background-color: #666;">Cancelar Resposta</button>
-            </form>
-
-            <div id="comments">
-                <h3>Comentários Recentes</h3>
-                <div class="comment-list">
-                    <!-- Comentários serão carregados aqui via JS -->
-                    <p>Carregando comentários...</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <button
-            onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="scroll-top">
-        <i class="fas fa-arrow-up"></i>
-    </button>
+<main id="feed" class="feed-container">
+    <!-- O JavaScript vai injetar os posts aqui -->
 </main>
 
-<!-- Scripts -->
-<script src="src/frontend/javascript/portfolio.js"></script>
+<!-- Seção de Comentários Globais -->
+<section id="comentarios" style="max-width: 800px; margin: 0 auto 4rem auto; padding: 0 20px;">
+    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--text-color);">Comentários</h2>
+
+    <div id="google-login-container" style="margin-bottom: 20px; display: flex; justify-content: center;">
+        <div id="g_id_onload"
+             data-client_id="632537958246-1d68is3nfk1jis98ur4k88925p8ack4g.apps.googleusercontent.com"
+             data-callback="handleCredentialResponse"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-size="large"
+             data-theme="outline"
+             data-text="sign_in_with"
+             data-shape="rectangular"
+             data-logo_alignment="left">
+        </div>
+    </div>
+
+    <div id="user-info" style="display: none; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--text-secondary);">
+        <img id="user-avatar" src="" alt="Avatar" referrerpolicy="no-referrer" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--text-color);">
+        <span>Logado como: <span id="user-name" style="font-weight: bold;"></span></span>
+        <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 0.8em; cursor: pointer; background: transparent; border: 1px solid var(--text-secondary); color: var(--text-color); border-radius: 4px;">Sair</button>
+    </div>
+
+    <form id="comment-form">
+        <input type="text" id="name" required placeholder="Seu nome" style="display:none;">
+        <textarea id="message" required placeholder="Deixe seu comentário sobre o blog..."></textarea>
+        <button type="submit" class="btn">Enviar</button>
+    </form>
+
+    <div id="comments">
+        <div class="comment-list"></div>
+    </div>
+</section>
+
+<script src="src/frontend/javascript/theme.js"></script>
+<script src="src/frontend/javascript/blog.js"></script>
 <script src="src/frontend/javascript/comentarios.js"></script>
-<script src="src/frontend/javascript/particles-background.js"></script>
 
 </body>
 </html>

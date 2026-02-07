@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>Detalhes | Moacir Pereira</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <style>
+        .detalhe-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 20px;
+        }
+        .detalhe-header {
+            margin-bottom: 2rem;
+        }
+        .detalhe-meta {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .detalhe-titulo {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin: 0 0 1.5rem 0;
+            line-height: 1.2;
+        }
+        .detalhe-img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .detalhe-texto {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            margin-bottom: 3rem;
+        }
+        .detalhe-botoes {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 2rem;
+        }
+        .btn-voltar {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .btn-voltar:hover {
+            color: var(--text-color);
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <a href="index.html" class="logo">Moacir Pereira</a>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Blog</a>
+            <a href="sobre.html" class="nav-link">Sobre</a>
+            <a href="src/frontend/projeto.html" class="nav-link">Apps</a>
+            <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+        </nav>
+    </div>
+</header>
+
+<main class="detalhe-container">
+    <a href="index.html" class="btn-voltar">← Voltar</a>
+
+    <div id="conteudo-post">
+        <p style="text-align: center;">Carregando...</p>
+    </div>
+</main>
+
+<script src="src/frontend/javascript/theme.js"></script>
+<script>
+    // Script para carregar o conteúdo do post
+    document.addEventListener('DOMContentLoaded', async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get('id'));
+
+        if (!id) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        try {
+            // Caminho absoluto para garantir que funcione
+            const response = await fetch('src/data/posts.json');
+            if (!response.ok) throw new Error("Erro ao carregar JSON");
+
+            const posts = await response.json();
+            const post = posts.find(p => p.id === id);
+
+            if (post) {
+                const container = document.getElementById('conteudo-post');
+
+                let botoesHtml = '';
+                if (post.github) {
+                    botoesHtml += `<a href="${post.github}" target="_blank" class="btn"><i class="fab fa-github"></i> Ver no GitHub</a>`;
+                }
+                // Se tiver demo e não for o próprio link da página (loop), mostra botão
+                if (post.demo && !post.demo.includes('detalhes.html')) {
+                    botoesHtml += `<a href="${post.demo}" class="btn"><i class="fas fa-play"></i> Testar App</a>`;
+                }
+
+                container.innerHTML = `
+                    <div class="detalhe-header">
+                        <div class="detalhe-meta">${post.categoria} • ${post.data}</div>
+                        <h1 class="detalhe-titulo">${post.titulo}</h1>
+                    </div>
+                    <img src="${post.imagem}" alt="${post.titulo}" class="detalhe-img">
+                    <div class="detalhe-texto">${post.conteudo || post.resumo}</div>
+                    <div class="detalhe-botoes">${botoesHtml}</div>
+                `;
+            } else {
+                document.getElementById('conteudo-post').innerHTML = "<p>Post não encontrado.</p>";
+            }
+        } catch (e) {
+            console.error(e);
+            document.getElementById('conteudo-post').innerHTML = "<p>Erro ao carregar o conteúdo.</p>";
+        }
+    });
+</script>
+
+</body>
+</html>

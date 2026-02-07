@@ -1,129 +1,58 @@
-/* ==========================================================================
-   VARIÁVEIS GLOBAIS - Definição de cores e estilos base
-   ========================================================================== */
-:root {
-    --primary-color: #4f46e5;
-    --secondary-color: #7c3aed;
-    --text-color: #e2e8f0;
-    --card-bg: rgba(15, 23, 42, 0.8);
-    --border-radius: 12px;
+/* Layout Principal */
+.app-layout {
+    display: flex;
+    min-height: calc(100vh - 70px); /* Altura total menos header */
 }
 
-/* ==========================================================================
-   MENU LATERAL - Configuração para navegação lateral
-   ========================================================================== */
+/* Menu Lateral */
 .menu-lateral {
-    position: fixed;
-    width: 70px;
-    height: 150vh;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('../imagens/fundo2.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 40px 0;
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    transition: width 0.3s ease;
-    overflow-x: hidden;
-    overflow-y: auto;
-    backdrop-filter: blur(2px);
-}
-
-.menu-lateral:hover {
-    width: 300px;
+    width: 250px;
+    background-color: var(--card-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 20px 0;
+    flex-shrink: 0;
 }
 
 .menu-lateral ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    margin: 40px 0;
+    margin: 0;
 }
 
 .menu-lateral li {
-    margin: 15px 0;
-    padding: 14px 20px;
+    padding: 15px 25px;
     cursor: pointer;
-    transition: all 0.3s;
-    border-radius: 10px;
-    color: var(--text-color);
-    font-weight: 500;
     display: flex;
     align-items: center;
-    position: relative;
-    overflow: hidden;
-    background: rgba(30, 41, 59, 0.4);
-    white-space: nowrap;
+    gap: 15px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.menu-lateral li:hover, .menu-lateral li.active {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-left: 4px solid var(--text-color);
 }
 
 .menu-lateral li i {
-    margin-right: 12px;
-    font-size: 1.2em;
-    min-width: 24px;
+    width: 20px;
     text-align: center;
 }
 
-.menu-lateral li span {
-    opacity: 0;
-    transition: opacity 0.3s ease;
+/* Área de Conteúdo */
+.app-container {
+    flex: 1;
+    padding: 40px;
+    background-color: var(--bg-color);
+    overflow-y: auto;
 }
 
-.menu-lateral:hover li span {
-    opacity: 1;
-}
-
-.menu-lateral li:before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 3px;
-    background-color: var(--primary-color);
-    transition: width 0.3s ease;
-}
-
-.menu-lateral li:hover {
-    background-color: rgba(79, 70, 229, 0.25);
-    transform: translateX(5px);
-}
-
-.menu-lateral li:hover:before {
-    width: 100%;
-}
-
-.menu-lateral li.active {
-    background-color: var(--primary-color);
-    color: white;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.5);
-}
-
-/* ==========================================================================
-   CONTAINER PRINCIPAL - Layout ajustado para menu lateral
-   ========================================================================== */
-.container {
-    margin: 0 auto;
-    margin-left: 270px;
-    padding: 30px;
-    max-width: 1200px;
-    width: calc(100% - 270px);
-    transition: all 0.3s ease;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(5px);
-    border-radius: var(--border-radius);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-
-/* ==========================================================================
-   SISTEMA DE TABS - Conteúdo de abas com animações
-   ========================================================================== */
 .tab-content {
-    display: none;
-    animation: fadeIn 0.5s ease-in-out;
-    padding: 20px;
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    max-width: 600px;
+    margin: 0 auto;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -131,460 +60,68 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-.tab-content.active {
-    display: block;
-}
-
-/* ==========================================================================
-   COMPONENTE DE RESULTADO - Para exibição de dados calculados
-   ========================================================================== */
-.result {
-    background-color: var(--card-bg);
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    border: 1px solid rgba(70, 70, 200, 0.3);
-    max-width: 450px;
-    width: 90%;
-    margin: 2rem auto;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease;
-    position: relative;
-    backdrop-filter: blur(4px);
-}
-
-.result::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(80deg, var(--primary-color), var(--secondary-color));
-}
-
-.result:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* ==========================================================================
-   GALERIA DE IMAGENS - Container e efeitos de transição
-   ========================================================================== */
-.imagens-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    margin-top: 25px;
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out, transform 0.4s ease;
-    transform: translateY(20px);
-}
-
-.imagens-container.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.imagem-result {
-    height: 120px;
-    border-radius: 12px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    object-fit: cover;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.imagem-result:hover {
-    transform: scale(1.08) rotate(1deg);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
-    border-color: var(--primary-color);
-}
-
-/* ==========================================================================
-   CALCULADORA DE FUMIGAÇÃO - Seção especializada com inputs
-   ========================================================================== */
-#fumigacao-silo .result {
-    background-color: var(--card-bg);
-    padding: 25px;
-    border-radius: 20px;
-    border: 1px solid rgba(79, 70, 229, 0.3);
-    max-width: 550px;
-    width: 95%;
-    margin: 35px auto;
-}
-
-#fumigacao-silo input {
-    margin-top: 12px;
-    padding: 12px 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(79, 70, 229, 0.3);
-    width: 90%;
-    max-width: 220px;
-    background-color: rgba(255, 255, 255, 0.05);
+h3 {
+    margin-bottom: 25px;
+    font-size: 1.5rem;
     color: var(--text-color);
-    font-size: 1em;
-    transition: all 0.3s;
-}
-
-#fumigacao-silo input:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-    outline: none;
-}
-
-#diametro-result {
-    margin-top: 15px;
-    color: var(--text-color);
-    font-size: 1.1em;
-    padding: 10px;
-    background-color: rgba(79, 70, 229, 0.1);
-    border-radius: 8px;
-    display: inline-block;
-}
-
-/* ==========================================================================
-   ITENS DE GASTOS - Layout para itens financeiros
-   ========================================================================== */
-.gasto-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    margin: 8px 0;
-    border-radius: 10px;
-    background-color: rgba(30, 41, 59, 0.4);
-    transition: all 0.3s;
-    border-left: 4px solid var(--primary-color);
-}
-
-.gasto-item:hover {
-    background-color: rgba(30, 41, 59, 0.6);
-    transform: translateX(3px);
-}
-
-.gasto-info {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.gasto-tipo {
-    font-weight: 600;
-    color: var(--secondary-color);
-}
-
-.gasto-valor {
-    font-size: 1.1em;
-}
-
-.gasto-data {
-    font-size: 0.85em;
-    opacity: 0.7;
-}
-
-.btn-remover {
-    background-color: rgba(255, 68, 68, 0.8);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.btn-remover:hover {
-    background-color: #cc0000;
-    transform: scale(1.05);
-}
-
-.btn-remover i {
-    font-size: 0.9em;
-}
-
-#gastos {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-#gastos li {
-    margin-bottom: 12px;
-}
-
-/* ==========================================================================
-   FORMULÁRIO DE GASTOS - Estilos para o formulário financeiro
-   ========================================================================== */
-#form-gasto {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: rgba(30, 41, 59, 0.4);
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#form-gasto label {
-    font-weight: 500;
-    margin-bottom: 5px;
-    display: block;
-}
-
-#form-gasto input,
-#form-gasto select {
-    padding: 12px 15px;
-    border: 1px solid rgba(79, 70, 229, 0.3);
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-color);
-    font-size: 1em;
-    transition: all 0.3s;
-}
-
-#form-gasto input:focus,
-#form-gasto select:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
-    outline: none;
-}
-
-#form-gasto button {
-    padding: 12px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.3s;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-#form-gasto button:hover {
-    background-color: var(--secondary-color);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
-}
-
-/* ==========================================================================
-   RESUMO FINANCEIRO - Área de exibição de totais e análises
-   ========================================================================== */
-#resumo-financeiro {
-    margin-top: 30px;
-    padding: 20px;
-    border-radius: 15px;
-    background-color: var(--card-bg);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#resumo-financeiro h3 {
-    margin-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.resumo-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+/* Grid de Formulários */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 
-.resumo-item:last-child {
-    border-bottom: none;
-}
-
-.resumo-total {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 2px solid rgba(255, 255, 255, 0.1);
-    font-weight: 600;
-    font-size: 1.2em;
-    color: var(--primary-color);
-}
-
-/* ==========================================================================
-   LISTA DE GASTOS POR TIPO - Componente para visualização categorizada
-   ========================================================================== */
-#gastos-por-tipo {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-#gastos-por-tipo li {
-    margin: 8px 0;
-    padding: 10px 15px;
-    border-radius: 8px;
-    background-color: rgba(30, 41, 59, 0.4);
-    display: flex;
-    justify-content: space-between;
-}
-
-#gastos-por-tipo .tipo-nome {
-    font-weight: 500;
-}
-
-#gastos-por-tipo .tipo-valor {
-    font-weight: 600;
-    color: var(--secondary-color);
-}
-/* ==========================================================================
-   AJUSTES PARA INTEGRAÇÃO COM MENU LATERAL
-   ========================================================================== */
-
-.container {
-    margin-left: 70px;
-    width: calc(100% - 70px);
-    transition: all 0.3s ease;
-}
-
-.menu-lateral:hover ~ .container,
-.container.expanded {
-    margin-left: 300px;
-    width: calc(100% - 300px);
-}
-
-
-.tab-content {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-
-#form-gasto {
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-
+/* Resultado */
 .result {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-
-.imagens-container {
-    justify-content: flex-start;
-}
-
-
-#fumigacao-silo input {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-
-.gasto-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-}
-
-.gasto-info {
-    width: 100%;
-}
-
-
-@media (max-width: 768px) {
-    .menu-lateral {
-        width: 0;
-        overflow: hidden;
-    }
-
-    .menu-lateral.active {
-        width: 250px;
-    }
-
-    .container {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px 15px;
-    }
-
-    .menu-lateral:hover ~ .container,
-    .container.expanded {
-        margin-left: 250px;
-        width: calc(100% - 250px);
-    }
-
-
-    .gasto-item {
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .imagens-container {
-        justify-content: center;
-    }
-}
-
-.container,
-.tab-content,
-.result,
-#form-gasto,
-.gasto-item,
-.imagens-container {
-    transition: all 0.3s ease;
-}
-
-/* ==========================================================================
-   INPUTS GLOBAIS - Compactos e modernos
-   ========================================================================== */
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-input[type="time"],
-input[type="search"],
-input[type="tel"] {
-    padding: 8px 12px;
-    border: 1px solid rgba(79, 70, 229, 0.3);
+    margin-top: 25px;
+    padding: 20px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.04);
     color: var(--text-color);
-    font-size: 0.95em;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    transition: all 0.3s ease, box-shadow 0.3s ease;
-    backdrop-filter: blur(2px);
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="date"]:focus,
-input[type="time"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.4);
-    outline: none;
-    background-color: rgba(255, 255, 255, 0.06);
-}
+/* Responsivo */
+@media (max-width: 768px) {
+    .app-layout {
+        flex-direction: column;
+    }
 
-input[type="text"]::placeholder,
-input[type="number"]::placeholder,
-input[type="email"]::placeholder,
-input[type="password"]::placeholder,
-input[type="date"]::placeholder,
-input[type="time"]::placeholder,
-input[type="search"]::placeholder,
-input[type="tel"]::placeholder {
-    color: rgba(226, 232, 240, 0.5);
-}
+    .menu-lateral {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        overflow-x: auto;
+    }
 
+    .menu-lateral ul {
+        display: flex;
+        padding: 10px;
+    }
+
+    .menu-lateral li {
+        padding: 10px 15px;
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        border-radius: 4px;
+    }
+
+    .menu-lateral li:hover, .menu-lateral li.active {
+        border-left: none;
+        border-bottom-color: var(--text-color);
+    }
+
+    .app-container {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}

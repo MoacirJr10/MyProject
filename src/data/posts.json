@@ -1,0 +1,69 @@
+[
+  {
+    "id": 1,
+    "tipo": "projeto",
+    "categoria": "IoT & Automação",
+    "titulo": "Sistema de Fumigação Inteligente",
+    "data": "07 Fev 2026",
+    "resumo": "Sistema completo para controle de pragas em silos com cálculos automáticos.",
+    "conteudo": "<p>Este projeto foi desenvolvido para otimizar o trabalho de fumigação em silos agrícolas. Utilizando HTML, CSS e JavaScript, criei uma ferramenta que calcula automaticamente a dosagem de pastilhas e sachês baseada no volume do silo.</p><p>O sistema também conta com um módulo de histórico local para registrar as aplicações realizadas.</p>",
+    "imagem": "src/frontend/imagens/img2.jpeg",
+    "github": "https://github.com/MoacirJr10/MyProject",
+    "demo": "src/frontend/projeto.html"
+  },
+  {
+    "id": 2,
+    "tipo": "noticia",
+    "categoria": "Servidores",
+    "titulo": "Configurando um Servidor Caseiro Seguro",
+    "data": "06 Fev 2026",
+    "resumo": "Como expor aplicações locais para a internet sem abrir portas no roteador.",
+    "conteudo": "<p>Neste artigo, explico como configurei meu Ubuntu Server utilizando o Cloudflare Tunnel. Essa tecnologia permite criar uma conexão segura (HTTPS) de fora para dentro da minha rede doméstica sem precisar mexer nas configurações de NAT do roteador.</p><p>Além disso, implementei o PM2 para gerenciamento de processos e variáveis de ambiente para segurança das credenciais.</p>",
+    "imagem": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1000&auto=format&fit=crop",
+    "github": ""
+  },
+  {
+    "id": 3,
+    "tipo": "projeto",
+    "categoria": "Java Desktop",
+    "titulo": "Orçamento de Móveis Planejados",
+    "data": "20 Jan 2026",
+    "resumo": "Aplicação em Java para geração de orçamentos rápidos para marcenaria.",
+    "conteudo": "<p>Aplicação Desktop desenvolvida em Java para auxiliar marceneiros. O sistema permite cadastrar materiais, calcular custos de produção e gerar um preço final de venda com margem de lucro configurável.</p>",
+    "imagem": "src/frontend/imagens/orcamento-moveis.jpeg",
+    "github": "https://github.com/MoacirJr10/OrcamentoMoveisPlanejados"
+  },
+  {
+    "id": 4,
+    "tipo": "projeto",
+    "categoria": "Hardware / IoT",
+    "titulo": "Monitoramento com ESP32 e OLED",
+    "data": "15 Dez 2025",
+    "resumo": "Integração de sensores e displays para visualização de dados em tempo real.",
+    "conteudo": "<p>Projeto focado em IoT utilizando o microcontrolador ESP32. O objetivo foi criar uma interface visual em um display OLED de 0.96 polegadas para exibir dados coletados de sensores em tempo real.</p>",
+    "imagem": "src/frontend/arduino/esp32-oled.jpeg",
+    "github": "https://github.com/MoacirJr10/ESP32-oled-test"
+  },
+  {
+    "id": 5,
+    "tipo": "projeto",
+    "categoria": "Arduino",
+    "titulo": "Sensores com Arduino",
+    "data": "10 Nov 2025",
+    "resumo": "Coleta de dados ambientais utilizando sensores diversos.",
+    "conteudo": "<p>Experimentos práticos de eletrônica para leitura de temperatura, umidade e luminosidade, processando os dados através de um Arduino Uno.</p>",
+    "imagem": "src/frontend/arduino/sensor1.jpeg",
+    "github": "https://github.com/MoacirJr10/arduino_sensor"
+  },
+  {
+    "id": 6,
+    "tipo": "projeto",
+    "categoria": "Displays",
+    "titulo": "Display LCD com Arduino",
+    "data": "05 Out 2025",
+    "resumo": "Interface homem-máquina utilizando displays de cristal líquido.",
+    "conteudo": "<p>Implementação de menus e exibição de informações em displays LCD 16x2, criando uma interface amigável para projetos de automação.</p>",
+    "imagem": "src/frontend/arduino/lcd1.jpeg",
+    "github": "https://github.com/MoacirJr10/lcd-arduino"
+  }
+]
