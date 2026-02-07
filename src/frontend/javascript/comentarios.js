@@ -1,4 +1,4 @@
-// URL do Cloudflare Tunnel (Atualizado em 07/02/2026 - 00:29)
+// URL do Cloudflare Tunnel
 const BACKEND_URL = "https://trio-amp-studios-tone.trycloudflare.com/api/comments";
 
 let replyingToId = null;
@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", () => {
         resetReplyState();
         loadComments();
       } catch (err) {
-        console.error("Erro ao enviar comentário:", err);
-        alert("Erro ao conectar com o servidor. Verifique se o backend está online.");
+        console.error("Erro técnico:", err); // Log para você (desenvolvedor) ver no console
+        alert("Não foi possível enviar seu comentário no momento. Tente novamente mais tarde.");
       }
     });
 
@@ -77,10 +77,11 @@ async function loadComments() {
 
     commentsDiv.setAttribute("aria-live", "polite");
   } catch (err) {
-    console.error("Erro ao carregar comentários:", err);
+    console.error("Erro técnico ao carregar:", err);
     const commentList = document.querySelector(".comment-list");
     if (commentList) {
-        commentList.innerHTML = "<p>Não foi possível carregar os comentários.</p>";
+        // Mensagem amigável e discreta
+        commentList.innerHTML = "<p>Os comentários estão indisponíveis no momento.</p>";
     }
   }
 }
@@ -127,14 +128,13 @@ function renderComment(comment) {
   if (deleteButton) {
     deleteButton.addEventListener("click", async (e) => {
       const commentId = e.target.dataset.id;
-      const adminToken = prompt("Para apagar, insira o token de administrador:");
+      const adminToken = prompt("Senha de Administrador:");
 
       if (!adminToken) {
-        alert("Exclusão cancelada. Token não fornecido.");
         return;
       }
 
-      if (confirm("Tem certeza que deseja apagar este comentário e todas as suas respostas?")) {
+      if (confirm("Deseja realmente apagar este comentário?")) {
         try {
           const response = await fetch(`${BACKEND_URL}/${commentId}`, {
             method: "DELETE",
@@ -144,7 +144,7 @@ function renderComment(comment) {
           });
 
           if (response.status === 403) {
-            alert("Acesso negado. Token de administrador inválido.");
+            alert("Senha incorreta.");
             return;
           }
 
@@ -154,8 +154,8 @@ function renderComment(comment) {
 
           loadComments();
         } catch (err) {
-          console.error("Erro ao deletar comentário:", err);
-          alert("Ocorreu um erro ao deletar o comentário. Tente novamente.");
+          console.error("Erro ao deletar:", err);
+          alert("Não foi possível apagar o comentário.");
         }
       }
     });
