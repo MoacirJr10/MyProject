@@ -1,5 +1,5 @@
-// URL do Cloudflare Tunnel
-const BACKEND_URL = "https://trio-amp-studios-tone.trycloudflare.com/api/comments";
+// URL do Cloudflare Tunnel (Atualizado em 11/02/2026)
+const BACKEND_URL = "https://vehicles-dean-remarkable-weights.trycloudflare.com/api/comments";
 
 let replyingToId = null;
 let replyingToName = null;
@@ -12,24 +12,26 @@ function handleCredentialResponse(response) {
     try {
         const payload = JSON.parse(atob(response.credential.split('.')[1]));
 
-        // Preenche nome
-        document.getElementById("user-name").textContent = payload.name;
+        const userNameEl = document.getElementById("user-name");
+        if (userNameEl) userNameEl.textContent = payload.name;
 
-        // Preenche foto (com fallback se não tiver)
         const avatarImg = document.getElementById("user-avatar");
-        if (payload.picture) {
-            avatarImg.src = payload.picture;
-        } else {
-            avatarImg.src = "https://cdn-icons-png.flaticon.com/512/847/847969.png";
+        if (avatarImg) {
+            avatarImg.src = payload.picture ? payload.picture : "https://cdn-icons-png.flaticon.com/512/847/847969.png";
         }
 
-        document.getElementById("name").value = payload.name;
-        document.getElementById("name").readOnly = true;
+        const nameInput = document.getElementById("name");
+        if (nameInput) {
+            nameInput.value = payload.name;
+            nameInput.readOnly = true;
+        }
 
-        document.getElementById("google-login-container").style.display = "none";
-        document.getElementById("user-info").style.display = "flex";
+        const loginContainer = document.getElementById("google-login-container");
+        if (loginContainer) loginContainer.style.display = "none";
 
-        // Recarrega para atualizar os botões de apagar (agora que sabemos quem é o usuário)
+        const userInfo = document.getElementById("user-info");
+        if (userInfo) userInfo.style.display = "flex";
+
         loadComments();
     } catch (e) {
         console.error("Erro login:", e);
@@ -38,19 +40,25 @@ function handleCredentialResponse(response) {
 
 function logout() {
     userToken = null;
-    document.getElementById("name").value = "";
-    document.getElementById("name").readOnly = false;
-    document.getElementById("user-avatar").src = "";
+    const nameInput = document.getElementById("name");
+    if (nameInput) {
+        nameInput.value = "";
+        nameInput.readOnly = false;
+    }
 
-    document.getElementById("google-login-container").style.display = "flex";
-    document.getElementById("user-info").style.display = "none";
+    const avatarImg = document.getElementById("user-avatar");
+    if (avatarImg) avatarImg.src = "";
 
-    // Recarrega para remover os botões de apagar
+    const loginContainer = document.getElementById("google-login-container");
+    if (loginContainer) loginContainer.style.display = "flex";
+
+    const userInfo = document.getElementById("user-info");
+    if (userInfo) userInfo.style.display = "none";
+
     loadComments();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // CARREGA OS COMENTÁRIOS IMEDIATAMENTE (PÚBLICO)
   loadComments();
 
   const form = document.getElementById("comment-form");
@@ -60,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      // Verifica se está logado antes de deixar enviar
       if (!userToken) {
           alert("Por favor, faça login com o Google para comentar.");
           return;
@@ -105,7 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Não foi possível enviar seu comentário.");
       }
     });
+  }
 
+  if (cancelReplyButton) {
     cancelReplyButton.addEventListener("click", resetReplyState);
   }
 });
@@ -113,7 +122,9 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadComments() {
   try {
     const commentsDiv = document.getElementById("comments");
-    const commentList = commentsDiv.querySelector(".comment-list");
+    const commentList = commentsDiv ? commentsDiv.querySelector(".comment-list") : null;
+
+    if (!commentList) return;
 
     const headers = {};
     if (userToken) {
@@ -139,7 +150,7 @@ async function loadComments() {
         });
     }
 
-    commentsDiv.setAttribute("aria-live", "polite");
+    if (commentsDiv) commentsDiv.setAttribute("aria-live", "polite");
   } catch (err) {
     console.error("Erro load:", err);
     const commentList = document.querySelector(".comment-list");
@@ -169,9 +180,6 @@ function renderComment(comment) {
       deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="color: #ff4444; margin-left: 10px;">Apagar</button>`;
   }
 
-  // Botão de responder só aparece se estiver logado?
-  // Não, pode aparecer, mas ao clicar pede login. Vamos deixar visível.
-
   commentArticle.innerHTML = `
     <header class="comment-header">
       <strong class="comment-author">${sanitizeInput(comment.name)}</strong>
@@ -185,17 +193,25 @@ function renderComment(comment) {
     ${repliesHtml}
   `;
 
-  commentArticle.querySelector(".reply-button").addEventListener("click", (e) => {
-    if (!userToken) {
-        alert("Faça login para responder.");
-        return;
-    }
-    replyingToId = e.target.dataset.id;
-    replyingToName = e.target.dataset.name;
-    document.getElementById("reply-info").textContent = `Respondendo a: ${replyingToName}`;
-    document.getElementById("cancel-reply").style.display = "inline-block";
-    document.getElementById("message").focus();
-  });
+  const replyBtn = commentArticle.querySelector(".reply-button");
+  if (replyBtn) {
+      replyBtn.addEventListener("click", (e) => {
+        if (!userToken) {
+            alert("Faça login para responder.");
+            return;
+        }
+        replyingToId = e.target.dataset.id;
+        replyingToName = e.target.dataset.name;
+
+        const replyInfo = document.getElementById("reply-info");
+        const cancelBtn = document.getElementById("cancel-reply");
+        const msgInput = document.getElementById("message");
+
+        if (replyInfo) replyInfo.textContent = `Respondendo a: ${replyingToName}`;
+        if (cancelBtn) cancelBtn.style.display = "inline-block";
+        if (msgInput) msgInput.focus();
+      });
+  }
 
   const deleteButton = commentArticle.querySelector(".delete-button");
   if (deleteButton) {
