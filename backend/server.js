@@ -5,11 +5,11 @@ const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
+const rateLimit = require('express-rate-limit'); // Proteção contra ataques
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Limpa espaços extras
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.trim() : null;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.trim().toLowerCase() : null;
 
@@ -20,8 +20,32 @@ if (!CLIENT_ID || !ADMIN_EMAIL) {
 
 const client = new OAuth2Client(CLIENT_ID);
 
+// Configuração de Confiança no Proxy (Necessário por causa do Cloudflare)
+app.set('trust proxy', 1);
+
 app.use(cors());
 app.use(express.json());
+
+// --- LIMITADORES DE TAXA (SEGURANÇA) ---
+
+// Limitador Geral (Leitura): 200 requisições a cada 15 min
+const generalLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	max: 200,
+	standardHeaders: true,
+	legacyHeaders: false,
+    message: { error: "Muitas requisições. Tente novamente mais tarde." }
+});
+
+// Limitador de Escrita (Comentar/Apagar): 15 ações a cada 1 hora
+const writeLimiter = rateLimit({
+	windowMs: 60 * 60 * 1000,
+	max: 15,
+    message: { error: "Você atingiu o limite de comentários por hora." }
+});
+
+// Aplica limitador geral em tudo
+app.use('/api/', generalLimiter);
 
 const dbPath = path.resolve(__dirname, 'comments.db');
 const db = new sqlite3.Database(dbPath, (err) => {
@@ -53,14 +77,12 @@ async function verifyGoogleToken(token) {
         });
         return ticket.getPayload();
     } catch (error) {
-        // Token inválido ou expirado, apenas ignora
         return null;
     }
 }
 
-// GET: Listar comentários (Agora verifica permissões)
+// GET: Listar comentários
 app.get('/api/comments', async (req, res) => {
-    // Verifica quem está pedindo a lista
     const token = req.headers['authorization'];
     let currentUserEmail = null;
 
@@ -80,20 +102,15 @@ app.get('/api/comments', async (req, res) => {
 
         rows.forEach(row => {
             row.replies = [];
-
-            // Lógica de Permissão: O servidor decide quem pode apagar
             const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
 
-            // Se for Admin OU Dono, marca como deletável
             if (currentUserEmail && (currentUserEmail === ADMIN_EMAIL || currentUserEmail === ownerEmail)) {
                 row.can_delete = true;
             } else {
                 row.can_delete = false;
             }
 
-            // Remove email real por segurança antes de enviar
             delete row.user_email;
-
             commentsMap[row.id] = row;
         });
 
@@ -117,8 +134,8 @@ app.get('/api/comments', async (req, res) => {
     });
 });
 
-// POST
-app.post('/api/comments', async (req, res) => {
+// POST: Adicionar novo comentário (Protegido por Rate Limit)
+app.post('/api/comments', writeLimiter, async (req, res) => {
     const { name, message, parent_id, token } = req.body;
     let userEmail = null;
 
@@ -140,8 +157,8 @@ app.post('/api/comments', async (req, res) => {
     });
 });
 
-// DELETE
-app.delete('/api/comments/:id', async (req, res) => {
+// DELETE: Remover comentário (Protegido por Rate Limit)
+app.delete('/api/comments/:id', writeLimiter, async (req, res) => {
     const token = req.headers['authorization'];
     const id = req.params.id;
 

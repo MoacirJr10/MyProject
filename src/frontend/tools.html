@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title>Tools | Moacir Pereira</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles-comum.css" />
+    <link rel="stylesheet" href="css/styles-aba2.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <header class="main-header">
+        <div class="header-container">
+            <a href="../../index.html" class="logo">Moacir Pereira</a>
+            <nav class="nav-menu">
+                <a href="../../index.html" class="nav-link">Blog</a>
+                <a href="../../about.html" class="nav-link">Sobre</a>
+                <a href="tools.html" class="nav-link active">Apps</a>
+                <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+            </nav>
+        </div>
+    </header>
+    <div class="app-layout">
+        <nav class="menu-lateral">
+          <ul>
+            <li onclick="mostrarAba('cubica')"><i class="fas fa-cube"></i> <span>Blocos</span></li>
+            <li onclick="mostrarAba('fumigacao-silo')"><i class="fas fa-warehouse"></i> <span>Silo</span></li>
+            <li onclick="mostrarAba('area')"><i class="fas fa-ruler-combined"></i> <span>Área</span></li>
+            <li onclick="mostrarAba('conversoes')"><i class="fas fa-exchange-alt"></i> <span>Conversão</span></li>
+            <li onclick="mostrarAba('financeiro')"><i class="fas fa-chart-line"></i> <span>Financeiro</span></li>
+            <li onclick="mostrarAba('historico')"><i class="fas fa-history"></i> <span>Histórico</span></li>
+          </ul>
+        </nav>
+        <div class="app-container">
+          <div id="cubica" class="tab-content" style="display: none">
+            <h3>Fumigação em Blocos</h3>
+            <div class="form-grid">
+                <input type="number" id="altura" placeholder="Altura (m)" />
+                <input type="number" id="largura" placeholder="Largura (m)" />
+                <input type="number" id="comprimento" placeholder="Comprimento (m)" />
+            </div>
+            <button class="btn" onclick="calcular(event)">Calcular</button>
+            <div id="resultado" class="result"></div>
+          </div>
+          <div id="fumigacao-silo" class="tab-content" style="display: none">
+            <h3>Fumigação em Silo</h3>
+            <div class="form-grid">
+                <input type="number" id="diametroSilo" placeholder="Diâmetro (m)" />
+                <input type="number" id="alturaSilo" placeholder="Altura (m)" />
+                <select id="tipoMaterial">
+                  <option value="milho">Milho</option>
+                  <option value="soja">Soja</option>
+                  <option value="arroz">Arroz</option>
+                  <option value="amendoim">Amendoim</option>
+                  <option value="sorgo">Sorgo</option>
+                </select>
+            </div>
+            <button class="btn" onclick="calcularFumigacaoSilo(event)">Calcular</button>
+            <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 10px;">
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">Não sabe o diâmetro?</p>
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="circunferenciaSilo" placeholder="Circunferência (m)" />
+                    <button class="btn" onclick="calcularDiametro(event)">Converter</button>
+                </div>
+            </div>
+            <div id="diametro-result"></div>
+            <div id="resultadoFumigacaoSilo" class="result"></div>
+          </div>
+          <div id="area" class="tab-content" style="display: none">
+            <h3>Cálculo de Área</h3>
+            <div class="form-grid">
+                <input type="number" id="larguraArea" placeholder="Largura (m)" min="0" />
+                <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0" />
+            </div>
+            <button class="btn" onclick="calcularArea(event)">Calcular</button>
+            <div id="resultadoArea" class="result"></div>
+          </div>
+          <div id="conversoes" class="tab-content" style="display: none">
+            <h3>Conversões</h3>
+            <input type="number" id="metros" placeholder="Metros (m)" />
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                <button class="btn" onclick="converterParaCentimetros(event)">para cm</button>
+                <button class="btn" onclick="converterParaQuilometros(event)">para km</button>
+                <button class="btn" onclick="converterParaMilhas(event)">para milhas</button>
+            </div>
+            <div id="resultadoConversao" class="result"></div>
+          </div>
+          <div id="financeiro" class="tab-content" style="display: none">
+            <h3>Controle Financeiro</h3>
+            <form id="form-gasto" class="form-grid">
+              <input type="text" id="descricao" placeholder="Descrição" required />
+              <input type="number" id="valor" placeholder="Valor (R$)" step="0.01" min="0" required />
+              <input type="date" id="data" required />
+              <select id="tipo-pagamento" required>
+                <option value="credito">Crédito</option>
+                <option value="debito">Débito</option>
+                <option value="pix">Pix</option>
+                <option value="dinheiro">Dinheiro</option>
+              </select>
+              <button type="submit" class="btn" style="grid-column: span 2;">Adicionar Gasto</button>
+            </form>
+            <div id="lista-gastos" style="margin-top: 20px;">
+              <table id="gastos" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="text-align: left; border-bottom: 1px solid var(--border-color);">
+                    <th>Desc.</th>
+                    <th>R$</th>
+                    <th>Tipo</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div id="resumo-financeiro" style="margin-top: 20px; padding: 15px; background: var(--card-bg); border-radius: 8px;">
+              <p style="font-weight: bold;">Total: R$ <span id="total-gasto">0.00</span></p>
+              <ul id="gastos-por-tipo"></ul>
+            </div>
+            <div id="grafico-container" style="margin-top: 20px;">
+              <canvas id="graficoGastos"></canvas>
+            </div>
+          </div>
+          <div id="historico" class="tab-content" style="display: none">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3>Histórico</h3>
+                <button class="btn" onclick="limparHistorico()" style="border-color: #ff4444; color: #ff4444;">Limpar</button>
+            </div>
+            <div class="historico-container" style="margin-top: 15px;"></div>
+          </div>
+        </div>
+    </div>
+    <script src="javascript/theme.js"></script>
+    <script src="javascript/tools.js"></script>
+  </body>
+</html>
