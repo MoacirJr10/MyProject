@@ -64,24 +64,28 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 function createTable() {
-    db.run(`CREATE TABLE IF NOT EXISTS comments (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        message TEXT NOT NULL,
-        user_email TEXT,
-        parent_id INTEGER,
-        likes INTEGER DEFAULT 0,
-        created_at TEXT,
-        FOREIGN KEY(parent_id) REFERENCES comments(id)
-    )`);
+    db.serialize(() => {
+        db.run(`CREATE TABLE IF NOT EXISTS comments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            message TEXT NOT NULL,
+            user_email TEXT,
+            parent_id INTEGER,
+            likes INTEGER DEFAULT 0,
+            created_at TEXT,
+            FOREIGN KEY(parent_id) REFERENCES comments(id)
+        )`);
 
-    // NOVA TABELA: Controle de Likes
-    db.run(`CREATE TABLE IF NOT EXISTS comment_likes (
-        user_email TEXT NOT NULL,
-        comment_id INTEGER NOT NULL,
-        PRIMARY KEY (user_email, comment_id),
-        FOREIGN KEY(comment_id) REFERENCES comments(id)
-    )`);
+        db.run("ALTER TABLE comments ADD COLUMN likes INTEGER DEFAULT 0", (err) => {});
+
+        // UNIQUE constraint garante que não duplique no nível do banco
+        db.run(`CREATE TABLE IF NOT EXISTS comment_likes (
+            user_email TEXT NOT NULL,
+            comment_id INTEGER NOT NULL,
+            PRIMARY KEY (user_email, comment_id),
+            FOREIGN KEY(comment_id) REFERENCES comments(id)
+        )`);
+    });
 }
 
 async function verifyGoogleToken(token) {
@@ -97,14 +101,13 @@ async function verifyGoogleToken(token) {
     }
 }
 
-// GET: Listar comentários (com info se o usuário atual curtiu)
 app.get('/api/comments', async (req, res) => {
     const token = req.headers['authorization'];
     let currentUserEmail = null;
 
     if (token) {
         const userData = await verifyGoogleToken(token);
-        if (userData) currentUserEmail = userData.email.toLowerCase();
+        if (userData) currentUserEmail = userData.email.toLowerCase().trim(); // Força minúsculo e sem espaços
     }
 
     const sql = `SELECT * FROM comments ORDER BY created_at DESC`;
@@ -129,7 +132,7 @@ function processComments(rows, currentUserEmail, userLikes, res) {
 
     rows.forEach(row => {
         row.replies = [];
-        const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
+        const ownerEmail = row.user_email ? row.user_email.toLowerCase().trim() : null;
 
         if (currentUserEmail && (currentUserEmail === ADMIN_EMAIL || currentUserEmail === ownerEmail)) {
             row.can_delete = true;
@@ -137,7 +140,6 @@ function processComments(rows, currentUserEmail, userLikes, res) {
             row.can_delete = false;
         }
 
-        // Info se já curtiu
         row.liked_by_me = userLikes.has(row.id);
 
         delete row.user_email;
@@ -169,7 +171,7 @@ app.post('/api/comments', writeLimiter, async (req, res) => {
 
     if (token) {
         const userData = await verifyGoogleToken(token);
-        if (userData) userEmail = userData.email;
+        if (userData) userEmail = userData.email.toLowerCase().trim();
     }
 
     if (!name || !message) {
@@ -188,7 +190,7 @@ app.post('/api/comments', writeLimiter, async (req, res) => {
     });
 });
 
-// ROTA DE LIKE (Toggle)
+// ROTA DE LIKE (Reforçada)
 app.post('/api/comments/:id/like', writeLimiter, async (req, res) => {
     const token = req.headers['authorization'];
     const id = req.params.id;
@@ -198,7 +200,7 @@ app.post('/api/comments/:id/like', writeLimiter, async (req, res) => {
     const userData = await verifyGoogleToken(token);
     if (!userData) return res.status(403).json({ error: "Token inválido." });
 
-    const userEmail = userData.email.toLowerCase();
+    const userEmail = userData.email.toLowerCase().trim(); // Normalização crítica
 
     db.get(`SELECT * FROM comment_likes WHERE user_email = ? AND comment_id = ?`, [userEmail, id], (err, row) => {
         if (err) return res.status(400).json({ error: err.message });
@@ -212,7 +214,11 @@ app.post('/api/comments/:id/like', writeLimiter, async (req, res) => {
             });
         } else {
             // Não curtiu -> Adiciona
-            db.run(`INSERT INTO comment_likes (user_email, comment_id) VALUES (?, ?)`, [userEmail, id], () => {
+            db.run(`INSERT INTO comment_likes (user_email, comment_id) VALUES (?, ?)`, [userEmail, id], (err) => {
+                if (err) {
+                    // Se der erro de chave duplicada (UNIQUE constraint), significa que já curtiu
+                    return res.status(400).json({ error: "Você já curtiu este comentário." });
+                }
                 db.run(`UPDATE comments SET likes = likes + 1 WHERE id = ?`, [id], () => {
                     res.json({ message: "Like registrado.", liked: true });
                 });
@@ -230,12 +236,12 @@ app.delete('/api/comments/:id', writeLimiter, async (req, res) => {
     const userData = await verifyGoogleToken(token);
     if (!userData) return res.status(403).json({ error: "Token inválido." });
 
-    const userEmail = userData.email.toLowerCase();
+    const userEmail = userData.email.toLowerCase().trim();
 
     db.get(`SELECT user_email FROM comments WHERE id = ?`, [id], (err, row) => {
         if (err || !row) return res.status(404).json({ error: "Comentário não encontrado." });
 
-        const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
+        const ownerEmail = row.user_email ? row.user_email.toLowerCase().trim() : null;
 
         if (userEmail === ADMIN_EMAIL || userEmail === ownerEmail) {
             db.run(`DELETE FROM comments WHERE parent_id = ?`, id, () => {
