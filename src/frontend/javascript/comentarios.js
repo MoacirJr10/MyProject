@@ -1,5 +1,5 @@
-// URL do Cloudflare Tunnel (Atualizado em 13/02/2026)
-const BACKEND_URL = "https://lee-toe-stable-unexpected.trycloudflare.com/api/comments";
+// URL do Cloudflare Tunnel (Atualizado em 24/02/2026)
+const BACKEND_URL = "https://wellington-seat-growing-lewis.trycloudflare.com/api/comments";
 
 let replyingToId = null;
 let replyingToName = null;
