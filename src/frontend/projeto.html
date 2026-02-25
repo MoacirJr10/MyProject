@@ -29,23 +29,23 @@
     <div class="app-layout">
         <!-- Menu Lateral -->
         <nav class="menu-lateral">
-          <ul>
-            <li onclick="mostrarAba('cubica')">
+          <ul id="menu-apps">
+            <li data-tab="cubica">
               <i class="fas fa-cube"></i> <span>Blocos</span>
             </li>
-            <li onclick="mostrarAba('fumigacao-silo')">
+            <li data-tab="fumigacao-silo">
               <i class="fas fa-warehouse"></i> <span>Silo</span>
             </li>
-            <li onclick="mostrarAba('area')">
+            <li data-tab="area">
               <i class="fas fa-ruler-combined"></i> <span>Área</span>
             </li>
-            <li onclick="mostrarAba('conversoes')">
+            <li data-tab="conversoes">
               <i class="fas fa-exchange-alt"></i> <span>Conversão</span>
             </li>
-            <li onclick="mostrarAba('financeiro')">
+            <li data-tab="financeiro">
               <i class="fas fa-chart-line"></i> <span>Financeiro</span>
             </li>
-            <li onclick="mostrarAba('historico')">
+            <li data-tab="historico">
               <i class="fas fa-history"></i> <span>Histórico</span>
             </li>
           </ul>
@@ -60,7 +60,7 @@
                 <input type="number" id="largura" placeholder="Largura (m)" />
                 <input type="number" id="comprimento" placeholder="Comprimento (m)" />
             </div>
-            <button class="btn" onclick="calcular(event)">Calcular</button>
+            <button id="btn-calcular-cubica" class="btn">Calcular</button>
             <div id="resultado" class="result"></div>
           </div>
 
@@ -77,13 +77,13 @@
                   <option value="sorgo">Sorgo</option>
                 </select>
             </div>
-            <button class="btn" onclick="calcularFumigacaoSilo(event)">Calcular</button>
+            <button id="btn-calcular-silo" class="btn">Calcular</button>
 
             <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 10px;">
                 <p style="font-size: 0.9rem; color: var(--text-secondary);">Não sabe o diâmetro?</p>
                 <div style="display: flex; gap: 10px;">
                     <input type="number" id="circunferenciaSilo" placeholder="Circunferência (m)" />
-                    <button class="btn" onclick="calcularDiametro(event)">Converter</button>
+                    <button id="btn-converter-diametro" class="btn">Converter</button>
                 </div>
             </div>
             <div id="diametro-result"></div>
@@ -96,17 +96,17 @@
                 <input type="number" id="larguraArea" placeholder="Largura (m)" min="0" />
                 <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0" />
             </div>
-            <button class="btn" onclick="calcularArea(event)">Calcular</button>
+            <button id="btn-calcular-area" class="btn">Calcular</button>
             <div id="resultadoArea" class="result"></div>
           </div>
 
           <div id="conversoes" class="tab-content" style="display: none">
             <h3>Conversões</h3>
             <input type="number" id="metros" placeholder="Metros (m)" />
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                <button class="btn" onclick="converterParaCentimetros(event)">para cm</button>
-                <button class="btn" onclick="converterParaQuilometros(event)">para km</button>
-                <button class="btn" onclick="converterParaMilhas(event)">para milhas</button>
+            <div id="botoes-conversao" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+                <button class="btn" data-unit="cm">para cm</button>
+                <button class="btn" data-unit="km">para km</button>
+                <button class="btn" data-unit="milhas">para milhas</button>
             </div>
             <div id="resultadoConversao" class="result"></div>
           </div>
@@ -153,7 +153,7 @@
           <div id="historico" class="tab-content" style="display: none">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h3>Histórico</h3>
-                <button class="btn" onclick="limparHistorico()" style="border-color: #ff4444; color: #ff4444;">Limpar</button>
+                <button id="btn-limpar-historico" class="btn" style="border-color: #ff4444; color: #ff4444;">Limpar</button>
             </div>
             <div class="historico-container" style="margin-top: 15px;"></div>
           </div>

@@ -1,23 +1,30 @@
-/* Lógica das Ferramentas (projeto.html) */
+/* Lógica das Ferramentas (tools.html) */
 
+// Função para alternar entre as abas
 function mostrarAba(abaId) {
+  // 1. Esconde todas as abas
   const abas = document.querySelectorAll(".tab-content");
   abas.forEach((aba) => {
     aba.style.display = "none";
   });
 
+  // 2. Mostra a aba selecionada
   const abaSelecionada = document.getElementById(abaId);
   if (abaSelecionada) {
     abaSelecionada.style.display = "block";
   }
 
-  // Atualiza estado visual do menu lateral se existir
+  // 3. Atualiza o menu lateral (Visual)
   const menuItens = document.querySelectorAll('.menu-lateral li');
-  menuItens.forEach(item => item.classList.remove('active'));
+  menuItens.forEach(item => {
+    item.classList.remove('active');
+    // Verifica se o onclick do item contém o ID da aba atual
+    if (item.getAttribute('onclick').includes(abaId)) {
+        item.classList.add('active');
+    }
+  });
 
-  // Tenta encontrar o item de menu correspondente para marcar como ativo
-  // Isso assume que o onclick no HTML chama mostrarAba
-
+  // 4. Ações específicas por aba
   if (abaId === "financeiro") {
     atualizarGrafico();
   } else if (abaId === "historico") {
@@ -25,6 +32,7 @@ function mostrarAba(abaId) {
   }
 }
 
+// --- CALCULADORA DE BLOCOS ---
 function calcular(event) {
   if (event) event.preventDefault();
 
@@ -43,39 +51,32 @@ function calcular(event) {
   const comprimido = metragemCubica * 10;
 
   document.getElementById("resultado").innerHTML = `
-        <p>A metragem cúbica é: ${metragemCubica.toFixed(2)} m³</p>
-        <p>O Sachê é: ${sache.toFixed(2)}</p>
-        <p>A Pastilha é: ${pastilha.toFixed(2)}</p>
-        <p>O Comprimido é: ${comprimido.toFixed(2)}</p>
+        <p><strong>Volume:</strong> ${metragemCubica.toFixed(2)} m³</p>
+        <p><strong>Sachê:</strong> ${sache.toFixed(2)} un</p>
+        <p><strong>Pastilha:</strong> ${pastilha.toFixed(2)} g</p>
+        <p><strong>Comprimido:</strong> ${comprimido.toFixed(2)} un</p>
     `;
 
   salvarNoHistorico(metragemCubica, sache, pastilha, comprimido);
 }
 
+// --- CALCULADORA DE ÁREA ---
 function calcularArea(event) {
   if (event) event.preventDefault();
 
   const largura = parseFloat(document.getElementById("larguraArea")?.value);
-  const comprimento = parseFloat(
-    document.getElementById("comprimentoArea")?.value
-  );
+  const comprimento = parseFloat(document.getElementById("comprimentoArea")?.value);
 
-  if (
-    isNaN(largura) ||
-    isNaN(comprimento) ||
-    largura <= 0 ||
-    comprimento <= 0
-  ) {
-    alert("Por favor, insira valores positivos para largura e comprimento.");
+  if (isNaN(largura) || isNaN(comprimento) || largura <= 0 || comprimento <= 0) {
+    alert("Por favor, insira valores positivos.");
     return;
   }
 
   const area = largura * comprimento;
-  document.getElementById("resultadoArea").innerHTML = `Área: ${area.toFixed(
-    2
-  )} m²`;
+  document.getElementById("resultadoArea").innerHTML = `<p><strong>Área:</strong> ${area.toFixed(2)} m²</p>`;
 }
 
+// --- CALCULADORA DE SILO ---
 function calcularFumigacaoSilo(event) {
   if (event) event.preventDefault();
 
@@ -84,121 +85,76 @@ function calcularFumigacaoSilo(event) {
   const tipoMaterial = document.getElementById("tipoMaterial")?.value;
 
   if (isNaN(diametro) || isNaN(altura)) {
-    alert("Por favor, insira todos os valores corretamente.");
+    alert("Por favor, insira diâmetro e altura.");
     return;
   }
 
   const raio = diametro / 2;
   const volume = Math.PI * Math.pow(raio, 2) * altura;
 
-  let dosagemPorM3;
-  let tempoExposicao = "10 dias";
-
+  let dosagemPorM3 = 0;
   switch (tipoMaterial) {
-    case "milho":
-      dosagemPorM3 = 4;
-      break;
-    case "soja":
-      dosagemPorM3 = 5;
-      break;
-    case "arroz":
-      dosagemPorM3 = 3;
-      break;
-    case "amendoim":
-      dosagemPorM3 = 5;
-      break;
-    case "sorgo":
-      dosagemPorM3 = 4.5;
-      break;
-    default:
-      alert("Tipo de material não reconhecido.");
-      return;
+    case "milho": dosagemPorM3 = 4; break;
+    case "soja": dosagemPorM3 = 5; break;
+    case "arroz": dosagemPorM3 = 3; break;
+    case "amendoim": dosagemPorM3 = 5; break;
+    case "sorgo": dosagemPorM3 = 4.5; break;
+    default: dosagemPorM3 = 4;
   }
 
   const quantidadeFumigante = volume * dosagemPorM3;
 
   document.getElementById("resultadoFumigacaoSilo").innerHTML = `
-        <p>Volume do Silo: ${volume.toFixed(2)} m³</p>
-        <p>Tipo de Material: ${
-          tipoMaterial.charAt(0).toUpperCase() + tipoMaterial.slice(1)
-        }</p>
-        <p>Dosagem Necessária: ${quantidadeFumigante.toFixed(
-          2
-        )} g de fosfeto de alumínio</p>
-        <p>Tempo de Exposição: ${tempoExposicao}</p>
+        <p><strong>Volume:</strong> ${volume.toFixed(2)} m³</p>
+        <p><strong>Material:</strong> ${tipoMaterial.toUpperCase()}</p>
+        <p><strong>Dosagem:</strong> ${quantidadeFumigante.toFixed(2)} g (Fosfeto)</p>
+        <p><strong>Tempo:</strong> 10 dias</p>
     `;
 }
 
 function mostrarCampoCircunferencia() {
   const container = document.getElementById("circunferencia-container");
-  if (container) container.style.display = "block";
+  if (container) {
+      container.style.display = container.style.display === "none" ? "block" : "none";
+  }
 }
 
 function calcularDiametro(event) {
   if (event) event.preventDefault();
+  const circunferencia = parseFloat(document.getElementById("circunferenciaSilo")?.value);
 
-  const circunferencia = parseFloat(
-    document.getElementById("circunferenciaSilo")?.value
-  );
   if (!isNaN(circunferencia) && circunferencia > 0) {
     const diametro = circunferencia / Math.PI;
     document.getElementById("diametroSilo").value = diametro.toFixed(2);
-    document.getElementById(
-      "diametro-result"
-    ).innerText = `O diâmetro do silo é: ${diametro.toFixed(2)} m`;
+    document.getElementById("diametro-result").innerText = `Diâmetro calculado: ${diametro.toFixed(2)} m`;
   } else {
-    alert("Por favor, insira a circunferência para calcular o diâmetro.");
+    alert("Insira a circunferência.");
   }
 }
 
+// --- CONVERSÕES ---
 function converterParaCentimetros(event) {
   if (event) event.preventDefault();
-
   const metros = parseFloat(document.getElementById("metros")?.value);
-
-  if (isNaN(metros)) {
-    alert("Por favor, insira um valor em metros.");
-    return;
-  }
-
-  const centimetros = metros * 100;
-  document.getElementById(
-    "resultadoConversao"
-  ).innerHTML = `${metros} metros = ${centimetros} cm`;
+  if (isNaN(metros)) return;
+  document.getElementById("resultadoConversao").innerHTML = `<p>${metros} m = <strong>${metros * 100} cm</strong></p>`;
 }
 
 function converterParaQuilometros(event) {
   if (event) event.preventDefault();
-
   const metros = parseFloat(document.getElementById("metros")?.value);
-
-  if (isNaN(metros)) {
-    alert("Por favor, insira um valor em metros.");
-    return;
-  }
-
-  const quilometros = metros / 1000;
-  document.getElementById(
-    "resultadoConversao"
-  ).innerHTML = `${metros} metros = ${quilometros} km`;
+  if (isNaN(metros)) return;
+  document.getElementById("resultadoConversao").innerHTML = `<p>${metros} m = <strong>${metros / 1000} km</strong></p>`;
 }
 
 function converterParaMilhas(event) {
   if (event) event.preventDefault();
-
   const metros = parseFloat(document.getElementById("metros")?.value);
-
-  if (isNaN(metros)) {
-    alert("Por favor, insira um valor em metros.");
-    return;
-  }
-
-  const milhas = metros / 1609.34;
-  document.getElementById(
-    "resultadoConversao"
-  ).innerHTML = `${metros} metros = ${milhas.toFixed(4)} milhas`;
+  if (isNaN(metros)) return;
+  document.getElementById("resultadoConversao").innerHTML = `<p>${metros} m = <strong>${(metros / 1609.34).toFixed(4)} milhas</strong></p>`;
 }
 
+// --- FINANCEIRO ---
 let gastos = [];
 let graficoGastos = null;
 
@@ -206,13 +162,16 @@ function inicializarControleFinanceiro() {
   try {
     gastos = JSON.parse(localStorage.getItem("gastos")) || [];
   } catch (e) {
-    console.error("Erro ao carregar gastos:", e);
     gastos = [];
   }
 
   const formGasto = document.getElementById("form-gasto");
   if (formGasto) {
-    formGasto.addEventListener("submit", function (event) {
+    // Remove listeners antigos para evitar duplicação
+    const novoForm = formGasto.cloneNode(true);
+    formGasto.parentNode.replaceChild(novoForm, formGasto);
+
+    novoForm.addEventListener("submit", function (event) {
       event.preventDefault();
       adicionarGasto();
     });
@@ -229,17 +188,15 @@ function adicionarGasto() {
   const data = document.getElementById("data")?.value;
   const tipoPagamento = document.getElementById("tipo-pagamento")?.value;
 
-  if (!descricao || isNaN(valor) || valor <= 0 || !data || !tipoPagamento) {
-    alert("Por favor, preencha todos os campos corretamente.");
+  if (!descricao || isNaN(valor) || valor <= 0 || !data) {
+    alert("Preencha todos os campos.");
     return;
   }
 
-  const gasto = { descricao, valor, data, tipoPagamento };
-  gastos.push(gasto);
+  gastos.push({ descricao, valor, data, tipoPagamento });
   localStorage.setItem("gastos", JSON.stringify(gastos));
 
   document.getElementById("form-gasto").reset();
-
   atualizarListaGastos();
   atualizarResumoFinanceiro();
   atualizarGrafico();
@@ -248,7 +205,6 @@ function adicionarGasto() {
 function atualizarListaGastos() {
   const tbody = document.querySelector("#gastos tbody");
   if (!tbody) return;
-
   tbody.innerHTML = "";
 
   gastos.forEach((gasto, index) => {
@@ -257,14 +213,14 @@ function atualizarListaGastos() {
             <td>${gasto.descricao}</td>
             <td>R$ ${gasto.valor.toFixed(2)}</td>
             <td>${gasto.tipoPagamento}</td>
-            <td><button onclick="removerGasto(${index})">Remover</button></td>
+            <td><button onclick="removerGasto(${index})" style="color:red; border:none; background:none; cursor:pointer;">X</button></td>
         `;
     tbody.appendChild(tr);
   });
 }
 
 function removerGasto(index) {
-  if (confirm("Tem certeza que deseja remover este gasto?")) {
+  if (confirm("Remover gasto?")) {
     gastos.splice(index, 1);
     localStorage.setItem("gastos", JSON.stringify(gastos));
     atualizarListaGastos();
@@ -274,144 +230,93 @@ function removerGasto(index) {
 }
 
 function atualizarResumoFinanceiro() {
-  const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
+  const total = gastos.reduce((acc, g) => acc + g.valor, 0);
   const elTotal = document.getElementById("total-gasto");
-  if(elTotal) elTotal.textContent = totalGasto.toFixed(2);
+  if(elTotal) elTotal.textContent = total.toFixed(2);
 
-  const gastosPorTipo = {};
-  gastos.forEach((gasto) => {
-    gastosPorTipo[gasto.tipoPagamento] =
-      (gastosPorTipo[gasto.tipoPagamento] || 0) + gasto.valor;
-  });
+  const porTipo = {};
+  gastos.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
 
-  const listaGastosPorTipo = document.getElementById("gastos-por-tipo");
-  if(listaGastosPorTipo) {
-      listaGastosPorTipo.innerHTML = "";
-      for (const tipo in gastosPorTipo) {
+  const lista = document.getElementById("gastos-por-tipo");
+  if(lista) {
+      lista.innerHTML = "";
+      for (const [tipo, valor] of Object.entries(porTipo)) {
         const li = document.createElement("li");
-        li.textContent = `${tipo}: R$ ${gastosPorTipo[tipo].toFixed(2)}`;
-        listaGastosPorTipo.appendChild(li);
+        li.textContent = `${tipo}: R$ ${valor.toFixed(2)}`;
+        lista.appendChild(li);
       }
   }
 }
 
 function atualizarGrafico() {
   const canvas = document.getElementById("graficoGastos");
-  if (!canvas) return;
-
-  // Verifica se Chart.js está carregado
-  if (typeof Chart === 'undefined') {
-      console.warn("Chart.js não está carregado.");
-      return;
-  }
+  if (!canvas || typeof Chart === 'undefined') return;
 
   const ctx = canvas.getContext("2d");
+  const porTipo = {};
+  gastos.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
 
-  const tipos = {};
-  gastos.forEach((gasto) => {
-    tipos[gasto.tipoPagamento] =
-      (tipos[gasto.tipoPagamento] || 0) + gasto.valor;
-  });
-
-  const labels = Object.keys(tipos);
-  const data = Object.values(tipos);
-
-  if (graficoGastos) {
-    graficoGastos.destroy();
-  }
+  if (graficoGastos) graficoGastos.destroy();
 
   graficoGastos = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: labels,
-      datasets: [
-        {
-          data: data,
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
-        },
-      ],
+      labels: Object.keys(porTipo),
+      datasets: [{
+        data: Object.values(porTipo),
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+      }],
     },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: "Distribuição de Gastos por Tipo",
-        },
-      },
-    },
+    options: { responsive: true }
   });
 }
 
+// --- HISTÓRICO ---
 let historico = [];
 
-function salvarNoHistorico(metragemCubica, sache, pastilha, comprimido) {
-  const calculo = {
+function salvarNoHistorico(metragem, sache, pastilha, comprimido) {
+  const item = {
     data: new Date().toLocaleString(),
-    metragem: metragemCubica,
-    sache: sache,
-    pastilha: pastilha,
-    comprimido: comprimido,
+    metragem, sache, pastilha, comprimido
   };
 
   try {
-    historico = JSON.parse(localStorage.getItem("historicoCalculos")) || [];
-  } catch (e) {
-    console.error("Erro ao carregar histórico:", e);
-    historico = [];
-  }
+      historico = JSON.parse(localStorage.getItem("historicoCalculos")) || [];
+  } catch(e) { historico = []; }
 
-  historico.push(calculo);
-
-  try {
-    localStorage.setItem("historicoCalculos", JSON.stringify(historico));
-  } catch (e) {
-    console.error("Erro ao salvar histórico:", e);
-  }
+  historico.push(item);
+  localStorage.setItem("historicoCalculos", JSON.stringify(historico));
 }
 
 function atualizarHistorico() {
   try {
-    historico = JSON.parse(localStorage.getItem("historicoCalculos")) || [];
-  } catch (e) {
-    console.error("Erro ao carregar histórico:", e);
-    historico = [];
-  }
+      historico = JSON.parse(localStorage.getItem("historicoCalculos")) || [];
+  } catch(e) { historico = []; }
 
   const container = document.querySelector(".historico-container");
   if (!container) return;
 
-  container.innerHTML =
-    historico.length > 0
-      ? historico
-          .map(
-            (item) => `
-            <div class="historico-item">
-                <p><strong>${item.data}</strong></p>
-                <p>Metragem: ${item.metragem.toFixed(2)} m³</p>
-                <p>Sachê: ${item.sache.toFixed(2)}</p>
-                <p>Pastilha: ${item.pastilha.toFixed(2)}</p>
-                <p>Comprimido: ${item.comprimido.toFixed(2)}</p>
-            </div>
-        `
-          )
-          .join("")
-      : "<p>Nenhum cálculo no histórico.</p>";
+  container.innerHTML = historico.length ? historico.map(item => `
+    <div style="border-bottom:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <small>${item.data}</small>
+        <div><strong>${item.metragem.toFixed(2)} m³</strong></div>
+    </div>
+  `).join("") : "<p>Sem histórico.</p>";
 }
 
 function limparHistorico() {
-  if (confirm("Tem certeza que deseja limpar todo o histórico?")) {
+  if (confirm("Limpar tudo?")) {
     localStorage.removeItem("historicoCalculos");
     historico = [];
     atualizarHistorico();
   }
 }
 
+// --- INICIALIZAÇÃO ---
 document.addEventListener("DOMContentLoaded", function () {
-  // Verifica se estamos na página de ferramentas
-  if(document.getElementById("cubica")) {
-      mostrarAba("cubica");
-      inicializarControleFinanceiro();
-      atualizarHistorico();
-  }
+  // Garante que a primeira aba (Blocos) esteja visível ao carregar
+  mostrarAba("cubica");
+
+  // Inicializa módulos
+  inicializarControleFinanceiro();
 });
