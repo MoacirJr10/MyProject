@@ -5,7 +5,9 @@ const sqlite3 = require('sqlite3').verbose();
 const cors = require('cors');
 const path = require('path');
 const { OAuth2Client } = require('google-auth-library');
-const rateLimit = require('express-rate-limit'); // Proteção contra ataques
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet'); // NOVA CAMADA: Cabeçalhos Seguros
+const xss = require('xss');       // NOVA CAMADA: Proteção contra XSS
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,21 +16,32 @@ const CLIENT_ID = process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.tr
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL ? process.env.ADMIN_EMAIL.trim().toLowerCase() : null;
 
 if (!CLIENT_ID || !ADMIN_EMAIL) {
-    console.error("ERRO CRÍTICO: Variáveis de ambiente não configuradas corretamente.");
+    console.error("ERRO CRÍTICO: Variáveis de ambiente não configuradas.");
     process.exit(1);
 }
 
 const client = new OAuth2Client(CLIENT_ID);
 
-// Configuração de Confiança no Proxy (Necessário por causa do Cloudflare)
+// 1. BLINDAGEM HTTP (Helmet)
+app.use(helmet());
+
+// 2. ZERO TRUST (CORS Restrito)
+// Só permite requisições vindas do seu site oficial
+const allowedOrigins = ['https://moacirjr10.github.io', 'http://localhost:63342']; // Localhost para testes
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Bloqueado pelo CORS: Origem não permitida.'));
+        }
+    }
+}));
+
 app.set('trust proxy', 1);
+app.use(express.json({ limit: '10kb' })); // Limita tamanho do JSON para evitar DoS
 
-app.use(cors());
-app.use(express.json());
-
-// --- LIMITADORES DE TAXA (SEGURANÇA) ---
-
-// Limitador Geral (Leitura): 200 requisições a cada 15 min
+// 3. RATE LIMITING (Já existia, mantido)
 const generalLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
 	max: 200,
@@ -37,14 +50,12 @@ const generalLimiter = rateLimit({
     message: { error: "Muitas requisições. Tente novamente mais tarde." }
 });
 
-// Limitador de Escrita (Comentar/Apagar): 15 ações a cada 1 hora
 const writeLimiter = rateLimit({
 	windowMs: 60 * 60 * 1000,
 	max: 15,
     message: { error: "Você atingiu o limite de comentários por hora." }
 });
 
-// Aplica limitador geral em tudo
 app.use('/api/', generalLimiter);
 
 const dbPath = path.resolve(__dirname, 'comments.db');
@@ -81,16 +92,13 @@ async function verifyGoogleToken(token) {
     }
 }
 
-// GET: Listar comentários
 app.get('/api/comments', async (req, res) => {
     const token = req.headers['authorization'];
     let currentUserEmail = null;
 
     if (token) {
         const userData = await verifyGoogleToken(token);
-        if (userData) {
-            currentUserEmail = userData.email.toLowerCase();
-        }
+        if (userData) currentUserEmail = userData.email.toLowerCase();
     }
 
     const sql = `SELECT * FROM comments ORDER BY created_at DESC`;
@@ -134,7 +142,6 @@ app.get('/api/comments', async (req, res) => {
     });
 });
 
-// POST: Adicionar novo comentário (Protegido por Rate Limit)
 app.post('/api/comments', writeLimiter, async (req, res) => {
     const { name, message, parent_id, token } = req.body;
     let userEmail = null;
@@ -148,16 +155,20 @@ app.post('/api/comments', writeLimiter, async (req, res) => {
         return res.status(400).json({ error: "Campos obrigatórios." });
     }
 
+    // 4. SANITIZAÇÃO (XSS)
+    // Remove tags HTML maliciosas antes de salvar no banco
+    const cleanName = xss(name);
+    const cleanMessage = xss(message);
+
     const createdAt = new Date().toISOString();
     const sql = `INSERT INTO comments (name, message, user_email, parent_id, created_at) VALUES (?, ?, ?, ?, ?)`;
 
-    db.run(sql, [name, message, userEmail, parent_id || null, createdAt], function(err) {
+    db.run(sql, [cleanName, cleanMessage, userEmail, parent_id || null, createdAt], function(err) {
         if (err) return res.status(400).json({ error: err.message });
-        res.json({ id: this.lastID, name, message, parent_id, created_at: createdAt });
+        res.json({ id: this.lastID, name: cleanName, message: cleanMessage, parent_id, created_at: createdAt });
     });
 });
 
-// DELETE: Remover comentário (Protegido por Rate Limit)
 app.delete('/api/comments/:id', writeLimiter, async (req, res) => {
     const token = req.headers['authorization'];
     const id = req.params.id;
