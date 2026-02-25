@@ -38,7 +38,6 @@ app.use(cors({
 app.set('trust proxy', 1);
 app.use(express.json({ limit: '10kb' }));
 
-// Aumentei limites para permitir likes
 const generalLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
 	max: 300,
@@ -76,10 +75,13 @@ function createTable() {
         FOREIGN KEY(parent_id) REFERENCES comments(id)
     )`);
 
-    // Migração para adicionar coluna likes se não existir
-    db.run("ALTER TABLE comments ADD COLUMN likes INTEGER DEFAULT 0", (err) => {
-        // Ignora erro se já existir
-    });
+    // NOVA TABELA: Controle de Likes
+    db.run(`CREATE TABLE IF NOT EXISTS comment_likes (
+        user_email TEXT NOT NULL,
+        comment_id INTEGER NOT NULL,
+        PRIMARY KEY (user_email, comment_id),
+        FOREIGN KEY(comment_id) REFERENCES comments(id)
+    )`);
 }
 
 async function verifyGoogleToken(token) {
@@ -95,6 +97,7 @@ async function verifyGoogleToken(token) {
     }
 }
 
+// GET: Listar comentários (com info se o usuário atual curtiu)
 app.get('/api/comments', async (req, res) => {
     const token = req.headers['authorization'];
     let currentUserEmail = null;
@@ -108,42 +111,57 @@ app.get('/api/comments', async (req, res) => {
     db.all(sql, [], (err, rows) => {
         if (err) return res.status(400).json({ error: err.message });
 
-        const commentsMap = {};
-        const rootComments = [];
-
-        rows.forEach(row => {
-            row.replies = [];
-            const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
-
-            if (currentUserEmail && (currentUserEmail === ADMIN_EMAIL || currentUserEmail === ownerEmail)) {
-                row.can_delete = true;
-            } else {
-                row.can_delete = false;
-            }
-
-            delete row.user_email;
-            commentsMap[row.id] = row;
-        });
-
-        rows.forEach(row => {
-            if (row.parent_id && commentsMap[row.parent_id]) {
-                commentsMap[row.parent_id].replies.push(row);
-            } else {
-                rootComments.push(row);
-            }
-        });
-
-        const sortReplies = (comment) => {
-            if (comment.replies?.length > 0) {
-                comment.replies.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
-                comment.replies.forEach(sortReplies);
-            }
-        };
-
-        rootComments.forEach(sortReplies);
-        res.json(rootComments);
+        if (currentUserEmail) {
+            const likesSql = `SELECT comment_id FROM comment_likes WHERE user_email = ?`;
+            db.all(likesSql, [currentUserEmail], (err, likes) => {
+                const userLikes = new Set(likes ? likes.map(l => l.comment_id) : []);
+                processComments(rows, currentUserEmail, userLikes, res);
+            });
+        } else {
+            processComments(rows, null, new Set(), res);
+        }
     });
 });
+
+function processComments(rows, currentUserEmail, userLikes, res) {
+    const commentsMap = {};
+    const rootComments = [];
+
+    rows.forEach(row => {
+        row.replies = [];
+        const ownerEmail = row.user_email ? row.user_email.toLowerCase() : null;
+
+        if (currentUserEmail && (currentUserEmail === ADMIN_EMAIL || currentUserEmail === ownerEmail)) {
+            row.can_delete = true;
+        } else {
+            row.can_delete = false;
+        }
+
+        // Info se já curtiu
+        row.liked_by_me = userLikes.has(row.id);
+
+        delete row.user_email;
+        commentsMap[row.id] = row;
+    });
+
+    rows.forEach(row => {
+        if (row.parent_id && commentsMap[row.parent_id]) {
+            commentsMap[row.parent_id].replies.push(row);
+        } else {
+            rootComments.push(row);
+        }
+    });
+
+    const sortReplies = (comment) => {
+        if (comment.replies?.length > 0) {
+            comment.replies.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            comment.replies.forEach(sortReplies);
+        }
+    };
+
+    rootComments.forEach(sortReplies);
+    res.json(rootComments);
+}
 
 app.post('/api/comments', writeLimiter, async (req, res) => {
     const { name, message, parent_id, token } = req.body;
@@ -170,14 +188,36 @@ app.post('/api/comments', writeLimiter, async (req, res) => {
     });
 });
 
-// ROTA DE LIKE
+// ROTA DE LIKE (Toggle)
 app.post('/api/comments/:id/like', writeLimiter, async (req, res) => {
+    const token = req.headers['authorization'];
     const id = req.params.id;
-    const sql = `UPDATE comments SET likes = likes + 1 WHERE id = ?`;
 
-    db.run(sql, [id], function(err) {
+    if (!token) return res.status(401).json({ error: "Login necessário." });
+
+    const userData = await verifyGoogleToken(token);
+    if (!userData) return res.status(403).json({ error: "Token inválido." });
+
+    const userEmail = userData.email.toLowerCase();
+
+    db.get(`SELECT * FROM comment_likes WHERE user_email = ? AND comment_id = ?`, [userEmail, id], (err, row) => {
         if (err) return res.status(400).json({ error: err.message });
-        res.json({ message: "Like registrado." });
+
+        if (row) {
+            // Já curtiu -> Remove
+            db.run(`DELETE FROM comment_likes WHERE user_email = ? AND comment_id = ?`, [userEmail, id], () => {
+                db.run(`UPDATE comments SET likes = likes - 1 WHERE id = ?`, [id], () => {
+                    res.json({ message: "Like removido.", liked: false });
+                });
+            });
+        } else {
+            // Não curtiu -> Adiciona
+            db.run(`INSERT INTO comment_likes (user_email, comment_id) VALUES (?, ?)`, [userEmail, id], () => {
+                db.run(`UPDATE comments SET likes = likes + 1 WHERE id = ?`, [id], () => {
+                    res.json({ message: "Like registrado.", liked: true });
+                });
+            });
+        }
     });
 });
 

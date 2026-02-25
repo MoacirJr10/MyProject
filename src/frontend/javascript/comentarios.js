@@ -113,9 +113,10 @@ function renderComment(comment) {
       deleteButtonHtml = `<button type="button" class="delete-button" data-id="${comment.id}" style="color: #ff4444; margin-left: 10px;">Apagar</button>`;
   }
 
-  // Botão de Like
+  // Botão de Like (Vermelho se já curtiu)
   const likesCount = comment.likes || 0;
-  const likeButtonHtml = `<button type="button" class="like-button" data-id="${comment.id}" style="color: var(--accent-color); margin-right: 10px;"><i class="fas fa-heart"></i> ${likesCount}</button>`;
+  const likeColor = comment.liked_by_me ? "#ff4444" : "var(--accent-color)";
+  const likeButtonHtml = `<button type="button" class="like-button" data-id="${comment.id}" style="color: ${likeColor}; margin-right: 10px;"><i class="fas fa-heart"></i> <span class="like-count">${likesCount}</span></button>`;
 
   commentArticle.innerHTML = `
     <header class="comment-header">
@@ -135,15 +136,37 @@ function renderComment(comment) {
   const likeBtn = commentArticle.querySelector(".like-button");
   if (likeBtn) {
       likeBtn.addEventListener("click", async (e) => {
-          // Efeito visual imediato (Optimistic UI)
+          if (!userToken) { alert("Faça login para curtir."); return; }
+
+          // Efeito visual imediato
           const icon = likeBtn.querySelector("i");
-          icon.style.transform = "scale(1.3)";
-          setTimeout(() => icon.style.transform = "scale(1)", 200);
+          const countSpan = likeBtn.querySelector(".like-count");
+          let currentCount = parseInt(countSpan.textContent);
+
+          // Alterna cor e número visualmente antes da resposta
+          if (likeBtn.style.color === "rgb(255, 68, 68)" || likeBtn.style.color === "#ff4444") {
+              likeBtn.style.color = "var(--accent-color)";
+              countSpan.textContent = currentCount - 1;
+          } else {
+              likeBtn.style.color = "#ff4444";
+              countSpan.textContent = currentCount + 1;
+              icon.style.transform = "scale(1.3)";
+              setTimeout(() => icon.style.transform = "scale(1)", 200);
+          }
 
           try {
-              await fetch(`${BACKEND_URL}/${comment.id}/like`, { method: "POST" });
-              loadComments(); // Recarrega para atualizar contador real
-          } catch (err) { console.error("Erro like"); }
+              const res = await fetch(`${BACKEND_URL}/${comment.id}/like`, {
+                  method: "POST",
+                  headers: { "Authorization": `Bearer ${userToken}` }
+              });
+
+              if (!res.ok) throw new Error("Erro like");
+
+              // Não recarrega tudo para não piscar a tela, o visual já atualizou
+          } catch (err) {
+              console.error("Erro like", err);
+              loadComments(); // Se der erro, recarrega para mostrar o real
+          }
       });
   }
 
