@@ -6,10 +6,10 @@
     "titulo": "Sistema de Fumigação Inteligente",
     "data": "07 Fev 2026",
     "resumo": "Sistema completo para controle de pragas em silos com cálculos automáticos.",
-    "conteudo": "<p>Este projeto foi desenvolvido para otimizar o trabalho de fumigação em silos agrícolas. Utilizando HTML, CSS e JavaScript, criei uma ferramenta que calcula automaticamente a dosagem de pastilhas e sachês baseada no volume do silo.</p><p>O sistema também conta com um módulo de histórico local para registrar as aplicações realizadas.</p>",
     "imagem": "src/frontend/imagens/fumigacao/img2.jpeg",
     "github": "https://github.com/MoacirJr10/MyProject",
-    "demo": "src/frontend/projeto.html"
+    "demo": "src/frontend/projeto.html",
+    "arquivo": "fumigacao.md"
   },
   {
     "id": 2,
@@ -18,9 +18,9 @@
     "titulo": "Monitor de Servidor com ESP32-S3",
     "data": "14 Fev 2026",
     "resumo": "Tutorial completo: Do monitoramento básico ao avançado com IA Gemini.",
-    "conteudo": "<h3>📸 Galeria do Projeto</h3><p>Veja como o sistema evoluiu. Abaixo, as telas de monitoramento de CPU, RAM, Disco e Relógio:</p><div class='galeria-grid'><img src='src/frontend/imagens/esp32S3/esp32s3.jpeg'><img src='src/frontend/imagens/esp32S3/esp32s32.jpeg'><img src='src/frontend/imagens/esp32S3/esp32s33.jpeg'><img src='src/frontend/imagens/esp32S3/esp32s34.jpeg'></div><hr><h2>Opção 1: Versão Clássica (Sem IA)</h2><p>Esta versão é ideal para quem quer apenas monitorar o hardware (CPU, RAM, Disco) de forma rápida e leve.</p><h3>🐍 Backend Python (V1 - Simples)</h3><pre><code class='language-python'>import psutil\nimport time\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n@app.route('/stats')\ndef get_stats():\n    cpu_cores = psutil.cpu_percent(interval=1, percpu=True) \n    ram = psutil.virtual_memory()\n    disk = psutil.disk_usage('/')\n    temp = 0\n    try:\n        t = psutil.sensors_temperatures()\n        if 'coretemp' in t: temp = int(t['coretemp'][0].current)\n    except: pass\n\n    return jsonify({\n        \"hostname\": \"UBUNTU-SERVER\",\n        \"cpu_cores\": cpu_cores,\n        \"temp\": temp,\n        \"ram_pct\": int(ram.percent),\n        \"ram_used\": round(ram.used / (1024**3), 2),\n        \"ram_total\": round(ram.total / (1024**3), 2),\n        \"disk_pct\": int(disk.percent),\n        \"disk_used\": round(disk.used / (1024**3), 1),\n        \"disk_total\": round(disk.total / (1024**3), 1)\n    })\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5000)</code></pre><h3>💻 Firmware ESP32 (V1 - 4 Telas)</h3><p>Este código exibe 4 telas: CPU, RAM, Disco e Relógio. Não tem a tela da IA.</p><pre><code class='language-cpp'>#define LGFX_USE_V1\n#include <LovyanGFX.hpp>\n#include <WiFi.h>\n#include <HTTPClient.h>\n#include <ArduinoJson.h>\n#include \"time.h\"\n\n#define BUTTON_BOOT 0\n#define LCD_BL 48 \n\nclass LGFX_UICPAL : public lgfx::LGFX_Device {\n  lgfx::Panel_ILI9341 _panel_instance;\n  lgfx::Bus_SPI _bus_instance;\npublic:\n  LGFX_UICPAL(void) {\n    { auto cfg = _bus_instance.config(); cfg.spi_host = SPI2_HOST; cfg.pin_sclk = 3; cfg.pin_mosi = 45; cfg.pin_miso = 46; cfg.pin_dc = 47; cfg.freq_write = 40000000; _bus_instance.config(cfg); _panel_instance.setBus(&_bus_instance); }\n    { auto cfg = _panel_instance.config(); cfg.pin_cs = 14; cfg.pin_rst = 21; cfg.panel_width = 240; cfg.panel_height = 320; _panel_instance.config(cfg); }\n    setPanel(&_panel_instance);\n  }\n};\n\nLGFX_UICPAL lcd;\nLGFX_Sprite canvas(&lcd);\n\nconst char* ssid = \"SEU_WIFI\";\nconst char* password = \"SUA_SENHA\";\nconst char* serverUrl = \"http://192.168.X.X:5000/stats\";\n\nconst char* ntpServer = \"a.st1.ntp.br\";\nconst long  gmtOffset_sec = -10800;\nconst int   daylightOffset_sec = 0;\n\nint currentScreen = 0;\nconst int totalScreens = 4;\n\nint core_loads[12], num_cores = 0;\nint g_ram_pct, g_disk_pct, g_temp;\nfloat r_used, r_total, d_used, d_total;\nString g_host;\n\nvoid fetchData() {\n    if (WiFi.status() == WL_CONNECTED) {\n        HTTPClient http;\n        http.begin(serverUrl);\n        http.setTimeout(4000);\n        if (http.GET() == 200) {\n            DynamicJsonDocument doc(4096);\n            deserializeJson(doc, http.getString());\n            g_host = doc[\"hostname\"] | \"SERVER\";\n            g_temp = doc[\"temp\"] | 0;\n            JsonArray cores = doc[\"cpu_cores\"];\n            num_cores = cores.size();\n            for(int i=0; i < num_cores && i < 12; i++) core_loads[i] = cores[i];\n            g_ram_pct = doc[\"ram_pct\"] | 0;\n            r_used = doc[\"ram_used\"] | 0.0; r_total = doc[\"ram_total\"] | 0.0;\n            g_disk_pct = doc[\"disk_pct\"] | 0;\n            d_used = doc[\"disk_used\"] | 0.0; d_total = doc[\"disk_total\"] | 0.0;\n        }\n        http.end();\n    }\n}\n\nvoid drawUI() {\n    canvas.fillScreen(TFT_BLACK);\n    canvas.setTextColor(TFT_CYAN); canvas.setTextSize(2);\n    canvas.setCursor(10, 10); canvas.print(g_host);\n    canvas.setTextColor(g_temp > 65 ? TFT_RED : TFT_GREEN);\n    canvas.setCursor(240, 10); canvas.printf(\"%dC\", g_temp);\n    canvas.drawFastHLine(0, 35, 320, TFT_WHITE);\n\n    if (currentScreen == 0) { // CPU\n        canvas.drawCenterString(\"-- CORES CPU --\", 160, 45);\n        for(int i=0; i<num_cores; i++) {\n            int yPos = 70 + (i * 18);\n            canvas.drawRect(35, yPos, 230, 12, TFT_DARKGREY);\n            canvas.fillRect(37, yPos+2, map(core_loads[i],0,100,0,226), 8, (core_loads[i] > 80 ? TFT_RED : TFT_GREEN));\n        }\n    } else if (currentScreen == 1) { // RAM\n        canvas.drawCenterString(\"-- RAM --\", 160, 50);\n        canvas.setCursor(20, 100); canvas.printf(\"Uso: %d%%\", g_ram_pct);\n    } else if (currentScreen == 2) { // DISCO\n        canvas.drawCenterString(\"-- DISCO --\", 160, 50);\n        canvas.setCursor(20, 100); canvas.printf(\"Uso: %d%%\", g_disk_pct);\n    } else if (currentScreen == 3) { // RELÓGIO\n        struct tm timeinfo;\n        if(getLocalTime(&timeinfo)){\n            char timeHour[9];\n            strftime(timeHour, 9, \"%H:%M:%S\", &timeinfo);\n            canvas.drawCenterString(timeHour, 160, 100);\n        }\n    }\n    canvas.pushSprite(0, 0);\n}\n\nvoid setup() {\n    pinMode(BUTTON_BOOT, INPUT_PULLUP);\n    pinMode(LCD_BL, OUTPUT); digitalWrite(LCD_BL, HIGH);\n    lcd.init(); lcd.setRotation(1);\n    canvas.createSprite(320, 240);\n    WiFi.begin(ssid, password);\n    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);\n    fetchData();\n}\n\nvoid loop() {\n    static unsigned long lastUpdate = 0;\n    if (millis() - lastUpdate > 3000) { fetchData(); lastUpdate = millis(); }\n    if (digitalRead(BUTTON_BOOT) == LOW) {\n        currentScreen = (currentScreen + 1) % totalScreens;\n        delay(250);\n    }\n    drawUI();\n}</code></pre><hr><h2>Opção 2: Versão Avançada (Com IA Gemini)</h2><p>Esta versão adiciona uma camada de inteligência artificial que analisa os dados e gera um resumo em linguagem natural.</p><h3>🔐 Passo a Passo: Configurando a IA com Segurança</h3><p>Para usar o Gemini, você precisa de uma chave de API (API Key). Siga estes passos para configurar com segurança:</p><ol><li>Acesse o <a href='https://aistudio.google.com/' target='_blank'>Google AI Studio</a> e crie uma chave gratuita.</li><li>No seu servidor Ubuntu, instale a biblioteca oficial: <code>pip install google-genai</code>.</li><li><strong>Segurança Crítica:</strong> Nunca cole sua chave diretamente no código se for compartilhar o arquivo. Use variáveis de ambiente ou um arquivo <code>.env</code>.</li></ol><h3>🐍 Backend Python (V2 - Com IA)</h3><pre><code class='language-python'>import psutil\nimport time\nimport os\nfrom google import genai\nfrom flask import Flask, jsonify\n\napp = Flask(__name__)\n\n# --- CONFIGURAÇÃO SEGURA ---\n# A chave é lida das variáveis de ambiente do sistema\nCHAVE_API = os.getenv(\"GEMINI_API_KEY\") \n\nif not CHAVE_API:\n    print(\"ERRO: Chave GEMINI_API_KEY não encontrada!\")\n    # Em produção, você pode usar um valor fixo APENAS se o código não for público\n    # CHAVE_API = \"SUA_CHAVE_AQUI\"\n\nclient = genai.Client(api_key=CHAVE_API)\nMODELO_ATUAL = \"gemini-2.0-flash\" \n\n# Sistema de Cache para evitar Erro 429\nlast_ai_response = \"Sincronizando com Gemini...\"\nlast_ai_time = 0\nAI_COOLDOWN = 120  # 2 minutos\n\n@app.route('/stats')\ndef get_stats():\n    global last_ai_response, last_ai_time\n    # ... (Código de coleta de hardware igual ao V1) ...\n    \n    # Lógica de IA\n    current_time = time.time()\n    if (current_time - last_ai_time) > AI_COOLDOWN:\n        # ... (Chamada ao Gemini) ...\n        pass\n\n    return jsonify({\n        # ... (Dados de hardware) ...\n        \"gemini_info\": last_ai_response\n    })\n\nif __name__ == '__main__':\n    app.run(host='0.0.0.0', port=5000)</code></pre><h3>💻 Firmware ESP32 (V2 - 5 Telas com IA)</h3><p>Este código adiciona a 5ª tela para exibir o texto gerado pelo Gemini.</p><pre><code class='language-cpp'>#define LGFX_USE_V1\n#include <LovyanGFX.hpp>\n#include <WiFi.h>\n#include <HTTPClient.h>\n#include <ArduinoJson.h>\n#include \"time.h\"\n\n// ... (Configuração do LCD igual à V1) ...\n\nconst int totalScreens = 5; // AGORA SÃO 5 TELAS\nString g_gemini = \"Aguardando IA...\";\n\nvoid fetchData() {\n    // ... (Conexão HTTP igual à V1) ...\n    if (http.GET() == 200) {\n        // ... (Deserialização igual à V1) ...\n        g_gemini = doc[\"gemini_info\"] | \"Processando...\"; // LÊ O CAMPO NOVO\n    }\n}\n\nvoid drawUI() {\n    // ... (Desenho do Header igual à V1) ...\n\n    if (currentScreen == 4) { // --- NOVA TELA: GEMINI AI ---\n        canvas.setTextColor(TFT_MAGENTA);\n        canvas.drawCenterString(\"-- GEMINI AI 2.0 --\", 160, 45);\n        canvas.setTextColor(TFT_WHITE); canvas.setTextSize(2);\n        canvas.setCursor(10, 100);\n        canvas.println(g_gemini);\n    } \n    // ... (Outras telas 0 a 3 iguais à V1) ...\n    \n    canvas.pushSprite(0, 0);\n}\n\n// ... (Setup e Loop iguais à V1) ...</code></pre><h3>🛠️ Manutenção do Servidor</h3><p>Para garantir que seu monitoramento rode 24/7, use estes comandos:</p><pre><code># Ver se o serviço está rodando\nsudo systemctl status esp32_stats.service\n\n# Reiniciar após mudar o código\nsudo systemctl restart esp32_stats.service\n\n# Ver logs de erro em tempo real\njournalctl -u esp32_stats.service -f</code></pre>",
     "imagem": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1000&auto=format&fit=crop",
-    "github": ""
+    "github": "",
+    "arquivo": "monitor-servidor.md"
   },
   {
     "id": 3,
@@ -29,9 +29,9 @@
     "titulo": "Orçamento de Móveis Planejados",
     "data": "20 Jan 2026",
     "resumo": "Aplicação em Java para geração de orçamentos rápidos para marcenaria.",
-    "conteudo": "<p>Aplicação Desktop desenvolvida em Java para auxiliar marceneiros. O sistema permite cadastrar materiais, calcular custos de produção e gerar um preço final de venda com margem de lucro configurável.</p>",
     "imagem": "src/frontend/imagens/java/orcamento-moveis.jpeg",
-    "github": "https://github.com/MoacirJr10/OrcamentoMoveisPlanejados"
+    "github": "https://github.com/MoacirJr10/OrcamentoMoveisPlanejados",
+    "arquivo": "orcamento-moveis.md"
   },
   {
     "id": 4,
@@ -40,9 +40,9 @@
     "titulo": "Monitoramento com ESP32 e OLED",
     "data": "15 Dez 2025",
     "resumo": "Integração de sensores e displays para visualização de dados em tempo real.",
-    "conteudo": "<p>Projeto focado em IoT utilizando o microcontrolador ESP32. O objetivo foi criar uma interface visual em um display OLED de 0.96 polegadas para exibir dados coletados de sensores em tempo real.</p>",
     "imagem": "src/frontend/imagens/arduino/esp32-oled.jpeg",
-    "github": "https://github.com/MoacirJr10/ESP32-oled-test"
+    "github": "https://github.com/MoacirJr10/ESP32-oled-test",
+    "arquivo": "monitoramento-oled.md"
   },
   {
     "id": 5,
@@ -51,9 +51,9 @@
     "titulo": "Sensores com Arduino",
     "data": "10 Nov 2025",
     "resumo": "Coleta de dados ambientais utilizando sensores diversos.",
-    "conteudo": "<p>Experimentos práticos de eletrônica para leitura de temperatura, umidade e luminosidade, processando os dados através de um Arduino Uno.</p>",
     "imagem": "src/frontend/imagens/arduino/sensor1.jpeg",
-    "github": "https://github.com/MoacirJr10/arduino_sensor"
+    "github": "https://github.com/MoacirJr10/arduino_sensor",
+    "arquivo": "sensores-arduino.md"
   },
   {
     "id": 6,
@@ -62,9 +62,9 @@
     "titulo": "Display LCD com Arduino",
     "data": "05 Out 2025",
     "resumo": "Interface homem-máquina utilizando displays de cristal líquido.",
-    "conteudo": "<p>Implementação de menus e exibição de informações em displays LCD 16x2, criando uma interface amigável para projetos de automação.</p>",
     "imagem": "src/frontend/imagens/arduino/lcd1.jpeg",
-    "github": "https://github.com/MoacirJr10/lcd-arduino"
+    "github": "https://github.com/MoacirJr10/lcd-arduino",
+    "arquivo": "display-lcd.md"
   },
   {
     "id": 7,
@@ -73,9 +73,9 @@
     "titulo": "SysBot - Automação e Manutenção",
     "data": "08 Fev 2026",
     "resumo": "Ferramenta completa para manutenção, limpeza e diagnóstico do Windows via script.",
-    "conteudo": "<h3>🚀 O que é o SysBot?</h3><p>O SysBot é uma ferramenta poderosa organizada em módulos para facilitar a vida de técnicos e usuários avançados. Ele automatiza tarefas repetitivas e diagnósticos complexos.</p><h4>Principais Módulos:</h4><ul><li><strong>Manutenção:</strong> Windows Update, SFC e DISM.</li><li><strong>Hardware:</strong> Resumo detalhado de CPU, GPU e RAM.</li><li><strong>Rede:</strong> Testes de conectividade e velocidade.</li><li><strong>Limpeza:</strong> Remoção segura de arquivos temporários e cache.</li><li><strong>Otimização:</strong> Desfragmentação e ajustes de energia.</li></ul><h3>📸 Galeria do Projeto</h3><div style='display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:10px; margin-bottom:20px;'><img src='src/frontend/imagens/sysbot/sysbot2.jpeg' style='width:100%; border-radius:8px;'><img src='src/frontend/imagens/sysbot/sysbot3.jpeg' style='width:100%; border-radius:8px;'><img src='src/frontend/imagens/sysbot/sysbot4.jpeg' style='width:100%; border-radius:8px;'><img src='src/frontend/imagens/sysbot/sysbot5.jpeg' style='width:100%; border-radius:8px;'></div><h3>💻 Como Usar</h3><ol><li>Baixe os arquivos do repositório.</li><li>Clique com o botão direito em <code>run_admin.bat</code>.</li><li>Selecione 'Executar como administrador'.</li></ol><p>Compatível com Windows 10 e 11 (total) e Windows 7/8.1 (parcial).</p>",
     "imagem": "src/frontend/imagens/sysbot/sysbot1.jpeg",
-    "github": "https://github.com/MoacirJr10/SysBot"
+    "github": "https://github.com/MoacirJr10/SysBot",
+    "arquivo": "sysbot.md"
   },
   {
     "id": 8,
@@ -84,8 +84,8 @@
     "titulo": "Estação de Filtragem e Proteção de Alta Performance",
     "data": "25 Fev 2026",
     "resumo": "Desenvolvimento de um sistema de tratamento de energia com monitoramento em tempo real e case 3D.",
-    "conteudo": "<h3>1. Introdução e Objetivo</h3><p>O projeto nasceu da necessidade de alimentar equipamentos sensíveis de alto desempenho — um PC Gamer e uma Impressora 3D — que demandam energia estável e proteção contra interferências. O objetivo foi criar uma central de distribuição que não fosse apenas uma 'extensão', mas um sistema de tratamento de energia com monitoramento em tempo real.</p><h3>2. Especificações do Hardware</h3><p>Para garantir a integridade do sistema sob carga de 20A, foram selecionados componentes de nível industrial:</p><ul><li><strong>Filtragem EMI de 3 Estágios:</strong> Utilização de um módulo com indutores de modo comum e diferencial, capaz de eliminar ruídos de alta frequência.</li><li><strong>Monitoramento Atorch (100A):</strong> Implementação de um medidor inteligente para acompanhamento de voltagem, corrente e consumo (kWh).</li><li><strong>Condutores de 2,5mm²:</strong> Dimensionamento de fiação tripolar conforme normas técnicas para suportar a corrente nominal sem aquecimento.</li></ul><div class='img-container'><h4 style='text-align:center; margin-bottom:10px;'>Componentes Internos</h4><img src='src/frontend/imagens/protetor_de_surto/construção2.jpeg' class='img-artigo' alt='Componentes internos'><div class='img-legenda'>Filtro EMI, Disjuntor e Medidor Atorch</div></div><h3>3. Melhorias e Evolução do Projeto</h3><p>Durante o desenvolvimento, identificou-se que o filtro original era focado apenas em ruído e não em surtos de alta tensão. As seguintes melhorias foram aplicadas:</p><h4>Proteção Ativa contra Surtos (DPS)</h4><p>Integração de <strong>Varistores de Óxido Metálico (MOV)</strong> de 14mm (471K) na entrada do circuito. Eles atuam como válvulas de escape, ceifando picos de tensão.</p><div class='img-container'><h4 style='text-align:center; margin-bottom:10px;'>Melhoria com Varistores</h4><img src='src/frontend/imagens/protetor_de_surto/melhoria_no_filtro_de_ruido.jpeg' class='img-artigo' alt='Melhoria com Varistores'><div class='img-legenda'>Adição de varistores para proteção contra surtos</div></div><h4>Seletividade com Disjuntor Bipolar</h4><p>Adição de um disjuntor de 20A dedicado na caixa. Em uma rede 220V bifásica, isso garante o seccionamento total das duas fases em caso de falha, aumentando a segurança do operador.</p><h4>O Protetor Ideal</h4><p>Abaixo, o modelo de protetor de surto comercial que serviu de inspiração e que possui as características ideais de proteção.</p><div class='img-container'><h4 style='text-align:center; margin-bottom:10px;'>Referência Técnica</h4><img src='src/frontend/imagens/protetor_de_surto/protetor_de_surto_correto.jpeg' class='img-artigo' alt='Protetor de Surto Ideal'><div class='img-legenda'>Modelo de referência para o projeto</div></div><h3>4. Gabinete em PETG</h3><p>A substituição do plástico comum por um gabinete impresso em 3D com PETG garante maior resistência térmica (ponto de amolecimento superior) e durabilidade mecânica para o uso em bancada.</p><h3>5. Passo a Passo da Montagem</h3><p>Abaixo, o processo de construção da case em PETG e a montagem dos componentes eletrônicos.</p><div class='galeria-grid'><img src='src/frontend/imagens/protetor_de_surto/contrução.jpeg'><img src='src/frontend/imagens/protetor_de_surto/construção3.jpeg'><img src='src/frontend/imagens/protetor_de_surto/funcinamento.jpeg'><img src='src/frontend/imagens/protetor_de_surto/funcionamento2.jpeg'></div><h4>Download do Projeto 3D</h4><p>Se você tem uma impressora 3D, pode baixar o arquivo STL da case gratuitamente.</p><a href='src/frontend/imagens/protetor_de_surto/case3D/case.stl' class='btn btn-download' download><i class='fas fa-download'></i> Baixar Case 3D (.STL)</a>",
     "imagem": "src/frontend/imagens/protetor_de_surto/imagem_capa.jpeg",
-    "github": ""
+    "github": "",
+    "arquivo": "protetor-surto.md"
   }
 ]
