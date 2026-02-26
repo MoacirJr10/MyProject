@@ -1,5 +1,5 @@
 /* ==========================================================================
-   TIPOGRAFIA PROFISSIONAL (Estilo AkitaOnRails / Medium)
+   TIPOGRAFIA E ESTILO DE LEITURA
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;600;800&display=swap');
@@ -50,7 +50,7 @@ h3 { font-size: 1.4rem; }
     max-width: 100%;
     width: auto;
     height: auto;
-    max-height: 450px; /* Limita altura para não estourar a tela */
+    max-height: 450px;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     border: 1px solid var(--border-color);
