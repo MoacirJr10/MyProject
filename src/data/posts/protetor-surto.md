@@ -46,6 +46,6 @@ Abaixo, o processo de construção da case em PETG e a montagem dos componentes 
 </div>
 
 #### Download do Projeto 3D
-Se você tem uma impressora 3D, pode baixar o arquivo STL da case gratuitamente.
+Se você tem uma impressora 3D, pode baixar o arquivo STL da case gratuitamente no MakerWorld.
 
-<a href='src/frontend/imagens/protetor_de_surto/case3D/case.stl' class='btn btn-download' download><i class='fas fa-download'></i> Baixar Case 3D (.STL)</a>
+<a href='https://makerworld.com/pt/models/1533558-simple-5-slot-fuse-box-for-es-circuit-breakers#profileId-1625223' target='_blank' class='btn btn-download'><i class='fas fa-cube'></i> Baixar no MakerWorld</a>
