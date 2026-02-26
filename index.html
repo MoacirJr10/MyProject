@@ -9,6 +9,42 @@
     <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        /* Estilo da Barra de Pesquisa */
+        .search-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--text-color);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -19,13 +55,19 @@
         <nav class="nav-menu">
             <a href="index.html" class="nav-link active">Blog</a>
             <a href="about.html" class="nav-link">Sobre</a>
-            <a href="tools.html" class="nav-link">Apps</a> <!-- Link Corrigido -->
+            <a href="tools.html" class="nav-link">Apps</a>
             <button id="theme-toggle" class="theme-btn" aria-label="Alternar Tema">
                 <i class="fas fa-moon"></i>
             </button>
         </nav>
     </div>
 </header>
+
+<!-- Barra de Pesquisa (NOVO) -->
+<div class="search-container">
+    <input type="text" id="search-input" class="search-input" placeholder="Pesquisar artigos e projetos..." onkeyup="filtrarPorTexto()">
+    <i class="fas fa-search search-icon"></i>
+</div>
 
 <!-- Filtros -->
 <div class="filtros">

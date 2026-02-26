@@ -3,12 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let todosPosts = [];
+let tipoAtual = 'noticia'; // Guarda o tipo de filtro atual (noticia ou projeto)
 
 async function carregarPosts() {
     try {
         const response = await fetch('src/data/posts.json');
         todosPosts = await response.json();
-        filtrar('noticia'); // Padrão
+        filtrar(tipoAtual); // Padrão
     } catch (error) {
         console.error("Erro ao carregar posts:", error);
         document.getElementById('feed').innerHTML = "<p>Erro ao carregar conteúdo.</p>";
@@ -25,13 +26,7 @@ function renderizarPosts(posts) {
     }
 
     posts.forEach(post => {
-        // Link inteligente
-        let linkDestino;
-        if (post.tipo === 'projeto' && post.demo) {
-            linkDestino = post.demo;
-        } else {
-            linkDestino = `./post.html?id=${post.id}`; // Atualizado para post.html
-        }
+        const linkDestino = `./post.html?id=${post.id}`;
 
         const html = `
             <article class="card-post">
@@ -56,6 +51,7 @@ function renderizarPosts(posts) {
 }
 
 function filtrar(tipo) {
+    tipoAtual = tipo; // Atualiza o tipo atual
     const botoes = document.querySelectorAll('.btn-filtro');
     botoes.forEach(btn => {
         btn.classList.remove('ativo');
@@ -64,6 +60,30 @@ function filtrar(tipo) {
         }
     });
 
+    // Limpa a busca ao trocar de aba
+    document.getElementById('search-input').value = '';
+
     const filtrados = todosPosts.filter(p => p.tipo === tipo);
     renderizarPosts(filtrados);
+}
+
+// NOVA FUNÇÃO DE BUSCA
+function filtrarPorTexto() {
+    const termoBusca = document.getElementById('search-input').value.toLowerCase();
+
+    // Filtra primeiro pelo tipo (Artigos/Projetos)
+    const postsPorTipo = todosPosts.filter(p => p.tipo === tipoAtual);
+
+    // Depois, filtra pelo texto
+    const resultadoFinal = postsPorTipo.filter(post => {
+        const titulo = post.titulo.toLowerCase();
+        const resumo = post.resumo.toLowerCase();
+        const categoria = post.categoria.toLowerCase();
+
+        return titulo.includes(termoBusca) ||
+               resumo.includes(termoBusca) ||
+               categoria.includes(termoBusca);
+    });
+
+    renderizarPosts(resultadoFinal);
 }
