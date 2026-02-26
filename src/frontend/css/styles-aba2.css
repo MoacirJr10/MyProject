@@ -86,6 +86,23 @@ h3 {
     color: var(--text-color);
 }
 
+/* --- ESTILOS ESPECÍFICOS DO RESISTOR --- */
+.resistor-options {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /* Espaço entre as opções */
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.resistor-options label {
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .app-layout {
