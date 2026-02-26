@@ -24,8 +24,6 @@ const Navigation = {
             item.classList.remove('active');
             if (item.getAttribute('onclick').includes(abaId)) item.classList.add('active');
         });
-
-        if (abaId === "historico") Historico.render();
     }
 };
 
@@ -58,8 +56,6 @@ const Calculadoras = {
             <p><strong>Pastilha:</strong> ${res.pastilha} g</p>
             <p><strong>Comprimido:</strong> ${res.comp} un</p>
         `);
-
-        Historico.add(vol, res.sache, res.pastilha, res.comp);
     },
 
     area: function(e) {
@@ -202,39 +198,6 @@ const Resistor = {
 
 window.calcularResistor = () => Resistor.calcular();
 window.mudarFaixas = () => Resistor.mudarFaixas();
-
-
-// ==========================================================================
-// MÓDULO 5: HISTÓRICO
-// ==========================================================================
-const Historico = {
-    dados: [],
-    add: function(metragem, sache, pastilha, comprimido) {
-        try { this.dados = JSON.parse(localStorage.getItem("historicoCalculos")) || []; } catch(e) { this.dados = []; }
-        this.dados.push({ data: new Date().toLocaleString(), metragem, sache, pastilha, comprimido });
-        localStorage.setItem("historicoCalculos", JSON.stringify(this.dados));
-    },
-    render: function() {
-        try { this.dados = JSON.parse(localStorage.getItem("historicoCalculos")) || []; } catch(e) { this.dados = []; }
-        const container = document.querySelector(".historico-container");
-        if (!container) return;
-        container.innerHTML = this.dados.length ? this.dados.map(item => `
-            <div style="border-bottom:1px solid #ccc; padding:10px; margin-bottom:10px;">
-                <small>${item.data}</small>
-                <div><strong>${item.metragem.toFixed(2)} m³</strong></div>
-            </div>
-        `).join("") : "<p>Sem histórico.</p>";
-    },
-    limpar: function() {
-        if(confirm("Limpar tudo?")) {
-            localStorage.removeItem("historicoCalculos");
-            this.dados = [];
-            this.render();
-        }
-    }
-};
-
-window.limparHistorico = () => Historico.limpar();
 
 
 // ==========================================================================
