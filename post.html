@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
     <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/>
-    <link rel="stylesheet" href="src/frontend/css/typography.css"/> <!-- Nova Tipografia -->
+    <link rel="stylesheet" href="src/frontend/css/typography.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
@@ -54,17 +54,19 @@
                 if (post.github) botoesHtml += `<a href="${post.github}" target="_blank" class="btn"><i class="fab fa-github"></i> Ver no GitHub</a>`;
                 if (post.demo && !post.demo.includes('post.html')) botoesHtml += `<a href="${post.demo}" class="btn"><i class="fas fa-play"></i> Testar App</a>`;
 
+                // CORREÇÃO: Imagem principal agora tem classe e container para não ficar gigante
                 container.innerHTML = `
                     <div class="detalhe-header">
                         <div class="detalhe-meta">${post.categoria} • ${post.data}</div>
                         <h1 class="detalhe-titulo">${post.titulo}</h1>
                     </div>
-                    <img src="${post.imagem}" alt="${post.titulo}" class="detalhe-img">
+                    <div class="img-container">
+                        <img src="${post.imagem}" alt="${post.titulo}" class="img-artigo">
+                    </div>
                     <div class="detalhe-texto">${post.conteudo || post.resumo}</div>
                     <div class="detalhe-botoes">${botoesHtml}</div>
                 `;
 
-                // Expander de Código
                 setTimeout(() => {
                     container.querySelectorAll('pre').forEach(pre => {
                         if (pre.scrollHeight > 200) {
