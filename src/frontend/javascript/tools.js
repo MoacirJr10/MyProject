@@ -1,6 +1,5 @@
 /*
    TOOLS.JS - Central de Ferramentas
-   Organizado por Módulos
 */
 
 console.log("Tools.js carregado com sucesso!");
@@ -10,33 +9,26 @@ console.log("Tools.js carregado com sucesso!");
 // ==========================================================================
 const Navigation = {
     init: function() {
-        // Garante que a primeira aba (Blocos) esteja visível ao carregar
         this.mostrarAba("cubica");
     },
 
     mostrarAba: function(abaId) {
         console.log("Navegando para:", abaId);
 
-        // Esconde tudo
         document.querySelectorAll(".tab-content").forEach(aba => aba.style.display = "none");
 
-        // Mostra selecionada
         const aba = document.getElementById(abaId);
         if (aba) aba.style.display = "block";
 
-        // Atualiza Menu
         document.querySelectorAll('.menu-lateral li').forEach(item => {
             item.classList.remove('active');
             if (item.getAttribute('onclick').includes(abaId)) item.classList.add('active');
         });
 
-        // Hooks para módulos específicos
-        if (abaId === "financeiro") Financeiro.render();
         if (abaId === "historico") Historico.render();
     }
 };
 
-// Torna global para o HTML acessar
 window.mostrarAba = (id) => Navigation.mostrarAba(id);
 
 
@@ -109,7 +101,6 @@ const Calculadoras = {
         document.getElementById("diametro-result").innerText = `Diâmetro: ${d.toFixed(2)} m`;
     },
 
-    // Helpers
     getVal: (id) => parseFloat(document.getElementById(id)?.value) || 0,
     showRes: (id, html) => {
         const el = document.getElementById(id);
@@ -117,7 +108,6 @@ const Calculadoras = {
     }
 };
 
-// Expondo funções
 window.calcular = (e) => Calculadoras.blocos(e);
 window.calcularArea = (e) => Calculadoras.area(e);
 window.calcularFumigacaoSilo = (e) => Calculadoras.silo(e);
@@ -149,110 +139,69 @@ window.converterParaMilhas = (e) => Conversoes.exec(e, 0.000621371, "milhas");
 
 
 // ==========================================================================
-// MÓDULO 4: FINANCEIRO
+// MÓDULO 4: CALCULADORA DE RESISTOR (NOVO)
 // ==========================================================================
-const Financeiro = {
-    dados: [],
-    chart: null,
+const Resistor = {
+    cores: {
+        "0": "black", "1": "brown", "2": "red", "3": "orange", "4": "yellow",
+        "5": "green", "6": "blue", "7": "violet", "8": "grey", "9": "white",
+        "10": "gold", "100": "silver"
+    },
 
-    init: function() {
-        try { this.dados = JSON.parse(localStorage.getItem("gastos")) || []; } catch(e) { this.dados = []; }
+    calcular: function() {
+        const faixas = document.querySelector('input[name="faixas"]:checked').value;
+        const d1 = document.getElementById('sel-band1').value;
+        const d2 = document.getElementById('sel-band2').value;
+        const d3 = (faixas === '5') ? document.getElementById('sel-band3').value : '';
+        const mult = document.getElementById('sel-mult').value;
+        const tol = document.getElementById('sel-tol').value;
 
-        const form = document.getElementById("form-gasto");
-        if (form) {
-            const novoForm = form.cloneNode(true);
-            form.parentNode.replaceChild(novoForm, form);
-            novoForm.addEventListener("submit", (e) => {
-                e.preventDefault();
-                this.adicionar();
-            });
+        // Atualiza visual
+        document.getElementById('band1').style.backgroundColor = this.getColor(d1);
+        document.getElementById('band2').style.backgroundColor = this.getColor(d2);
+        document.getElementById('band3').style.backgroundColor = (faixas === '5') ? this.getColor(d3) : 'transparent';
+        document.getElementById('band-mult').style.backgroundColor = this.getColor(mult, true);
+        document.getElementById('band-tol').style.backgroundColor = this.getColor(tol, true);
+
+        if (d1 === '-1' || d2 === '-1' || mult === '-1' || tol === '-1' || (faixas === '5' && d3 === '-1')) {
+            document.getElementById('resultadoResistor').innerText = "---";
+            return;
         }
-        this.render();
+
+        const digitos = (faixas === '5') ? (d1 + d2 + d3) : (d1 + d2);
+        const valorBase = parseInt(digitos);
+        const valorFinal = valorBase * parseFloat(mult);
+
+        document.getElementById('resultadoResistor').innerText = `${this.formatarValor(valorFinal)}Ω ±${tol}%`;
     },
 
-    adicionar: function() {
-        const desc = document.getElementById("descricao")?.value.trim();
-        const val = parseFloat(document.getElementById("valor")?.value);
-        const data = document.getElementById("data")?.value;
-        const tipo = document.getElementById("tipo-pagamento")?.value;
-
-        if (!desc || !val || !data) return alert("Preencha tudo.");
-
-        this.dados.push({ descricao: desc, valor: val, data, tipoPagamento: tipo });
-        this.salvar();
-        document.getElementById("form-gasto").reset();
-        this.render();
+    mudarFaixas: function() {
+        const faixas = document.querySelector('input[name="faixas"]:checked').value;
+        const selBand3 = document.getElementById('sel-band3');
+        selBand3.style.display = (faixas === '5') ? 'block' : 'none';
+        this.calcular();
     },
 
-    remover: function(index) {
-        if(confirm("Remover?")) {
-            this.dados.splice(index, 1);
-            this.salvar();
-            this.render();
+    getColor: function(val, isSpecial = false) {
+        if (val === '-1') return 'transparent';
+        if (isSpecial) {
+            if (val === '0.1') return 'gold';
+            if (val === '0.01') return 'silver';
+            if (val === '5') return 'gold';
+            if (val === '10') return 'silver';
         }
+        return this.cores[val] || 'transparent';
     },
 
-    salvar: function() {
-        localStorage.setItem("gastos", JSON.stringify(this.dados));
-    },
-
-    render: function() {
-        this.renderTabela();
-        this.renderResumo();
-        this.renderGrafico();
-    },
-
-    renderTabela: function() {
-        const tbody = document.querySelector("#gastos tbody");
-        if(!tbody) return;
-        tbody.innerHTML = this.dados.map((g, i) => `
-            <tr>
-                <td>${g.descricao}</td>
-                <td>R$ ${g.valor.toFixed(2)}</td>
-                <td>${g.tipoPagamento}</td>
-                <td><button onclick="removerGasto(${i})" style="color:red; border:none; cursor:pointer;">X</button></td>
-            </tr>
-        `).join("");
-    },
-
-    renderResumo: function() {
-        const total = this.dados.reduce((acc, g) => acc + g.valor, 0);
-        const elTotal = document.getElementById("total-gasto");
-        if(elTotal) elTotal.textContent = total.toFixed(2);
-
-        const porTipo = {};
-        this.dados.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
-
-        const lista = document.getElementById("gastos-por-tipo");
-        if(lista) {
-            lista.innerHTML = Object.entries(porTipo).map(([k, v]) => `<li>${k}: R$ ${v.toFixed(2)}</li>`).join("");
-        }
-    },
-
-    renderGrafico: function() {
-        const canvas = document.getElementById("graficoGastos");
-        if (!canvas || typeof Chart === 'undefined') return;
-
-        const porTipo = {};
-        this.dados.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
-
-        if (this.chart) this.chart.destroy();
-
-        this.chart = new Chart(canvas.getContext("2d"), {
-            type: "doughnut",
-            data: {
-                labels: Object.keys(porTipo),
-                datasets: [{
-                    data: Object.values(porTipo),
-                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
-                }],
-            },
-            options: { responsive: true }
-        });
+    formatarValor: function(valor) {
+        if (valor >= 1000000) return (valor / 1000000) + ' M';
+        if (valor >= 1000) return (valor / 1000) + ' k';
+        return valor;
     }
 };
 
-window.removerGasto = (i) => Financeiro.remover(i);
+window.calcularResistor = () => Resistor.calcular();
+window.mudarFaixas = () => Resistor.mudarFaixas();
 
 
 // ==========================================================================
@@ -260,24 +209,15 @@ window.removerGasto = (i) => Financeiro.remover(i);
 // ==========================================================================
 const Historico = {
     dados: [],
-
     add: function(metragem, sache, pastilha, comprimido) {
         try { this.dados = JSON.parse(localStorage.getItem("historicoCalculos")) || []; } catch(e) { this.dados = []; }
-
-        this.dados.push({
-            data: new Date().toLocaleString(),
-            metragem, sache, pastilha, comprimido
-        });
-
+        this.dados.push({ data: new Date().toLocaleString(), metragem, sache, pastilha, comprimido });
         localStorage.setItem("historicoCalculos", JSON.stringify(this.dados));
     },
-
     render: function() {
         try { this.dados = JSON.parse(localStorage.getItem("historicoCalculos")) || []; } catch(e) { this.dados = []; }
-
         const container = document.querySelector(".historico-container");
         if (!container) return;
-
         container.innerHTML = this.dados.length ? this.dados.map(item => `
             <div style="border-bottom:1px solid #ccc; padding:10px; margin-bottom:10px;">
                 <small>${item.data}</small>
@@ -285,7 +225,6 @@ const Historico = {
             </div>
         `).join("") : "<p>Sem histórico.</p>";
     },
-
     limpar: function() {
         if(confirm("Limpar tudo?")) {
             localStorage.removeItem("historicoCalculos");
@@ -303,5 +242,5 @@ window.limparHistorico = () => Historico.limpar();
 // ==========================================================================
 document.addEventListener("DOMContentLoaded", function () {
     Navigation.init();
-    Financeiro.init();
+    Resistor.calcular(); // Inicia o resistor
 });
