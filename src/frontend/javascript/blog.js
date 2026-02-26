@@ -8,8 +8,7 @@ async function carregarPosts() {
     try {
         const response = await fetch('src/data/posts.json');
         todosPosts = await response.json();
-        // Carrega Artigos por padrão
-        filtrar('noticia');
+        filtrar('noticia'); // Padrão
     } catch (error) {
         console.error("Erro ao carregar posts:", error);
         document.getElementById('feed').innerHTML = "<p>Erro ao carregar conteúdo.</p>";
@@ -26,16 +25,12 @@ function renderizarPosts(posts) {
     }
 
     posts.forEach(post => {
-        // Lógica de Link Corrigida
+        // Link inteligente
         let linkDestino;
-
         if (post.tipo === 'projeto' && post.demo) {
-            // Se for um App (ferramenta), vai direto para a página da ferramenta
             linkDestino = post.demo;
         } else {
-            // Se for artigo ou projeto sem demo, vai para a página de detalhes
-            // O './' garante que o navegador procure a partir da pasta atual (raiz)
-            linkDestino = `./detalhes.html?id=${post.id}`;
+            linkDestino = `./post.html?id=${post.id}`; // Atualizado para post.html
         }
 
         const html = `

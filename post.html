@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <title>Artigo | Moacir Pereira</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
+    <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/>
+    <link rel="stylesheet" href="src/frontend/css/typography.css"/> <!-- Nova Tipografia -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <a href="index.html" class="logo">Moacir Pereira</a>
+        <nav class="nav-menu">
+            <a href="index.html" class="nav-link">Blog</a>
+            <a href="about.html" class="nav-link">Sobre</a>
+            <a href="tools.html" class="nav-link">Apps</a>
+            <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+        </nav>
+    </div>
+</header>
+
+<main class="detalhe-container">
+    <a href="index.html" class="btn-voltar">← Voltar</a>
+
+    <div id="conteudo-post">
+        <p style="text-align: center;">Carregando...</p>
+    </div>
+</main>
+
+<script src="src/frontend/javascript/theme.js"></script>
+<script src="src/frontend/javascript/lightbox.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = parseInt(params.get('id'));
+
+        if (!id) { window.location.href = 'index.html'; return; }
+
+        try {
+            const response = await fetch('src/data/posts.json');
+            const posts = await response.json();
+            const post = posts.find(p => p.id === id);
+
+            if (post) {
+                const container = document.getElementById('conteudo-post');
+
+                let botoesHtml = '';
+                if (post.github) botoesHtml += `<a href="${post.github}" target="_blank" class="btn"><i class="fab fa-github"></i> Ver no GitHub</a>`;
+                if (post.demo && !post.demo.includes('post.html')) botoesHtml += `<a href="${post.demo}" class="btn"><i class="fas fa-play"></i> Testar App</a>`;
+
+                container.innerHTML = `
+                    <div class="detalhe-header">
+                        <div class="detalhe-meta">${post.categoria} • ${post.data}</div>
+                        <h1 class="detalhe-titulo">${post.titulo}</h1>
+                    </div>
+                    <img src="${post.imagem}" alt="${post.titulo}" class="detalhe-img">
+                    <div class="detalhe-texto">${post.conteudo || post.resumo}</div>
+                    <div class="detalhe-botoes">${botoesHtml}</div>
+                `;
+
+                // Expander de Código
+                setTimeout(() => {
+                    container.querySelectorAll('pre').forEach(pre => {
+                        if (pre.scrollHeight > 200) {
+                            pre.classList.add('collapsed');
+                            const btn = document.createElement('button');
+                            btn.className = 'btn-expand-code';
+                            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver código completo';
+                            btn.onclick = () => {
+                                const isCollapsed = pre.classList.toggle('collapsed');
+                                btn.innerHTML = isCollapsed ? '<i class="fas fa-chevron-down"></i> Ver código completo' : '<i class="fas fa-chevron-up"></i> Recolher código';
+                                if(!isCollapsed) pre.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            };
+                            pre.parentNode.insertBefore(btn, pre.nextSibling);
+                        }
+                    });
+                }, 100);
+            } else {
+                document.getElementById('conteudo-post').innerHTML = "<p>Post não encontrado.</p>";
+            }
+        } catch (e) {
+            console.error(e);
+            document.getElementById('conteudo-post').innerHTML = "<p>Erro ao carregar.</p>";
+        }
+    });
+</script>
+
+</body>
+</html>
