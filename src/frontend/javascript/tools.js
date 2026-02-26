@@ -1,322 +1,307 @@
-/* Lógica das Ferramentas (tools.html) */
+/*
+   TOOLS.JS - Central de Ferramentas
+   Organizado por Módulos
+*/
 
-// Função para alternar entre as abas
-function mostrarAba(abaId) {
-  // 1. Esconde todas as abas
-  const abas = document.querySelectorAll(".tab-content");
-  abas.forEach((aba) => {
-    aba.style.display = "none";
-  });
+console.log("Tools.js carregado com sucesso!");
 
-  // 2. Mostra a aba selecionada
-  const abaSelecionada = document.getElementById(abaId);
-  if (abaSelecionada) {
-    abaSelecionada.style.display = "block";
-  }
-
-  // 3. Atualiza o menu lateral (Visual)
-  const menuItens = document.querySelectorAll('.menu-lateral li');
-  menuItens.forEach(item => {
-    item.classList.remove('active');
-    // Verifica se o onclick do item contém o ID da aba atual
-    if (item.getAttribute('onclick').includes(abaId)) {
-        item.classList.add('active');
-    }
-  });
-
-  // 4. Ações específicas por aba
-  if (abaId === "financeiro") {
-    atualizarGrafico();
-  } else if (abaId === "historico") {
-    atualizarHistorico();
-  }
-}
-
-// --- CALCULADORA DE BLOCOS ---
-function calcular(event) {
-  if (event) event.preventDefault();
-
-  const altura = parseFloat(document.getElementById("altura")?.value);
-  const largura = parseFloat(document.getElementById("largura")?.value);
-  const comprimento = parseFloat(document.getElementById("comprimento")?.value);
-
-  if ([altura, largura, comprimento].some((val) => isNaN(val))) {
-    alert("Por favor, insira todos os valores corretamente.");
-    return;
-  }
-
-  const metragemCubica = altura * largura * comprimento;
-  const sache = metragemCubica / 56;
-  const pastilha = metragemCubica * 2;
-  const comprimido = metragemCubica * 10;
-
-  document.getElementById("resultado").innerHTML = `
-        <p><strong>Volume:</strong> ${metragemCubica.toFixed(2)} m³</p>
-        <p><strong>Sachê:</strong> ${sache.toFixed(2)} un</p>
-        <p><strong>Pastilha:</strong> ${pastilha.toFixed(2)} g</p>
-        <p><strong>Comprimido:</strong> ${comprimido.toFixed(2)} un</p>
-    `;
-
-  salvarNoHistorico(metragemCubica, sache, pastilha, comprimido);
-}
-
-// --- CALCULADORA DE ÁREA ---
-function calcularArea(event) {
-  if (event) event.preventDefault();
-
-  const largura = parseFloat(document.getElementById("larguraArea")?.value);
-  const comprimento = parseFloat(document.getElementById("comprimentoArea")?.value);
-
-  if (isNaN(largura) || isNaN(comprimento) || largura <= 0 || comprimento <= 0) {
-    alert("Por favor, insira valores positivos.");
-    return;
-  }
-
-  const area = largura * comprimento;
-  document.getElementById("resultadoArea").innerHTML = `<p><strong>Área:</strong> ${area.toFixed(2)} m²</p>`;
-}
-
-// --- CALCULADORA DE SILO ---
-function calcularFumigacaoSilo(event) {
-  if (event) event.preventDefault();
-
-  const diametro = parseFloat(document.getElementById("diametroSilo")?.value);
-  const altura = parseFloat(document.getElementById("alturaSilo")?.value);
-  const tipoMaterial = document.getElementById("tipoMaterial")?.value;
-
-  if (isNaN(diametro) || isNaN(altura)) {
-    alert("Por favor, insira diâmetro e altura.");
-    return;
-  }
-
-  const raio = diametro / 2;
-  const volume = Math.PI * Math.pow(raio, 2) * altura;
-
-  let dosagemPorM3 = 0;
-  switch (tipoMaterial) {
-    case "milho": dosagemPorM3 = 4; break;
-    case "soja": dosagemPorM3 = 5; break;
-    case "arroz": dosagemPorM3 = 3; break;
-    case "amendoim": dosagemPorM3 = 5; break;
-    case "sorgo": dosagemPorM3 = 4.5; break;
-    default: dosagemPorM3 = 4;
-  }
-
-  const quantidadeFumigante = volume * dosagemPorM3;
-
-  document.getElementById("resultadoFumigacaoSilo").innerHTML = `
-        <p><strong>Volume:</strong> ${volume.toFixed(2)} m³</p>
-        <p><strong>Material:</strong> ${tipoMaterial.toUpperCase()}</p>
-        <p><strong>Dosagem:</strong> ${quantidadeFumigante.toFixed(2)} g (Fosfeto)</p>
-        <p><strong>Tempo:</strong> 10 dias</p>
-    `;
-}
-
-function mostrarCampoCircunferencia() {
-  const container = document.getElementById("circunferencia-container");
-  if (container) {
-      container.style.display = container.style.display === "none" ? "block" : "none";
-  }
-}
-
-function calcularDiametro(event) {
-  if (event) event.preventDefault();
-  const circunferencia = parseFloat(document.getElementById("circunferenciaSilo")?.value);
-
-  if (!isNaN(circunferencia) && circunferencia > 0) {
-    const diametro = circunferencia / Math.PI;
-    document.getElementById("diametroSilo").value = diametro.toFixed(2);
-    document.getElementById("diametro-result").innerText = `Diâmetro calculado: ${diametro.toFixed(2)} m`;
-  } else {
-    alert("Insira a circunferência.");
-  }
-}
-
-// --- CONVERSÕES ---
-function converterParaCentimetros(event) {
-  if (event) event.preventDefault();
-  const metros = parseFloat(document.getElementById("metros")?.value);
-  if (isNaN(metros)) return;
-  document.getElementById("resultadoConversao").innerHTML = `<p>${metros} m = <strong>${metros * 100} cm</strong></p>`;
-}
-
-function converterParaQuilometros(event) {
-  if (event) event.preventDefault();
-  const metros = parseFloat(document.getElementById("metros")?.value);
-  if (isNaN(metros)) return;
-  document.getElementById("resultadoConversao").innerHTML = `<p>${metros} m = <strong>${metros / 1000} km</strong></p>`;
-}
-
-function converterParaMilhas(event) {
-  if (event) event.preventDefault();
-  const metros = parseFloat(document.getElementById("metros")?.value);
-  if (isNaN(metros)) return;
-  document.getElementById("resultadoConversao").innerHTML = `<p>${metros} m = <strong>${(metros / 1609.34).toFixed(4)} milhas</strong></p>`;
-}
-
-// --- FINANCEIRO ---
-let gastos = [];
-let graficoGastos = null;
-
-function inicializarControleFinanceiro() {
-  try {
-    gastos = JSON.parse(localStorage.getItem("gastos")) || [];
-  } catch (e) {
-    gastos = [];
-  }
-
-  const formGasto = document.getElementById("form-gasto");
-  if (formGasto) {
-    // Remove listeners antigos para evitar duplicação
-    const novoForm = formGasto.cloneNode(true);
-    formGasto.parentNode.replaceChild(novoForm, formGasto);
-
-    novoForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      adicionarGasto();
-    });
-  }
-
-  atualizarListaGastos();
-  atualizarResumoFinanceiro();
-  atualizarGrafico();
-}
-
-function adicionarGasto() {
-  const descricao = document.getElementById("descricao")?.value.trim();
-  const valor = parseFloat(document.getElementById("valor")?.value);
-  const data = document.getElementById("data")?.value;
-  const tipoPagamento = document.getElementById("tipo-pagamento")?.value;
-
-  if (!descricao || isNaN(valor) || valor <= 0 || !data) {
-    alert("Preencha todos os campos.");
-    return;
-  }
-
-  gastos.push({ descricao, valor, data, tipoPagamento });
-  localStorage.setItem("gastos", JSON.stringify(gastos));
-
-  document.getElementById("form-gasto").reset();
-  atualizarListaGastos();
-  atualizarResumoFinanceiro();
-  atualizarGrafico();
-}
-
-function atualizarListaGastos() {
-  const tbody = document.querySelector("#gastos tbody");
-  if (!tbody) return;
-  tbody.innerHTML = "";
-
-  gastos.forEach((gasto, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-            <td>${gasto.descricao}</td>
-            <td>R$ ${gasto.valor.toFixed(2)}</td>
-            <td>${gasto.tipoPagamento}</td>
-            <td><button onclick="removerGasto(${index})" style="color:red; border:none; background:none; cursor:pointer;">X</button></td>
-        `;
-    tbody.appendChild(tr);
-  });
-}
-
-function removerGasto(index) {
-  if (confirm("Remover gasto?")) {
-    gastos.splice(index, 1);
-    localStorage.setItem("gastos", JSON.stringify(gastos));
-    atualizarListaGastos();
-    atualizarResumoFinanceiro();
-    atualizarGrafico();
-  }
-}
-
-function atualizarResumoFinanceiro() {
-  const total = gastos.reduce((acc, g) => acc + g.valor, 0);
-  const elTotal = document.getElementById("total-gasto");
-  if(elTotal) elTotal.textContent = total.toFixed(2);
-
-  const porTipo = {};
-  gastos.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
-
-  const lista = document.getElementById("gastos-por-tipo");
-  if(lista) {
-      lista.innerHTML = "";
-      for (const [tipo, valor] of Object.entries(porTipo)) {
-        const li = document.createElement("li");
-        li.textContent = `${tipo}: R$ ${valor.toFixed(2)}`;
-        lista.appendChild(li);
-      }
-  }
-}
-
-function atualizarGrafico() {
-  const canvas = document.getElementById("graficoGastos");
-  if (!canvas || typeof Chart === 'undefined') return;
-
-  const ctx = canvas.getContext("2d");
-  const porTipo = {};
-  gastos.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
-
-  if (graficoGastos) graficoGastos.destroy();
-
-  graficoGastos = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: Object.keys(porTipo),
-      datasets: [{
-        data: Object.values(porTipo),
-        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
-      }],
+// ==========================================================================
+// MÓDULO 1: NAVEGAÇÃO (ABAS)
+// ==========================================================================
+const Navigation = {
+    init: function() {
+        // Garante que a primeira aba (Blocos) esteja visível ao carregar
+        this.mostrarAba("cubica");
     },
-    options: { responsive: true }
-  });
-}
 
-// --- HISTÓRICO ---
-let historico = [];
+    mostrarAba: function(abaId) {
+        console.log("Navegando para:", abaId);
 
-function salvarNoHistorico(metragem, sache, pastilha, comprimido) {
-  const item = {
-    data: new Date().toLocaleString(),
-    metragem, sache, pastilha, comprimido
-  };
+        // Esconde tudo
+        document.querySelectorAll(".tab-content").forEach(aba => aba.style.display = "none");
 
-  try {
-      historico = JSON.parse(localStorage.getItem("historicoCalculos")) || [];
-  } catch(e) { historico = []; }
+        // Mostra selecionada
+        const aba = document.getElementById(abaId);
+        if (aba) aba.style.display = "block";
 
-  historico.push(item);
-  localStorage.setItem("historicoCalculos", JSON.stringify(historico));
-}
+        // Atualiza Menu
+        document.querySelectorAll('.menu-lateral li').forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('onclick').includes(abaId)) item.classList.add('active');
+        });
 
-function atualizarHistorico() {
-  try {
-      historico = JSON.parse(localStorage.getItem("historicoCalculos")) || [];
-  } catch(e) { historico = []; }
+        // Hooks para módulos específicos
+        if (abaId === "financeiro") Financeiro.render();
+        if (abaId === "historico") Historico.render();
+    }
+};
 
-  const container = document.querySelector(".historico-container");
-  if (!container) return;
+// Torna global para o HTML acessar
+window.mostrarAba = (id) => Navigation.mostrarAba(id);
 
-  container.innerHTML = historico.length ? historico.map(item => `
-    <div style="border-bottom:1px solid #ccc; padding:10px; margin-bottom:10px;">
-        <small>${item.data}</small>
-        <div><strong>${item.metragem.toFixed(2)} m³</strong></div>
-    </div>
-  `).join("") : "<p>Sem histórico.</p>";
-}
 
-function limparHistorico() {
-  if (confirm("Limpar tudo?")) {
-    localStorage.removeItem("historicoCalculos");
-    historico = [];
-    atualizarHistorico();
-  }
-}
+// ==========================================================================
+// MÓDULO 2: CALCULADORAS (Engenharia)
+// ==========================================================================
+const Calculadoras = {
+    blocos: function(e) {
+        if(e) e.preventDefault();
+        const h = this.getVal("altura");
+        const l = this.getVal("largura");
+        const c = this.getVal("comprimento");
 
-// --- INICIALIZAÇÃO ---
+        if (!h || !l || !c) return alert("Preencha todos os campos.");
+
+        const vol = h * l * c;
+        const res = {
+            vol: vol.toFixed(2),
+            sache: (vol / 56).toFixed(2),
+            pastilha: (vol * 2).toFixed(2),
+            comp: (vol * 10).toFixed(2)
+        };
+
+        this.showRes("resultado", `
+            <p><strong>Volume:</strong> ${res.vol} m³</p>
+            <p><strong>Sachê:</strong> ${res.sache} un</p>
+            <p><strong>Pastilha:</strong> ${res.pastilha} g</p>
+            <p><strong>Comprimido:</strong> ${res.comp} un</p>
+        `);
+
+        Historico.add(vol, res.sache, res.pastilha, res.comp);
+    },
+
+    area: function(e) {
+        if(e) e.preventDefault();
+        const l = this.getVal("larguraArea");
+        const c = this.getVal("comprimentoArea");
+        if (!l || !c) return alert("Preencha corretamente.");
+        this.showRes("resultadoArea", `<p><strong>Área:</strong> ${(l * c).toFixed(2)} m²</p>`);
+    },
+
+    silo: function(e) {
+        if(e) e.preventDefault();
+        const d = this.getVal("diametroSilo");
+        const h = this.getVal("alturaSilo");
+        const mat = document.getElementById("tipoMaterial")?.value || "milho";
+
+        if (!d || !h) return alert("Preencha diâmetro e altura.");
+
+        const raio = d / 2;
+        const vol = Math.PI * Math.pow(raio, 2) * h;
+
+        const taxas = { milho: 4, soja: 5, arroz: 3, amendoim: 5, sorgo: 4.5 };
+        const dose = vol * (taxas[mat] || 4);
+
+        this.showRes("resultadoFumigacaoSilo", `
+            <p><strong>Volume:</strong> ${vol.toFixed(2)} m³</p>
+            <p><strong>Material:</strong> ${mat.toUpperCase()}</p>
+            <p><strong>Dosagem:</strong> ${dose.toFixed(2)} g</p>
+        `);
+    },
+
+    diametro: function(e) {
+        if(e) e.preventDefault();
+        const circ = this.getVal("circunferenciaSilo");
+        if (!circ) return alert("Insira a circunferência.");
+
+        const d = circ / Math.PI;
+        document.getElementById("diametroSilo").value = d.toFixed(2);
+        document.getElementById("diametro-result").innerText = `Diâmetro: ${d.toFixed(2)} m`;
+    },
+
+    // Helpers
+    getVal: (id) => parseFloat(document.getElementById(id)?.value) || 0,
+    showRes: (id, html) => {
+        const el = document.getElementById(id);
+        if(el) el.innerHTML = html;
+    }
+};
+
+// Expondo funções
+window.calcular = (e) => Calculadoras.blocos(e);
+window.calcularArea = (e) => Calculadoras.area(e);
+window.calcularFumigacaoSilo = (e) => Calculadoras.silo(e);
+window.calcularDiametro = (e) => Calculadoras.diametro(e);
+window.mostrarCampoCircunferencia = () => {
+    const el = document.getElementById("circunferencia-container");
+    if(el) el.style.display = el.style.display === "none" ? "block" : "none";
+};
+
+
+// ==========================================================================
+// MÓDULO 3: CONVERSÕES
+// ==========================================================================
+const Conversoes = {
+    exec: function(e, fator, unidade) {
+        if(e) e.preventDefault();
+        const m = parseFloat(document.getElementById("metros")?.value);
+        if (isNaN(m)) return;
+
+        const res = m * fator;
+        document.getElementById("resultadoConversao").innerHTML =
+            `<p>${m} m = <strong>${res.toFixed(4).replace(/\.?0+$/, '')} ${unidade}</strong></p>`;
+    }
+};
+
+window.converterParaCentimetros = (e) => Conversoes.exec(e, 100, "cm");
+window.converterParaQuilometros = (e) => Conversoes.exec(e, 0.001, "km");
+window.converterParaMilhas = (e) => Conversoes.exec(e, 0.000621371, "milhas");
+
+
+// ==========================================================================
+// MÓDULO 4: FINANCEIRO
+// ==========================================================================
+const Financeiro = {
+    dados: [],
+    chart: null,
+
+    init: function() {
+        try { this.dados = JSON.parse(localStorage.getItem("gastos")) || []; } catch(e) { this.dados = []; }
+
+        const form = document.getElementById("form-gasto");
+        if (form) {
+            const novoForm = form.cloneNode(true);
+            form.parentNode.replaceChild(novoForm, form);
+            novoForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+                this.adicionar();
+            });
+        }
+        this.render();
+    },
+
+    adicionar: function() {
+        const desc = document.getElementById("descricao")?.value.trim();
+        const val = parseFloat(document.getElementById("valor")?.value);
+        const data = document.getElementById("data")?.value;
+        const tipo = document.getElementById("tipo-pagamento")?.value;
+
+        if (!desc || !val || !data) return alert("Preencha tudo.");
+
+        this.dados.push({ descricao: desc, valor: val, data, tipoPagamento: tipo });
+        this.salvar();
+        document.getElementById("form-gasto").reset();
+        this.render();
+    },
+
+    remover: function(index) {
+        if(confirm("Remover?")) {
+            this.dados.splice(index, 1);
+            this.salvar();
+            this.render();
+        }
+    },
+
+    salvar: function() {
+        localStorage.setItem("gastos", JSON.stringify(this.dados));
+    },
+
+    render: function() {
+        this.renderTabela();
+        this.renderResumo();
+        this.renderGrafico();
+    },
+
+    renderTabela: function() {
+        const tbody = document.querySelector("#gastos tbody");
+        if(!tbody) return;
+        tbody.innerHTML = this.dados.map((g, i) => `
+            <tr>
+                <td>${g.descricao}</td>
+                <td>R$ ${g.valor.toFixed(2)}</td>
+                <td>${g.tipoPagamento}</td>
+                <td><button onclick="removerGasto(${i})" style="color:red; border:none; cursor:pointer;">X</button></td>
+            </tr>
+        `).join("");
+    },
+
+    renderResumo: function() {
+        const total = this.dados.reduce((acc, g) => acc + g.valor, 0);
+        const elTotal = document.getElementById("total-gasto");
+        if(elTotal) elTotal.textContent = total.toFixed(2);
+
+        const porTipo = {};
+        this.dados.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
+
+        const lista = document.getElementById("gastos-por-tipo");
+        if(lista) {
+            lista.innerHTML = Object.entries(porTipo).map(([k, v]) => `<li>${k}: R$ ${v.toFixed(2)}</li>`).join("");
+        }
+    },
+
+    renderGrafico: function() {
+        const canvas = document.getElementById("graficoGastos");
+        if (!canvas || typeof Chart === 'undefined') return;
+
+        const porTipo = {};
+        this.dados.forEach(g => porTipo[g.tipoPagamento] = (porTipo[g.tipoPagamento] || 0) + g.valor);
+
+        if (this.chart) this.chart.destroy();
+
+        this.chart = new Chart(canvas.getContext("2d"), {
+            type: "doughnut",
+            data: {
+                labels: Object.keys(porTipo),
+                datasets: [{
+                    data: Object.values(porTipo),
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+                }],
+            },
+            options: { responsive: true }
+        });
+    }
+};
+
+window.removerGasto = (i) => Financeiro.remover(i);
+
+
+// ==========================================================================
+// MÓDULO 5: HISTÓRICO
+// ==========================================================================
+const Historico = {
+    dados: [],
+
+    add: function(metragem, sache, pastilha, comprimido) {
+        try { this.dados = JSON.parse(localStorage.getItem("historicoCalculos")) || []; } catch(e) { this.dados = []; }
+
+        this.dados.push({
+            data: new Date().toLocaleString(),
+            metragem, sache, pastilha, comprimido
+        });
+
+        localStorage.setItem("historicoCalculos", JSON.stringify(this.dados));
+    },
+
+    render: function() {
+        try { this.dados = JSON.parse(localStorage.getItem("historicoCalculos")) || []; } catch(e) { this.dados = []; }
+
+        const container = document.querySelector(".historico-container");
+        if (!container) return;
+
+        container.innerHTML = this.dados.length ? this.dados.map(item => `
+            <div style="border-bottom:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                <small>${item.data}</small>
+                <div><strong>${item.metragem.toFixed(2)} m³</strong></div>
+            </div>
+        `).join("") : "<p>Sem histórico.</p>";
+    },
+
+    limpar: function() {
+        if(confirm("Limpar tudo?")) {
+            localStorage.removeItem("historicoCalculos");
+            this.dados = [];
+            this.render();
+        }
+    }
+};
+
+window.limparHistorico = () => Historico.limpar();
+
+
+// ==========================================================================
+// INICIALIZAÇÃO GERAL
+// ==========================================================================
 document.addEventListener("DOMContentLoaded", function () {
-  // Garante que a primeira aba (Blocos) esteja visível ao carregar
-  mostrarAba("cubica");
-
-  // Inicializa módulos
-  inicializarControleFinanceiro();
+    Navigation.init();
+    Financeiro.init();
 });

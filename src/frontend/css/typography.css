@@ -1,0 +1,75 @@
+/* ==========================================================================
+   TIPOGRAFIA PROFISSIONAL (Estilo AkitaOnRails / Medium)
+   ========================================================================== */
+
+/* Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Inter:wght@400;600;800&display=swap');
+
+:root {
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; /* Menus, Botões */
+    --font-body: 'Merriweather', Georgia, serif; /* Artigos, Textos Longos */
+    --font-code: 'Fira Code', 'Consolas', monospace; /* Códigos */
+}
+
+/* Aplicação Geral */
+body {
+    font-family: var(--font-ui); /* Padrão para interface */
+}
+
+/* Títulos */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-ui);
+    font-weight: 800;
+    letter-spacing: -0.02em; /* Deixa o título mais "fechado" e moderno */
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+h1 { font-size: 2.5rem; line-height: 1.2; }
+h2 { font-size: 1.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+h3 { font-size: 1.4rem; }
+
+/* Textos de Artigos (A grande mudança) */
+.detalhe-texto, .conteudo-leitura {
+    font-family: var(--font-body);
+    font-size: 1.125rem; /* 18px - Melhor para leitura */
+    line-height: 1.8;     /* Espaçamento entre linhas confortável */
+    color: var(--text-color);
+    max-width: 740px;     /* Limite de largura para não cansar o olho */
+    margin: 0 auto;       /* Centraliza o texto */
+}
+
+.detalhe-texto p {
+    margin-bottom: 1.5rem;
+}
+
+/* Citações */
+blockquote {
+    border-left: 4px solid var(--text-color);
+    padding-left: 20px;
+    margin: 20px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* Códigos */
+pre, code {
+    font-family: var(--font-code);
+    font-size: 0.9rem;
+}
+
+/* Links no texto */
+.detalhe-texto a {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    transition: all 0.2s;
+}
+
+.detalhe-texto a:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    text-decoration: none;
+}
