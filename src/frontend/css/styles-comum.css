@@ -73,6 +73,7 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
 }
 
 .logo {
@@ -121,9 +122,44 @@ ul {
 }
 
 /* ==========================================================================
-   INPUTS E FORMULÁRIOS
+   BARRA DE PESQUISA (HEADER)
    ========================================================================== */
-input, select, textarea {
+.header-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.search-input {
+    padding: 8px 35px 8px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    width: 200px;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    width: 280px;
+    outline: none;
+    border-color: var(--text-color);
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    color: var(--text-secondary);
+    pointer-events: none;
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   INPUTS E FORMULÁRIOS GERAIS
+   ========================================================================== */
+input:not(.search-input), select, textarea {
     background-color: var(--input-bg);
     color: var(--text-color);
     border: 1px solid var(--input-border);
@@ -156,6 +192,7 @@ input:focus, select:focus, textarea:focus {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
 }
 
 .btn:hover {
@@ -216,7 +253,7 @@ pre.collapsed::after {
 }
 
 /* ==========================================================================
-   LIGHTBOX (ZOOM NA IMAGEM)
+   LIGHTBOX E IMAGENS
    ========================================================================== */
 .lightbox-modal {
     display: none;
@@ -265,25 +302,41 @@ pre.collapsed::after {
     cursor: pointer;
 }
 
-/* ==========================================================================
-   IMAGENS DE ARTIGO (NOVO)
-   ========================================================================== */
-.detalhe-texto img, .card-img, .article-image {
+/* Estilo para imagens dentro dos artigos */
+.img-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.img-artigo {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    max-height: 450px; /* Limita altura */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+    display: block;
+    margin: 0 auto;
     cursor: zoom-in;
     transition: transform 0.2s;
 }
 
-.detalhe-texto img:hover {
+.img-artigo:hover {
     transform: scale(1.01);
 }
 
-.article-image {
-    width: 100%;
-    max-height: 450px; /* Limita a altura */
-    object-fit: cover;   /* Garante que a imagem não distorça */
-    border-radius: 8px;
-    margin: 20px 0;
-    border: 1px solid var(--border-color);
+.img-legenda {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.card-img {
+    cursor: pointer;
+    transition: transform 0.2s;
 }
 
 /* Responsivo */
@@ -293,6 +346,9 @@ pre.collapsed::after {
         gap: 15px;
     }
     .lightbox-content {
+        width: 100%;
+    }
+    .search-input:focus {
         width: 100%;
     }
 }

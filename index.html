@@ -1,125 +1,175 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
+  <head>
     <title>Moacir Pereira</title>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
-    <link rel="stylesheet" href="src/frontend/css/blog-style.css"/>
-    <link rel="stylesheet" href="src/frontend/css/styles-comments.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/css/variables.css" />
+    <link rel="stylesheet" href="src/frontend/css/styles-comum.css" />
+    <link rel="stylesheet" href="src/frontend/css/blog-style.css" />
+    <link rel="stylesheet" href="src/frontend/css/styles-comments.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-        /* Estilo da Barra de Pesquisa */
-        .search-container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 0 20px;
-            position: relative;
-        }
+    <style></style>
+  </head>
 
-        .search-input {
-            width: 100%;
-            padding: 12px 45px 12px 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            font-size: 1rem;
-            transition: all 0.3s;
-            box-shadow: var(--shadow);
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--text-color);
-            box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 35px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-            pointer-events: none;
-        }
-    </style>
-</head>
-
-<body>
-
-<header class="main-header">
-    <div class="header-container">
+  <body>
+    <header class="main-header">
+      <div class="header-container">
         <a href="index.html" class="logo">Moacir Pereira</a>
+
+        <div class="header-search">
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Buscar..."
+          />
+          <i class="fas fa-search search-icon"></i>
+        </div>
+
         <nav class="nav-menu">
-            <a href="index.html" class="nav-link active">Blog</a>
-            <a href="about.html" class="nav-link">Sobre</a>
-            <a href="tools.html" class="nav-link">Apps</a>
-            <button id="theme-toggle" class="theme-btn" aria-label="Alternar Tema">
-                <i class="fas fa-moon"></i>
-            </button>
+          <a href="index.html" class="nav-link active">Blog</a>
+          <a href="about.html" class="nav-link">Sobre</a>
+          <a href="tools.html" class="nav-link">Apps</a>
+          <button
+            id="theme-toggle"
+            class="theme-btn"
+            aria-label="Alternar Tema"
+          >
+            <i class="fas fa-moon"></i>
+          </button>
         </nav>
-    </div>
-</header>
+      </div>
+    </header>
 
-<!-- Barra de Pesquisa (NOVO) -->
-<div class="search-container">
-    <input type="text" id="search-input" class="search-input" placeholder="Pesquisar artigos e projetos..." onkeyup="filtrarPorTexto()">
-    <i class="fas fa-search search-icon"></i>
-</div>
-
-<!-- Filtros -->
-<div class="filtros">
-    <button class="btn-filtro ativo" onclick="filtrar('noticia')">Artigos</button>
-    <button class="btn-filtro" onclick="filtrar('projeto')">Projetos</button>
-</div>
-
-<main id="feed" class="feed-container">
-    <!-- O JavaScript vai injetar os posts aqui -->
-</main>
-
-<!-- Seção de Comentários Globais -->
-<section id="comentarios" style="max-width: 800px; margin: 0 auto 4rem auto; padding: 0 20px;">
-    <h2 style="text-align: center; margin-bottom: 2rem; color: var(--text-color);">Comentários</h2>
-
-    <div id="google-login-container" style="margin-bottom: 20px; display: flex; justify-content: center;">
-        <div id="g_id_onload"
-             data-client_id="632537958246-1d68is3nfk1jis98ur4k88925p8ack4g.apps.googleusercontent.com"
-             data-callback="handleCredentialResponse"
-             data-auto_prompt="false">
-        </div>
-        <div class="g_id_signin"
-             data-type="standard"
-             data-size="large"
-             data-theme="outline"
-             data-text="sign_in_with"
-             data-shape="rectangular"
-             data-logo_alignment="left">
-        </div>
+    <!-- Filtros -->
+    <div class="filtros" style="margin-top: 30px">
+      <button class="btn-filtro ativo" data-tipo="noticia">Artigos</button>
+      <button class="btn-filtro" data-tipo="projeto">Projetos</button>
     </div>
 
-    <div id="user-info" style="display: none; justify-content: center; align-items: center; gap: 10px; margin-bottom: 15px; color: var(--text-secondary);">
-        <img id="user-avatar" src="" alt="Avatar" referrerpolicy="no-referrer" style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--text-color);">
-        <span>Logado como: <span id="user-name" style="font-weight: bold;"></span></span>
-        <button onclick="logout()" style="margin-left: 10px; padding: 5px 10px; font-size: 0.8em; cursor: pointer; background: transparent; border: 1px solid var(--text-secondary); color: var(--text-color); border-radius: 4px;">Sair</button>
-    </div>
+    <main id="feed" class="feed-container">
+      <!-- O JavaScript vai injetar os posts aqui -->
+    </main>
 
-    <form id="comment-form">
-        <input type="text" id="name" required placeholder="Seu nome" style="display:none;">
-        <textarea id="message" required placeholder="Deixe seu comentário sobre o blog..."></textarea>
+    <!-- Seção de Comentários Globais -->
+    <section
+      id="comentarios"
+      style="max-width: 800px; margin: 0 auto 4rem auto; padding: 0 20px"
+    >
+      <h2
+        style="
+          text-align: center;
+          margin-bottom: 2rem;
+          color: var(--text-color);
+        "
+      >
+        Comentários
+      </h2>
+
+      <div
+        id="google-login-container"
+        style="margin-bottom: 20px; display: flex; justify-content: center"
+      >
+        <div
+          id="g_id_onload"
+          data-client_id="632537958246-1d68is3nfk1jis98ur4k88925p8ack4g.apps.googleusercontent.com"
+          data-callback="handleCredentialResponse"
+          data-auto_prompt="false"
+        ></div>
+        <div
+          class="g_id_signin"
+          data-type="standard"
+          data-size="large"
+          data-theme="outline"
+          data-text="sign_in_with"
+          data-shape="rectangular"
+          data-logo_alignment="left"
+        ></div>
+      </div>
+
+      <div
+        id="user-info"
+        style="
+          display: none;
+          justify-content: center;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 15px;
+          color: var(--text-secondary);
+        "
+      >
+        <img
+          id="user-avatar"
+          src=""
+          alt="Avatar"
+          referrerpolicy="no-referrer"
+          style="
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid var(--text-color);
+          "
+        />
+        <span
+          >Logado como: <span id="user-name" style="font-weight: bold"></span
+        ></span>
+        <button
+          onclick="logout()"
+          style="
+            margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            cursor: pointer;
+            background: transparent;
+            border: 1px solid var(--text-secondary);
+            color: var(--text-color);
+            border-radius: 4px;
+          "
+        >
+          Sair
+        </button>
+      </div>
+
+      <form id="comment-form">
+        <input
+          type="text"
+          id="name"
+          required
+          placeholder="Seu nome"
+          style="display: none"
+        />
+        <textarea
+          id="message"
+          required
+          placeholder="Deixe seu comentário sobre o blog..."
+        ></textarea>
         <button type="submit" class="btn">Enviar</button>
-    </form>
+      </form>
 
-    <div id="comments">
+      <div id="comments">
         <div class="comment-list"></div>
-    </div>
-</section>
+      </div>
+    </section>
 
-<script src="src/frontend/javascript/theme.js"></script>
-<script src="src/frontend/javascript/blog.js"></script>
-<script src="src/frontend/javascript/comentarios.js"></script>
-<script src="src/frontend/javascript/lightbox.js"></script>
+    <script src="src/frontend/javascript/theme.js"></script>
+    <script src="src/frontend/javascript/lightbox.js"></script>
+    <script src="src/frontend/javascript/comentarios.js"></script>
 
-</body>
+    <script type="module">
+      import Navigation from "./src/js/modules/navigation.js";
+      import BlogModule from "./src/js/modules/blog.js";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        Navigation.init();
+        const blog = new BlogModule();
+        await blog.init();
+        console.log("✅ Blog carregado");
+      });
+    </script>
+  </body>
 </html>

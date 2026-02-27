@@ -1,284 +1,461 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
   <head>
     <title>Tools | Moacir Pereira</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/css/variables.css" />
     <link rel="stylesheet" href="src/frontend/css/styles-comum.css" />
     <link rel="stylesheet" href="src/frontend/css/styles-aba2.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <style>
-        /* Estilo Específico para o Resistor */
-        .resistor-container {
-            display: flex;
-            justify-content: center;
-            margin: 30px 0;
-        }
-        .resistor-body {
-            width: 300px;
-            height: 80px;
-            background-color: #e0e0e0;
-            border-radius: 40px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.2);
-            border: 2px solid #999;
-        }
-        .resistor-wire {
-            width: 50px;
-            height: 10px;
-            background-color: #999;
-            position: absolute;
-            z-index: -1;
-        }
-        .wire-left { left: -40px; }
-        .wire-right { right: -40px; }
+      /* Estilo Específico para o Resistor */
+      .resistor-container {
+        display: flex;
+        justify-content: center;
+        margin: 30px 0;
+      }
+      .resistor-body {
+        width: 300px;
+        height: 80px;
+        background-color: #e0e0e0;
+        border-radius: 40px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        box-shadow: inset 0 -5px 10px rgba(0, 0, 0, 0.2);
+        border: 2px solid #999;
+      }
+      .resistor-wire {
+        width: 50px;
+        height: 10px;
+        background-color: #999;
+        position: absolute;
+        z-index: -1;
+      }
+      .wire-left {
+        left: -40px;
+      }
+      .wire-right {
+        right: -40px;
+      }
 
-        .band {
-            width: 20px;
-            height: 100%;
-            background-color: transparent;
-            transition: background-color 0.3s;
-        }
+      .band {
+        width: 20px;
+        height: 100%;
+        background-color: transparent;
+        transition: background-color 0.3s;
+      }
 
-        .band-tolerance { margin-left: 30px; }
+      .band-tolerance {
+        margin-left: 30px;
+      }
 
-        .explanation {
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            border-left: 4px solid var(--text-color);
-        }
+      .explanation {
+        background-color: var(--card-bg);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        border-left: 4px solid var(--text-color);
+      }
 
-        .color-select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
+      .color-select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        background-color: var(--input-bg);
+        color: var(--text-color);
+      }
     </style>
   </head>
   <body>
-
     <header class="main-header">
-        <div class="header-container">
-            <a href="index.html" class="logo">Moacir Pereira</a>
-            <nav class="nav-menu">
-                <a href="index.html" class="nav-link">Blog</a>
-                <a href="about.html" class="nav-link">Sobre</a>
-                <a href="tools.html" class="nav-link active">Apps</a>
-                <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
-            </nav>
-        </div>
+      <div class="header-container">
+        <a href="index.html" class="logo">Moacir Pereira</a>
+        <nav class="nav-menu">
+          <a href="index.html" class="nav-link">Blog</a>
+          <a href="about.html" class="nav-link">Sobre</a>
+          <a href="tools.html" class="nav-link active">Apps</a>
+          <button id="theme-toggle" class="theme-btn">
+            <i class="fas fa-moon"></i>
+          </button>
+        </nav>
+      </div>
     </header>
 
     <div class="app-layout">
-        <nav class="menu-lateral">
-          <ul>
-            <li onclick="mostrarAba('cubica')" class="active">
-              <i class="fas fa-cube"></i> <span>Blocos</span>
-            </li>
-            <li onclick="mostrarAba('fumigacao-silo')">
-              <i class="fas fa-warehouse"></i> <span>Silo</span>
-            </li>
-            <li onclick="mostrarAba('resistor')">
-              <i class="fas fa-microchip"></i> <span>Resistor</span>
-            </li>
-            <li onclick="mostrarAba('area')">
-              <i class="fas fa-ruler-combined"></i> <span>Área</span>
-            </li>
-            <li onclick="mostrarAba('conversoes')">
-              <i class="fas fa-exchange-alt"></i> <span>Conversão</span>
-            </li>
-          </ul>
-        </nav>
+      <nav class="menu-lateral">
+        <ul>
+          <li onclick="mostrarAba('cubica')" class="active">
+            <i class="fas fa-cube"></i> <span>Blocos</span>
+          </li>
+          <li onclick="mostrarAba('fumigacao-silo')">
+            <i class="fas fa-warehouse"></i> <span>Silo</span>
+          </li>
+          <li onclick="mostrarAba('resistor')">
+            <i class="fas fa-microchip"></i> <span>Resistor</span>
+          </li>
+          <li onclick="mostrarAba('area')">
+            <i class="fas fa-ruler-combined"></i> <span>Área</span>
+          </li>
+          <li onclick="mostrarAba('conversoes')">
+            <i class="fas fa-exchange-alt"></i> <span>Conversão</span>
+          </li>
+        </ul>
+      </nav>
 
-        <div class="app-container">
-
-          <!-- Aba 1: Blocos -->
-          <div id="cubica" class="tab-content">
-            <h3>Fumigação em Blocos</h3>
-            <div class="explanation">
-                <p><strong>Como funciona:</strong> Calcula o volume de uma pilha retangular (bloco) e determina a quantidade de fumigante necessária.</p>
-                <p>A dosagem padrão utilizada é: 1 sachê para cada 56m³, 2 pastilhas por m³ ou 10 comprimidos por m³.</p>
-            </div>
-            <div class="form-grid">
-                <input type="number" id="altura" placeholder="Altura (m)" />
-                <input type="number" id="largura" placeholder="Largura (m)" />
-                <input type="number" id="comprimento" placeholder="Comprimento (m)" />
-            </div>
-            <button class="btn" onclick="calcular(event)">Calcular</button>
-            <div id="resultado" class="result"></div>
+      <div class="app-container">
+        <!-- Aba 1: Blocos -->
+        <div id="cubica" class="tab-content">
+          <h3>Fumigação em Blocos</h3>
+          <div class="explanation">
+            <p>
+              <strong>Como funciona:</strong> Calcula o volume de uma pilha
+              retangular (bloco) e determina a quantidade de fumigante
+              necessária.
+            </p>
+            <p>
+              A dosagem padrão utilizada é: 1 sachê para cada 56m³, 2 pastilhas
+              por m³ ou 10 comprimidos por m³.
+            </p>
           </div>
-
-          <!-- Aba 2: Silo -->
-          <div id="fumigacao-silo" class="tab-content" style="display: none">
-            <h3>Fumigação em Silo</h3>
-            <div class="explanation">
-                <p><strong>Como funciona:</strong> Calcula o volume de um cilindro (silo) e aplica a dosagem específica para cada tipo de grão.</p>
-                <p>Exemplo: Soja exige 5g/m³, enquanto Arroz exige apenas 3g/m³.</p>
-            </div>
-            <div class="form-grid">
-                <input type="number" id="diametroSilo" placeholder="Diâmetro (m)" />
-                <input type="number" id="alturaSilo" placeholder="Altura (m)" />
-                <select id="tipoMaterial">
-                  <option value="milho">Milho (4g/m³)</option>
-                  <option value="soja">Soja (5g/m³)</option>
-                  <option value="arroz">Arroz (3g/m³)</option>
-                  <option value="amendoim">Amendoim (5g/m³)</option>
-                  <option value="sorgo">Sorgo (4.5g/m³)</option>
-                </select>
-            </div>
-            <button class="btn" onclick="calcularFumigacaoSilo(event)">Calcular</button>
-
-            <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 10px;">
-                <p style="font-size: 0.9rem; color: var(--text-secondary);">Não sabe o diâmetro?</p>
-                <div style="display: flex; gap: 10px;">
-                    <input type="number" id="circunferenciaSilo" placeholder="Circunferência (m)" />
-                    <button class="btn" onclick="calcularDiametro(event)">Converter</button>
-                </div>
-            </div>
-            <div id="diametro-result"></div>
-            <div id="resultadoFumigacaoSilo" class="result"></div>
+          <div class="form-grid">
+            <input type="number" id="altura" placeholder="Altura (m)" />
+            <input type="number" id="largura" placeholder="Largura (m)" />
+            <input
+              type="number"
+              id="comprimento"
+              placeholder="Comprimento (m)"
+            />
           </div>
+          <button class="btn" onclick="calcular(event)">Calcular</button>
+          <div id="resultado" class="result"></div>
+        </div>
 
-          <!-- Aba 3: Resistor -->
-          <div id="resistor" class="tab-content" style="display: none">
-            <h3>Calculadora de Resistores</h3>
-            <div class="explanation">
-                <p><strong>Código de Cores:</strong> As faixas coloridas indicam o valor da resistência. A leitura é feita da esquerda para a direita.</p>
-                <p><strong>Exemplo:</strong> Marrom (1) - Preto (0) - Vermelho (x100) = 1000Ω ou 1kΩ.</p>
-            </div>
+        <!-- Aba 2: Silo -->
+        <div id="fumigacao-silo" class="tab-content" style="display: none">
+          <h3>Fumigação em Silo</h3>
+          <div class="explanation">
+            <p>
+              <strong>Como funciona:</strong> Calcula o volume de um cilindro
+              (silo) e aplica a dosagem específica para cada tipo de grão.
+            </p>
+            <p>Exemplo: Soja exige 5g/m³, enquanto Arroz exige apenas 3g/m³.</p>
+          </div>
+          <div class="form-grid">
+            <input type="number" id="diametroSilo" placeholder="Diâmetro (m)" />
+            <input type="number" id="alturaSilo" placeholder="Altura (m)" />
+            <select id="tipoMaterial">
+              <option value="milho">Milho (4g/m³)</option>
+              <option value="soja">Soja (5g/m³)</option>
+              <option value="arroz">Arroz (3g/m³)</option>
+              <option value="amendoim">Amendoim (5g/m³)</option>
+              <option value="sorgo">Sorgo (4.5g/m³)</option>
+            </select>
+          </div>
+          <button class="btn" onclick="calcularFumigacaoSilo(event)">
+            Calcular
+          </button>
 
-            <div class="resistor-container">
-                <div class="resistor-wire wire-left"></div>
-                <div class="resistor-body">
-                    <div class="band" id="band1"></div>
-                    <div class="band" id="band2"></div>
-                    <div class="band" id="band3"></div>
-                    <div class="band" id="band-mult"></div>
-                    <div class="band band-tolerance" id="band-tol"></div>
-                </div>
-                <div class="resistor-wire wire-right"></div>
-            </div>
-
-            <!-- CORREÇÃO: Classe para alinhar lado a lado -->
-            <div class="resistor-options">
-                <label><input type="radio" name="faixas" value="4" checked onclick="mudarFaixas()"> 4 Faixas</label>
-                <label><input type="radio" name="faixas" value="5" onclick="mudarFaixas()"> 5 Faixas (Precisão)</label>
-            </div>
-
-            <div class="form-grid" id="resistor-inputs">
-                <select id="sel-band1" class="color-select" onchange="calcularResistor()">
-                    <option value="-1">1ª Faixa</option>
-                    <option value="0" style="background:black; color:white;">Preto (0)</option>
-                    <option value="1" style="background:brown; color:white;">Marrom (1)</option>
-                    <option value="2" style="background:red; color:white;">Vermelho (2)</option>
-                    <option value="3" style="background:orange;">Laranja (3)</option>
-                    <option value="4" style="background:yellow;">Amarelo (4)</option>
-                    <option value="5" style="background:green; color:white;">Verde (5)</option>
-                    <option value="6" style="background:blue; color:white;">Azul (6)</option>
-                    <option value="7" style="background:violet;">Violeta (7)</option>
-                    <option value="8" style="background:grey; color:white;">Cinza (8)</option>
-                    <option value="9" style="background:white;">Branco (9)</option>
-                </select>
-
-                <select id="sel-band2" class="color-select" onchange="calcularResistor()">
-                    <option value="-1">2ª Faixa</option>
-                    <option value="0" style="background:black; color:white;">Preto (0)</option>
-                    <option value="1" style="background:brown; color:white;">Marrom (1)</option>
-                    <option value="2" style="background:red; color:white;">Vermelho (2)</option>
-                    <option value="3" style="background:orange;">Laranja (3)</option>
-                    <option value="4" style="background:yellow;">Amarelo (4)</option>
-                    <option value="5" style="background:green; color:white;">Verde (5)</option>
-                    <option value="6" style="background:blue; color:white;">Azul (6)</option>
-                    <option value="7" style="background:violet;">Violeta (7)</option>
-                    <option value="8" style="background:grey; color:white;">Cinza (8)</option>
-                    <option value="9" style="background:white;">Branco (9)</option>
-                </select>
-
-                <select id="sel-band3" class="color-select" onchange="calcularResistor()" style="display:none;">
-                    <option value="-1">3ª Faixa</option>
-                    <option value="0" style="background:black; color:white;">Preto (0)</option>
-                    <option value="1" style="background:brown; color:white;">Marrom (1)</option>
-                    <option value="2" style="background:red; color:white;">Vermelho (2)</option>
-                    <option value="3" style="background:orange;">Laranja (3)</option>
-                    <option value="4" style="background:yellow;">Amarelo (4)</option>
-                    <option value="5" style="background:green; color:white;">Verde (5)</option>
-                    <option value="6" style="background:blue; color:white;">Azul (6)</option>
-                    <option value="7" style="background:violet;">Violeta (7)</option>
-                    <option value="8" style="background:grey; color:white;">Cinza (8)</option>
-                    <option value="9" style="background:white;">Branco (9)</option>
-                </select>
-
-                <select id="sel-mult" class="color-select" onchange="calcularResistor()">
-                    <option value="-1">Multiplicador</option>
-                    <option value="1" style="background:black; color:white;">Preto (x1)</option>
-                    <option value="10" style="background:brown; color:white;">Marrom (x10)</option>
-                    <option value="100" style="background:red; color:white;">Vermelho (x100)</option>
-                    <option value="1000" style="background:orange;">Laranja (x1k)</option>
-                    <option value="10000" style="background:yellow;">Amarelo (x10k)</option>
-                    <option value="100000" style="background:green; color:white;">Verde (x100k)</option>
-                    <option value="1000000" style="background:blue; color:white;">Azul (x1M)</option>
-                    <option value="0.1" style="background:gold;">Ouro (x0.1)</option>
-                    <option value="0.01" style="background:silver;">Prata (x0.01)</option>
-                </select>
-
-                <select id="sel-tol" class="color-select" onchange="calcularResistor()">
-                    <option value="-1">Tolerância</option>
-                    <option value="5" style="background:gold;">Ouro (±5%)</option>
-                    <option value="10" style="background:silver;">Prata (±10%)</option>
-                    <option value="1" style="background:brown; color:white;">Marrom (±1%)</option>
-                    <option value="2" style="background:red; color:white;">Vermelho (±2%)</option>
-                </select>
-            </div>
-
-            <div id="resultadoResistor" class="result" style="text-align: center; font-size: 1.5rem; font-weight: bold;">
-                ---
+          <div
+            style="
+              margin-top: 20px;
+              border-top: 1px solid var(--border-color);
+              padding-top: 10px;
+            "
+          >
+            <p style="font-size: 0.9rem; color: var(--text-secondary)">
+              Não sabe o diâmetro?
+            </p>
+            <div style="display: flex; gap: 10px">
+              <input
+                type="number"
+                id="circunferenciaSilo"
+                placeholder="Circunferência (m)"
+              />
+              <button class="btn" onclick="calcularDiametro(event)">
+                Converter
+              </button>
             </div>
           </div>
+          <div id="diametro-result"></div>
+          <div id="resultadoFumigacaoSilo" class="result"></div>
+        </div>
 
-          <!-- Aba 4: Área -->
-          <div id="area" class="tab-content" style="display: none">
-            <h3>Cálculo de Área</h3>
-            <div class="explanation">
-                <p>Cálculo simples de área retangular (Largura x Comprimento).</p>
-            </div>
-            <div class="form-grid">
-                <input type="number" id="larguraArea" placeholder="Largura (m)" min="0" />
-                <input type="number" id="comprimentoArea" placeholder="Comprimento (m)" min="0" />
-            </div>
-            <button class="btn" onclick="calcularArea(event)">Calcular</button>
-            <div id="resultadoArea" class="result"></div>
+        <!-- Aba 3: Resistor -->
+        <div id="resistor" class="tab-content" style="display: none">
+          <h3>Calculadora de Resistores</h3>
+          <div class="explanation">
+            <p>
+              <strong>Código de Cores:</strong> As faixas coloridas indicam o
+              valor da resistência. A leitura é feita da esquerda para a
+              direita.
+            </p>
+            <p>
+              <strong>Exemplo:</strong> Marrom (1) - Preto (0) - Vermelho (x100)
+              = 1000Ω ou 1kΩ.
+            </p>
           </div>
 
-          <!-- Aba 5: Conversões -->
-          <div id="conversoes" class="tab-content" style="display: none">
-            <h3>Conversões</h3>
-            <div class="explanation">
-                <p>Ferramenta rápida para converter metros em outras unidades de medida comuns.</p>
+          <div class="resistor-container">
+            <div class="resistor-wire wire-left"></div>
+            <div class="resistor-body">
+              <div class="band" id="band1"></div>
+              <div class="band" id="band2"></div>
+              <div class="band" id="band3"></div>
+              <div class="band" id="band-mult"></div>
+              <div class="band band-tolerance" id="band-tol"></div>
             </div>
-            <input type="number" id="metros" placeholder="Metros (m)" />
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                <button class="btn" onclick="converterParaCentimetros(event)">para cm</button>
-                <button class="btn" onclick="converterParaQuilometros(event)">para km</button>
-                <button class="btn" onclick="converterParaMilhas(event)">para milhas</button>
-            </div>
-            <div id="resultadoConversao" class="result"></div>
+            <div class="resistor-wire wire-right"></div>
+          </div>
+
+          <!-- CORREÇÃO: Classe para alinhar lado a lado -->
+          <div class="resistor-options">
+            <label
+              ><input
+                type="radio"
+                name="faixas"
+                value="4"
+                checked
+                onclick="mudarFaixas()"
+              />
+              4 Faixas</label
+            >
+            <label
+              ><input
+                type="radio"
+                name="faixas"
+                value="5"
+                onclick="mudarFaixas()"
+              />
+              5 Faixas (Precisão)</label
+            >
+          </div>
+
+          <div class="form-grid" id="resistor-inputs">
+            <select
+              id="sel-band1"
+              class="color-select"
+              onchange="calcularResistor()"
+            >
+              <option value="-1">1ª Faixa</option>
+              <option value="0" style="background: black; color: white">
+                Preto (0)
+              </option>
+              <option value="1" style="background: brown; color: white">
+                Marrom (1)
+              </option>
+              <option value="2" style="background: red; color: white">
+                Vermelho (2)
+              </option>
+              <option value="3" style="background: orange">Laranja (3)</option>
+              <option value="4" style="background: yellow">Amarelo (4)</option>
+              <option value="5" style="background: green; color: white">
+                Verde (5)
+              </option>
+              <option value="6" style="background: blue; color: white">
+                Azul (6)
+              </option>
+              <option value="7" style="background: violet">Violeta (7)</option>
+              <option value="8" style="background: grey; color: white">
+                Cinza (8)
+              </option>
+              <option value="9" style="background: white">Branco (9)</option>
+            </select>
+
+            <select
+              id="sel-band2"
+              class="color-select"
+              onchange="calcularResistor()"
+            >
+              <option value="-1">2ª Faixa</option>
+              <option value="0" style="background: black; color: white">
+                Preto (0)
+              </option>
+              <option value="1" style="background: brown; color: white">
+                Marrom (1)
+              </option>
+              <option value="2" style="background: red; color: white">
+                Vermelho (2)
+              </option>
+              <option value="3" style="background: orange">Laranja (3)</option>
+              <option value="4" style="background: yellow">Amarelo (4)</option>
+              <option value="5" style="background: green; color: white">
+                Verde (5)
+              </option>
+              <option value="6" style="background: blue; color: white">
+                Azul (6)
+              </option>
+              <option value="7" style="background: violet">Violeta (7)</option>
+              <option value="8" style="background: grey; color: white">
+                Cinza (8)
+              </option>
+              <option value="9" style="background: white">Branco (9)</option>
+            </select>
+
+            <select
+              id="sel-band3"
+              class="color-select"
+              onchange="calcularResistor()"
+              style="display: none"
+            >
+              <option value="-1">3ª Faixa</option>
+              <option value="0" style="background: black; color: white">
+                Preto (0)
+              </option>
+              <option value="1" style="background: brown; color: white">
+                Marrom (1)
+              </option>
+              <option value="2" style="background: red; color: white">
+                Vermelho (2)
+              </option>
+              <option value="3" style="background: orange">Laranja (3)</option>
+              <option value="4" style="background: yellow">Amarelo (4)</option>
+              <option value="5" style="background: green; color: white">
+                Verde (5)
+              </option>
+              <option value="6" style="background: blue; color: white">
+                Azul (6)
+              </option>
+              <option value="7" style="background: violet">Violeta (7)</option>
+              <option value="8" style="background: grey; color: white">
+                Cinza (8)
+              </option>
+              <option value="9" style="background: white">Branco (9)</option>
+            </select>
+
+            <select
+              id="sel-mult"
+              class="color-select"
+              onchange="calcularResistor()"
+            >
+              <option value="-1">Multiplicador</option>
+              <option value="1" style="background: black; color: white">
+                Preto (x1)
+              </option>
+              <option value="10" style="background: brown; color: white">
+                Marrom (x10)
+              </option>
+              <option value="100" style="background: red; color: white">
+                Vermelho (x100)
+              </option>
+              <option value="1000" style="background: orange">
+                Laranja (x1k)
+              </option>
+              <option value="10000" style="background: yellow">
+                Amarelo (x10k)
+              </option>
+              <option value="100000" style="background: green; color: white">
+                Verde (x100k)
+              </option>
+              <option value="1000000" style="background: blue; color: white">
+                Azul (x1M)
+              </option>
+              <option value="0.1" style="background: gold">Ouro (x0.1)</option>
+              <option value="0.01" style="background: silver">
+                Prata (x0.01)
+              </option>
+            </select>
+
+            <select
+              id="sel-tol"
+              class="color-select"
+              onchange="calcularResistor()"
+            >
+              <option value="-1">Tolerância</option>
+              <option value="5" style="background: gold">Ouro (±5%)</option>
+              <option value="10" style="background: silver">
+                Prata (±10%)
+              </option>
+              <option value="1" style="background: brown; color: white">
+                Marrom (±1%)
+              </option>
+              <option value="2" style="background: red; color: white">
+                Vermelho (±2%)
+              </option>
+            </select>
+          </div>
+
+          <div
+            id="resultadoResistor"
+            class="result"
+            style="text-align: center; font-size: 1.5rem; font-weight: bold"
+          >
+            ---
           </div>
         </div>
+
+        <!-- Aba 4: Área -->
+        <div id="area" class="tab-content" style="display: none">
+          <h3>Cálculo de Área</h3>
+          <div class="explanation">
+            <p>Cálculo simples de área retangular (Largura x Comprimento).</p>
+          </div>
+          <div class="form-grid">
+            <input
+              type="number"
+              id="larguraArea"
+              placeholder="Largura (m)"
+              min="0"
+            />
+            <input
+              type="number"
+              id="comprimentoArea"
+              placeholder="Comprimento (m)"
+              min="0"
+            />
+          </div>
+          <button class="btn" onclick="calcularArea(event)">Calcular</button>
+          <div id="resultadoArea" class="result"></div>
+        </div>
+
+        <!-- Aba 5: Conversões -->
+        <div id="conversoes" class="tab-content" style="display: none">
+          <h3>Conversões</h3>
+          <div class="explanation">
+            <p>
+              Ferramenta rápida para converter metros em outras unidades de
+              medida comuns.
+            </p>
+          </div>
+          <input type="number" id="metros" placeholder="Metros (m)" />
+          <div
+            style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px"
+          >
+            <button class="btn" onclick="converterParaCentimetros(event)">
+              para cm
+            </button>
+            <button class="btn" onclick="converterParaQuilometros(event)">
+              para km
+            </button>
+            <button class="btn" onclick="converterParaMilhas(event)">
+              para milhas
+            </button>
+          </div>
+          <div id="resultadoConversao" class="result"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Scripts -->
     <script src="src/frontend/javascript/theme.js"></script>
-    <script src="src/frontend/javascript/tools.js"></script>
+    <script type="module">
+      import Navigation from "./src/js/modules/navigation.js";
+      import Calculator from "./src/js/modules/calculator.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        Navigation.init();
+        window.Calculator = Calculator;
+        console.log("✅ Ferramentas carregadas");
+      });
+    </script>
   </body>
 </html>
