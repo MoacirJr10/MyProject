@@ -19,6 +19,10 @@ class BlogModule {
   async init() {
     try {
       await this.carregarPosts();
+      // Renderizar posts iniciais após carregar
+      const tipoInicial =
+        (AppState.blog && AppState.blog.tipoAtual) || "noticia";
+      this.filtrar(tipoInicial);
       this.setupEventListeners();
       console.log("✅ Blog inicializado");
     } catch (error) {

@@ -6,7 +6,6 @@
 import Navigation from "./modules/navigation.js";
 import Calculator from "./modules/calculator.js";
 import Carousel from "./modules/carousel.js";
-import Financeiro from "./modules/financeiro.js";
 import BlogModule from "./modules/blog.js";
 import "../css/variables.css";
 
@@ -32,10 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const blogModule = new BlogModule();
     blogModule.init();
 
-    // ===== CONTROLE FINANCEIRO =====
-    const financeiro = new Financeiro();
-    window.FinanceiroModule = financeiro; // Expor globalmente para onclick em HTML
-
     // ===== CALCULADORA =====
     window.Calculator = Calculator; // Expor globalmente para onclick em HTML
 
@@ -51,4 +46,4 @@ window.addEventListener("beforeunload", () => {
   // EventManager já limpa automaticamente via addEventListener('beforeunload')
 });
 
-export { Navigation, Calculator, Carousel, Financeiro, BlogModule };
+export { Navigation, Calculator, Carousel, BlogModule };

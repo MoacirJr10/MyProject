@@ -80,6 +80,16 @@
     <header class="main-header">
       <div class="header-container">
         <a href="index.html" class="logo">Moacir Pereira</a>
+        <div class="header-search">
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Buscar..."
+          />
+          <i class="fas fa-search search-icon"></i>
+        </div>
+
         <nav class="nav-menu">
           <a href="index.html" class="nav-link">Blog</a>
           <a href="about.html" class="nav-link">Sobre</a>
@@ -447,13 +457,18 @@
 
     <!-- Scripts -->
     <script src="src/frontend/javascript/theme.js"></script>
+    <script src="src/frontend/javascript/tools.js"></script>
     <script type="module">
-      import Navigation from "./src/js/modules/navigation.js";
-      import Calculator from "./src/js/modules/calculator.js";
+      import BlogModule from "./src/js/modules/blog.js";
 
-      document.addEventListener("DOMContentLoaded", () => {
-        Navigation.init();
-        window.Calculator = Calculator;
+      document.addEventListener("DOMContentLoaded", async () => {
+        try {
+          const blog = new BlogModule();
+          await blog.init();
+        } catch (e) {
+          console.warn("⚠️ Blog não carregado na página de ferramentas:", e);
+        }
+
         console.log("✅ Ferramentas carregadas");
       });
     </script>

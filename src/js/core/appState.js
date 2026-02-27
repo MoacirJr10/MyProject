@@ -5,12 +5,7 @@
  */
 
 const AppState = {
-  // ========== MÓDULO FINANCEIRO ==========
-  financeiro: {
-    gastos: [],
-    grafico: null,
-    historico: [],
-  },
+  // módulos de estado mantidos
 
   // ========== MÓDULO BLOG ==========
   blog: {
@@ -24,61 +19,6 @@ const AppState = {
     replyingToId: null,
     replyingToName: null,
     userToken: null,
-  },
-
-  // ========== MÉTODOS FINANCEIRO ==========
-  getFinanceiro() {
-    return this.financeiro;
-  },
-
-  setGasto(novoGasto) {
-    this.financeiro.gastos.push(novoGasto);
-    this.salvarGastosLocalStorage();
-    return novoGasto;
-  },
-
-  removerGasto(index) {
-    if (index >= 0 && index < this.financeiro.gastos.length) {
-      this.financeiro.gastos.splice(index, 1);
-      this.salvarGastosLocalStorage();
-      return true;
-    }
-    return false;
-  },
-
-  limparGastos() {
-    this.financeiro.gastos = [];
-    localStorage.removeItem("gastos");
-    return true;
-  },
-
-  carregarGastosLocalStorage() {
-    try {
-      const gastos = JSON.parse(localStorage.getItem("gastos"));
-      if (Array.isArray(gastos)) {
-        this.financeiro.gastos = gastos;
-        return true;
-      }
-    } catch (e) {
-      console.error("❌ Erro ao carregar gastos:", e);
-    }
-    this.financeiro.gastos = [];
-    return false;
-  },
-
-  salvarGastosLocalStorage() {
-    try {
-      const tamanho = JSON.stringify(this.financeiro.gastos).length;
-      if (tamanho > 5242880) {
-        // 5MB
-        console.warn("⚠️ LocalStorage quase cheio (>5MB)");
-      }
-      localStorage.setItem("gastos", JSON.stringify(this.financeiro.gastos));
-      return true;
-    } catch (e) {
-      console.error("❌ Erro ao salvar gastos:", e);
-      return false;
-    }
   },
 
   // ========== MÉTODOS BLOG ==========
@@ -135,11 +75,7 @@ const AppState = {
 
   // ========== LIMPEZA ==========
   cleanup() {
-    // Limpar gráficos
-    if (this.financeiro.grafico) {
-      this.financeiro.grafico.destroy();
-      this.financeiro.grafico = null;
-    }
+    // nenhuma limpeza especial necessária além de comentários e blog
     console.log("✅ AppState limpo");
     return true;
   },

@@ -9,9 +9,7 @@ function mostrarAba(abaId) {
     abaSelecionada.style.display = "block";
   }
 
-  if (abaId === "financeiro") {
-    atualizarGrafico();
-  } else if (abaId === "historico") {
+  if (abaId === "historico") {
     atualizarHistorico();
   }
 }
@@ -48,7 +46,7 @@ function calcularArea(event) {
 
   const largura = parseFloat(document.getElementById("larguraArea")?.value);
   const comprimento = parseFloat(
-    document.getElementById("comprimentoArea")?.value
+    document.getElementById("comprimentoArea")?.value,
   );
 
   if (
@@ -63,7 +61,7 @@ function calcularArea(event) {
 
   const area = largura * comprimento;
   document.getElementById("resultadoArea").innerHTML = `Área: ${area.toFixed(
-    2
+    2,
   )} m²`;
 }
 
@@ -114,7 +112,7 @@ function calcularFumigacaoSilo(event) {
           tipoMaterial.charAt(0).toUpperCase() + tipoMaterial.slice(1)
         }</p>
         <p>Dosagem Necessária: ${quantidadeFumigante.toFixed(
-          2
+          2,
         )} g de fosfeto de alumínio</p>
         <p>Tempo de Exposição: ${tempoExposicao}</p>
     `;
@@ -129,14 +127,13 @@ function calcularDiametro(event) {
   if (event) event.preventDefault();
 
   const circunferencia = parseFloat(
-    document.getElementById("circunferenciaSilo")?.value
+    document.getElementById("circunferenciaSilo")?.value,
   );
   if (!isNaN(circunferencia) && circunferencia > 0) {
     const diametro = circunferencia / Math.PI;
     document.getElementById("diametroSilo").value = diametro.toFixed(2);
-    document.getElementById(
-      "diametro-result"
-    ).innerText = `O diâmetro do silo é: ${diametro.toFixed(2)} m`;
+    document.getElementById("diametro-result").innerText =
+      `O diâmetro do silo é: ${diametro.toFixed(2)} m`;
   } else {
     alert("Por favor, insira a circunferência para calcular o diâmetro.");
   }
@@ -153,9 +150,8 @@ function converterParaCentimetros(event) {
   }
 
   const centimetros = metros * 100;
-  document.getElementById(
-    "resultadoConversao"
-  ).innerHTML = `${metros} metros = ${centimetros} cm`;
+  document.getElementById("resultadoConversao").innerHTML =
+    `${metros} metros = ${centimetros} cm`;
 }
 
 function converterParaQuilometros(event) {
@@ -169,9 +165,8 @@ function converterParaQuilometros(event) {
   }
 
   const quilometros = metros / 1000;
-  document.getElementById(
-    "resultadoConversao"
-  ).innerHTML = `${metros} metros = ${quilometros} km`;
+  document.getElementById("resultadoConversao").innerHTML =
+    `${metros} metros = ${quilometros} km`;
 }
 
 function converterParaMilhas(event) {
@@ -185,145 +180,8 @@ function converterParaMilhas(event) {
   }
 
   const milhas = metros / 1609.34;
-  document.getElementById(
-    "resultadoConversao"
-  ).innerHTML = `${metros} metros = ${milhas.toFixed(4)} milhas`;
-}
-
-let gastos = [];
-let graficoGastos = null;
-
-function inicializarControleFinanceiro() {
-  try {
-    gastos = JSON.parse(localStorage.getItem("gastos")) || [];
-  } catch (e) {
-    console.error("Erro ao carregar gastos:", e);
-    gastos = [];
-  }
-
-  const formGasto = document.getElementById("form-gasto");
-  if (formGasto) {
-    formGasto.addEventListener("submit", function (event) {
-      event.preventDefault();
-      adicionarGasto();
-    });
-  }
-
-  atualizarListaGastos();
-  atualizarResumoFinanceiro();
-  atualizarGrafico();
-}
-
-function adicionarGasto() {
-  const descricao = document.getElementById("descricao")?.value.trim();
-  const valor = parseFloat(document.getElementById("valor")?.value);
-  const data = document.getElementById("data")?.value;
-  const tipoPagamento = document.getElementById("tipo-pagamento")?.value;
-
-  if (!descricao || isNaN(valor) || valor <= 0 || !data || !tipoPagamento) {
-    alert("Por favor, preencha todos os campos corretamente.");
-    return;
-  }
-
-  const gasto = { descricao, valor, data, tipoPagamento };
-  gastos.push(gasto);
-  localStorage.setItem("gastos", JSON.stringify(gastos));
-
-  document.getElementById("form-gasto").reset();
-
-  atualizarListaGastos();
-  atualizarResumoFinanceiro();
-  atualizarGrafico();
-}
-
-function atualizarListaGastos() {
-  const tbody = document.querySelector("#gastos tbody");
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-
-  gastos.forEach((gasto, index) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-            <td>${gasto.descricao}</td>
-            <td>R$ ${gasto.valor.toFixed(2)}</td>
-            <td>${gasto.tipoPagamento}</td>
-            <td><button onclick="removerGasto(${index})">Remover</button></td>
-        `;
-    tbody.appendChild(tr);
-  });
-}
-
-function removerGasto(index) {
-  if (confirm("Tem certeza que deseja remover este gasto?")) {
-    gastos.splice(index, 1);
-    localStorage.setItem("gastos", JSON.stringify(gastos));
-    atualizarListaGastos();
-    atualizarResumoFinanceiro();
-    atualizarGrafico();
-  }
-}
-
-function atualizarResumoFinanceiro() {
-  const totalGasto = gastos.reduce((total, gasto) => total + gasto.valor, 0);
-  document.getElementById("total-gasto").textContent = totalGasto.toFixed(2);
-
-  const gastosPorTipo = {};
-  gastos.forEach((gasto) => {
-    gastosPorTipo[gasto.tipoPagamento] =
-      (gastosPorTipo[gasto.tipoPagamento] || 0) + gasto.valor;
-  });
-
-  const listaGastosPorTipo = document.getElementById("gastos-por-tipo");
-  listaGastosPorTipo.innerHTML = "";
-
-  for (const tipo in gastosPorTipo) {
-    const li = document.createElement("li");
-    li.textContent = `${tipo}: R$ ${gastosPorTipo[tipo].toFixed(2)}`;
-    listaGastosPorTipo.appendChild(li);
-  }
-}
-
-function atualizarGrafico() {
-  const canvas = document.getElementById("graficoGastos");
-  if (!canvas) return;
-
-  const ctx = canvas.getContext("2d");
-
-  const tipos = {};
-  gastos.forEach((gasto) => {
-    tipos[gasto.tipoPagamento] =
-      (tipos[gasto.tipoPagamento] || 0) + gasto.valor;
-  });
-
-  const labels = Object.keys(tipos);
-  const data = Object.values(tipos);
-
-  if (graficoGastos) {
-    graficoGastos.destroy();
-  }
-
-  graficoGastos = new Chart(ctx, {
-    type: "doughnut",
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          data: data,
-          backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: "Distribuição de Gastos por Tipo",
-        },
-      },
-    },
-  });
+  document.getElementById("resultadoConversao").innerHTML =
+    `${metros} metros = ${milhas.toFixed(4)} milhas`;
 }
 
 let historico = [];
@@ -376,7 +234,7 @@ function atualizarHistorico() {
                 <p>Pastilha: ${item.pastilha.toFixed(2)}</p>
                 <p>Comprimido: ${item.comprimido.toFixed(2)}</p>
             </div>
-        `
+        `,
           )
           .join("")
       : "<p>Nenhum cálculo no histórico.</p>";
@@ -392,16 +250,15 @@ function limparHistorico() {
 
 document.addEventListener("DOMContentLoaded", function () {
   mostrarAba("cubica");
-  inicializarControleFinanceiro();
   atualizarHistorico();
 });
 
 /* Setas Slids cards */
-document.querySelectorAll('.projeto-card').forEach(card => {
-  const slider = card.querySelector('.slider');
-  const images = card.querySelectorAll('.slider img');
-  const prevBtn = card.querySelector('.prev');
-  const nextBtn = card.querySelector('.next');
+document.querySelectorAll(".projeto-card").forEach((card) => {
+  const slider = card.querySelector(".slider");
+  const images = card.querySelectorAll(".slider img");
+  const prevBtn = card.querySelector(".prev");
+  const nextBtn = card.querySelector(".next");
 
   let index = 0;
 
@@ -411,8 +268,8 @@ document.querySelectorAll('.projeto-card').forEach(card => {
   }
 
   if (prevBtn && nextBtn) {
-    prevBtn.addEventListener('click', () => showImage(index - 1));
-    nextBtn.addEventListener('click', () => showImage(index + 1));
+    prevBtn.addEventListener("click", () => showImage(index - 1));
+    nextBtn.addEventListener("click", () => showImage(index + 1));
   }
 });
 // Modal
@@ -422,8 +279,8 @@ const captionText = document.getElementById("caption");
 const closeBtn = document.querySelector(".modal .close");
 
 // Ao clicar em qualquer imagem do slider, abre o modal
-document.querySelectorAll('.slider img').forEach(img => {
-  img.addEventListener('click', () => {
+document.querySelectorAll(".slider img").forEach((img) => {
+  img.addEventListener("click", () => {
     modal.style.display = "block";
     modalImg.src = img.src;
     captionText.textContent = img.alt;
@@ -431,12 +288,12 @@ document.querySelectorAll('.slider img').forEach(img => {
 });
 
 // Fechar modal
-closeBtn.addEventListener('click', () => {
+closeBtn.addEventListener("click", () => {
   modal.style.display = "none";
 });
 
 // Fechar clicando fora da imagem
-modal.addEventListener('click', (e) => {
+modal.addEventListener("click", (e) => {
   if (e.target === modal) {
     modal.style.display = "none";
   }

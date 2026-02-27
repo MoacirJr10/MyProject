@@ -32,7 +32,6 @@ src/js/modules/
 ├── navigation.js         (61 linhas)  - Abas consolidadas
 ├── calculator.js        (174 linhas) - Todos cálculos
 ├── carousel.js          (184 linhas) - Slider unificado
-├── financeiro.js        (281 linhas) - Gastos + gráficos
 └── blog.js              (222 linhas) - Posts com debounce
 
 src/js/
@@ -73,7 +72,7 @@ Documentation
 | **Memory Leaks**     | ✅ RESOLVIDO | EventManager auto-cleanup em beforeunload                                      |
 | **Injection SQL**    | ⚠️ N/A       | Frontend puro, sem queries diretas                                             |
 | **CORS**             | ✅ OK        | Fetch padrão respeita CORS do servidor                                         |
-| **Input Validation** | ✅ MELHORADO | financeiro.js valida: min/max, tipo, comprimento                               |
+| **Input Validation** | ✅ MELHORADO | remoção de módulo financeiro, histórico de cálculos permanece                  |
 
 ### ⚠️ VULNERABILIDADES IDENTIFICADAS & FIXES
 
@@ -296,9 +295,7 @@ const AppState = {
   // ✅ Sem variáveis globais soltas
   // ✅ Todos dados privados dentro do objeto
   // ✅ Getters/setters controlam acesso
-  financeiro: {
-    /* privado */
-  },
+  // módulo financeiro foi removido nesta versão
   blog: {
     /* privado */
   },
@@ -348,33 +345,16 @@ sanitize(text) {
 
 ---
 
-### Financeiro Module (Input Validation)
+<!-- O módulo financeiro foi removido do projeto, portanto detalhes de sua validação não se aplicam mais. -->
 
-```javascript
-adicionarGasto() {
-  const descricao = inputDesc.value.trim();
-
-  // ✅ Valida comprimento
-  if (descricao.length < 3) {
-    throw new Error("Descrição mínimo 3 caracteres");
-  }
-
-  const valor = parseFloat(inputValor.value);
-
-  // ✅ Valida range
-  if (valor < 0.01 || valor > 1000000) {
-    throw new Error("Valor entre R$0.01 e R$1.000.000");
-  }
-
-  // ✅ Valida data
-  const data = new Date(inputData.value);
-  if (isNaN(data.getTime())) {
-    throw new Error("Data inválida");
-  }
+if (isNaN(data.getTime())) {
+throw new Error("Data inválida");
 }
-```
+}
 
-**Vulnerabilidade Potencial:** Nenhuma identificada  
+````
+
+**Vulnerabilidade Potencial:** Nenhuma identificada
 **Validação:** Todos inputs parseados e validados antes de armazenar
 
 ---
@@ -390,7 +370,7 @@ debug()              // ✅ Console.table() para auditoria
 window.addEventListener("beforeunload", () => {
   EventManager.removeAll();  // ✅ Auto-cleanup
 });
-```
+````
 
 **Vulnerabilidade Potencial:** Nenhuma identificada  
 **Validação:** Zero memory leaks, validado com removeAll() em beforeunload

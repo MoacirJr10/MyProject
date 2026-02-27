@@ -12,16 +12,37 @@ const Navigation = {
    * Inicializar navegação
    */
   init() {
-    const tabButtons = document.querySelectorAll("[data-tab]");
+    // Procura por elementos que declaram a aba via `data-tab`
+    let tabButtons = Array.from(document.querySelectorAll("[data-tab]"));
+
+    // Fallback: detecta elementos com `onclick="mostrarAba('id')"` (ex.: menu-lateral)
     if (tabButtons.length === 0) {
-      console.warn("⚠️ Nenhum botão com data-tab encontrado");
+      const candidates = Array.from(
+        document.querySelectorAll(
+          ".menu-lateral li, .tab-controls li, .btn-filtro, [onclick]",
+        ),
+      );
+
+      candidates.forEach((el) => {
+        const onclick = el.getAttribute("onclick") || "";
+        const m = onclick.match(/mostrarAba\(['\"]([^'\"]+)['\"]\)/);
+        if (m) {
+          el.dataset.tab = m[1];
+          tabButtons.push(el);
+        }
+      });
+    }
+
+    if (tabButtons.length === 0) {
+      console.warn("⚠️ Nenhum botão de aba encontrado");
       return;
     }
 
     tabButtons.forEach((btn) => {
       EventManager.on(btn, "click", (e) => {
         e.preventDefault();
-        this.mostrarAba(btn.dataset.tab);
+        const target = btn.dataset.tab || btn.getAttribute("data-tab");
+        if (target) this.mostrarAba(target);
       });
     });
 
