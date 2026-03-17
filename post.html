@@ -1,88 +1,72 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+<head>
     <title>Artigo | Moacir Pereira</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/css/variables.css" />
-    <link rel="stylesheet" href="src/frontend/css/styles-comum.css" />
-    <link rel="stylesheet" href="src/frontend/css/typography.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="src/frontend/css/styles-comum.css"/>
+    <link rel="stylesheet" href="src/frontend/css/typography.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <!-- Biblioteca para renderizar Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
-  </head>
+</head>
 
-  <body>
-    <header class="main-header">
-      <div class="header-container">
+<body>
+
+<header class="main-header">
+    <div class="header-container">
         <a href="index.html" class="logo">Moacir Pereira</a>
+
+        <div class="header-search">
+            <!-- Redireciona para home com busca se estiver num post -->
+            <input type="text" class="search-input" placeholder="Buscar..." onkeypress="if(event.key === 'Enter') window.location.href = 'index.html?q=' + this.value">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+
         <nav class="nav-menu">
-          <a href="index.html" class="nav-link">Blog</a>
-          <a href="about.html" class="nav-link">Sobre</a>
-          <a href="tools.html" class="nav-link">Apps</a>
-          <button id="theme-toggle" class="theme-btn">
-            <i class="fas fa-moon"></i>
-          </button>
+            <a href="index.html" class="nav-link">Blog</a>
+            <a href="about.html" class="nav-link">Sobre</a>
+            <a href="tools.html" class="nav-link">Apps</a>
+            <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
         </nav>
-      </div>
-    </header>
+    </div>
+</header>
 
-    <main class="detalhe-container">
-      <a href="index.html" class="btn-voltar">← Voltar</a>
+<main class="detalhe-container">
+    <a href="index.html" class="btn-voltar">← Voltar</a>
 
-      <div id="conteudo-post">
-        <p style="text-align: center">Carregando...</p>
-      </div>
-    </main>
+    <div id="conteudo-post">
+        <p style="text-align: center;">Carregando...</p>
+    </div>
+</main>
 
-    <script src="src/frontend/javascript/theme.js"></script>
-    <script src="src/frontend/javascript/lightbox.js"></script>
-
-    <script type="module">
-      import Navigation from "./src/js/modules/navigation.js";
-
-      document.addEventListener("DOMContentLoaded", () => {
-        Navigation.init();
-      });
-    </script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", async () => {
+<script src="src/frontend/javascript/theme.js"></script>
+<script src="src/frontend/javascript/lightbox.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
         const params = new URLSearchParams(window.location.search);
-        const id = parseInt(params.get("id"));
+        const id = parseInt(params.get('id'));
 
-        if (!id) {
-          window.location.href = "index.html";
-          return;
-        }
+        if (!id) { window.location.href = 'index.html'; return; }
 
         try {
-          const response = await fetch("src/data/posts.json");
-          const posts = await response.json();
-          const post = posts.find((p) => p.id === id);
+            const response = await fetch('src/data/posts.json');
+            const posts = await response.json();
+            const post = posts.find(p => p.id === id);
 
-          if (post) {
-            const container = document.getElementById("conteudo-post");
+            if (post) {
+                const container = document.getElementById('conteudo-post');
 
-            // Busca o conteúdo do arquivo Markdown
-            const markdownResponse = await fetch(
-              `src/data/posts/${post.arquivo}`,
-            );
-            const markdownText = await markdownResponse.text();
-            const htmlContent = marked.parse(markdownText); // Converte para HTML
-            const safeHtmlContent = DOMPurify.sanitize(htmlContent);
+                // Busca o conteúdo do arquivo Markdown
+                const markdownResponse = await fetch(`src/data/posts/${post.arquivo}`);
+                const markdownText = await markdownResponse.text();
+                const htmlContent = marked.parse(markdownText);
 
-            let botoesHtml = "";
-            if (post.github)
-              botoesHtml += `<a href="${post.github}" target="_blank" rel="noopener noreferrer" class="btn"><i class="fab fa-github"></i> Ver no GitHub</a>`;
-            if (post.demo)
-              botoesHtml += `<a href="${post.demo}" rel="noopener noreferrer" class="btn"><i class="fas fa-play"></i> Testar App</a>`;
+                let botoesHtml = '';
+                if (post.github) botoesHtml += `<a href="${post.github}" target="_blank" class="btn"><i class="fab fa-github"></i> Ver no GitHub</a>`;
+                if (post.demo) botoesHtml += `<a href="${post.demo}" class="btn"><i class="fas fa-play"></i> Testar App</a>`;
 
-            container.innerHTML = `
+                container.innerHTML = `
                     <div class="detalhe-header">
                         <div class="detalhe-meta">${post.categoria} • ${post.data}</div>
                         <h1 class="detalhe-titulo">${post.titulo}</h1>
@@ -90,19 +74,38 @@
                     <div class="img-container">
                         <img src="${post.imagem}" alt="${post.titulo}" class="img-artigo">
                     </div>
-                    <div class="detalhe-texto">${safeHtmlContent}</div>
+                    <div class="detalhe-texto">${htmlContent}</div>
                     <div class="detalhe-botoes">${botoesHtml}</div>
                 `;
-          } else {
-            document.getElementById("conteudo-post").innerHTML =
-              "<p>Post não encontrado.</p>";
-          }
+
+                // Renderiza lightbox e códigos após carregar o conteúdo dinâmico
+                setTimeout(() => {
+                    // Código Expander
+                    container.querySelectorAll('pre').forEach(pre => {
+                        if (pre.scrollHeight > 200) {
+                            pre.classList.add('collapsed');
+                            const btn = document.createElement('button');
+                            btn.className = 'btn-expand-code';
+                            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Ver código completo';
+                            btn.onclick = () => {
+                                const isCollapsed = pre.classList.toggle('collapsed');
+                                btn.innerHTML = isCollapsed ? '<i class="fas fa-chevron-down"></i> Ver código completo' : '<i class="fas fa-chevron-up"></i> Recolher código';
+                                if(!isCollapsed) pre.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            };
+                            pre.parentNode.insertBefore(btn, pre.nextSibling);
+                        }
+                    });
+                }, 100);
+
+            } else {
+                document.getElementById('conteudo-post').innerHTML = "<p>Post não encontrado.</p>";
+            }
         } catch (e) {
-          console.error(e);
-          document.getElementById("conteudo-post").innerHTML =
-            "<p>Erro ao carregar.</p>";
+            console.error(e);
+            document.getElementById('conteudo-post').innerHTML = "<p>Erro ao carregar.</p>";
         }
-      });
-    </script>
-  </body>
+    });
+</script>
+
+</body>
 </html>
