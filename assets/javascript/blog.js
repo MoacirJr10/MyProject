@@ -13,13 +13,16 @@ function sanitize(text) {
 
 async function carregarPosts() {
   try {
-    const response = await fetch("src/data/posts.json");
+    // Corrigido o caminho de "src/data/posts.json" para "data/posts.json"
+    const response = await fetch("data/posts.json");
+    if (!response.ok) throw new Error("Erro ao carregar o arquivo JSON");
+    
     todosPosts = await response.json();
     filtrar(tipoAtual); // Padrão
   } catch (error) {
     console.error("Erro ao carregar posts:", error);
     document.getElementById("feed").innerHTML =
-      "<p>Erro ao carregar conteúdo.</p>";
+      "<p style='text-align:center; color:red;'>Erro ao carregar conteúdo. Verifique o console para mais detalhes.</p>";
   }
 }
 
@@ -100,13 +103,16 @@ function filtrar(tipo) {
   const botoes = document.querySelectorAll(".btn-filtro");
   botoes.forEach((btn) => {
     btn.classList.remove("ativo");
-    if (btn.getAttribute("onclick").includes(tipo)) {
+    // Verifica se o atributo onclick contém o tipo buscado
+    const onclickAttr = btn.getAttribute("onclick");
+    if (onclickAttr && onclickAttr.includes(`'${tipo}'`)) {
       btn.classList.add("ativo");
     }
   });
 
   // Limpa a busca ao trocar de aba
-  document.getElementById("search-input").value = "";
+  const searchInput = document.getElementById("search-input");
+  if (searchInput) searchInput.value = "";
 
   const filtrados = todosPosts.filter((p) => p.tipo === tipo);
   renderizarPosts(filtrados);
@@ -114,18 +120,19 @@ function filtrar(tipo) {
 
 // NOVA FUNÇÃO DE BUSCA
 function filtrarPorTexto() {
-  const termoBusca = document
-    .getElementById("search-input")
-    .value.toLowerCase();
+  const searchInput = document.getElementById("search-input");
+  if (!searchInput) return;
+  
+  const termoBusca = searchInput.value.toLowerCase();
 
   // Filtra primeiro pelo tipo (Artigos/Projetos)
   const postsPorTipo = todosPosts.filter((p) => p.tipo === tipoAtual);
 
   // Depois, filtra pelo texto
   const resultadoFinal = postsPorTipo.filter((post) => {
-    const titulo = post.titulo.toLowerCase();
-    const resumo = post.resumo.toLowerCase();
-    const categoria = post.categoria.toLowerCase();
+    const titulo = (post.titulo || "").toLowerCase();
+    const resumo = (post.resumo || "").toLowerCase();
+    const categoria = (post.categoria || "").toLowerCase();
 
     return (
       titulo.includes(termoBusca) ||

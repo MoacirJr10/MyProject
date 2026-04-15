@@ -4,8 +4,8 @@
     <title>Artigo | Moacir Pereira</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="src/assets/css/styles-comum.css"/>
-    <link rel="stylesheet" href="src/assets/css/typography.css"/>
+    <link rel="stylesheet" href="assets/css/styles-comum.css"/>
+    <link rel="stylesheet" href="assets/css/typography.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <!-- Biblioteca para renderizar Markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -40,8 +40,8 @@
     </div>
 </main>
 
-<script src="src/assets/javascript/theme.js"></script>
-<script src="src/assets/javascript/lightbox.js"></script>
+<script src="assets/javascript/theme.js"></script>
+<script src="assets/javascript/lightbox.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', async () => {
         const params = new URLSearchParams(window.location.search);
@@ -50,15 +50,20 @@
         if (!id) { window.location.href = 'index.html'; return; }
 
         try {
-            const response = await fetch('src/data/posts.json');
+            // Corrigido o caminho de 'src/data/posts.json' para 'data/posts.json'
+            const response = await fetch('data/posts.json');
+            if (!response.ok) throw new Error("Não foi possível carregar o índice de posts.");
+
             const posts = await response.json();
             const post = posts.find(p => p.id === id);
 
             if (post) {
                 const container = document.getElementById('conteudo-post');
 
-                // Busca o conteúdo do arquivo Markdown
-                const markdownResponse = await fetch(`src/data/posts/${post.arquivo}`);
+                // Busca o conteúdo do arquivo Markdown - Corrigido o caminho para 'data/posts/'
+                const markdownResponse = await fetch(`data/posts/${post.arquivo}`);
+                if (!markdownResponse.ok) throw new Error("Arquivo Markdown não encontrado.");
+
                 const markdownText = await markdownResponse.text();
                 const htmlContent = marked.parse(markdownText);
 
@@ -102,7 +107,7 @@
             }
         } catch (e) {
             console.error(e);
-            document.getElementById('conteudo-post').innerHTML = "<p>Erro ao carregar.</p>";
+            document.getElementById('conteudo-post').innerHTML = `<p style="text-align:center; color:red;">Erro ao carregar o artigo: ${e.message}</p>`;
         }
     });
 </script>

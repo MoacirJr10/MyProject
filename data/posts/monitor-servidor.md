@@ -2,10 +2,10 @@
 Veja como o sistema evoluiu. Abaixo, as telas de monitoramento de CPU, RAM, Disco e Relógio:
 
 <div class='galeria-grid'>
-<img src='src/frontend/imagens/esp32S3/esp32s3.jpeg'>
-<img src='src/frontend/imagens/esp32S3/esp32s32.jpeg'>
-<img src='src/frontend/imagens/esp32S3/esp32s33.jpeg'>
-<img src='src/frontend/imagens/esp32S3/esp32s34.jpeg'>
+<img src='assets/imagens/esp32S3/esp32s3.jpeg'>
+<img src='assets/imagens/esp32S3/esp32s32.jpeg'>
+<img src='assets/imagens/esp32S3/esp32s33.jpeg'>
+<img src='assets/imagens/esp32S3/esp32s34.jpeg'>
 </div>
 
 ---

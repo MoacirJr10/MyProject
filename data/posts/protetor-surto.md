@@ -10,7 +10,7 @@ Para garantir a integridade do sistema sob carga de 20A, foram selecionados comp
 
 <div class='img-container'>
     <h4 style='text-align:center; margin-bottom:10px;'>Componentes Internos</h4>
-    <img src='src/frontend/imagens/protetor_de_surto/construção2.jpeg' class='img-artigo' alt='Componentes internos'>
+    <img src='assets/imagens/protetor_de_surto/construção2.jpeg' class='img-artigo' alt='Componentes internos'>
     <div class='img-legenda'>Filtro EMI, Disjuntor e Medidor Atorch</div>
 </div>
 
@@ -22,7 +22,7 @@ Integração de **Varistores de Óxido Metálico (MOV)** de 14mm (471K) na entra
 
 <div class='img-container'>
     <h4 style='text-align:center; margin-bottom:10px;'>Melhoria com Varistores</h4>
-    <img src='src/frontend/imagens/protetor_de_surto/melhoria_no_filtro_de_ruido.jpeg' class='img-artigo' alt='Melhoria com Varistores'>
+    <img src='assets/imagens/protetor_de_surto/melhoria_no_filtro_de_ruido.jpeg' class='img-artigo' alt='Melhoria com Varistores'>
     <div class='img-legenda'>Adição de varistores para proteção contra surtos</div>
 </div>
 
@@ -31,7 +31,7 @@ Abaixo, o modelo de protetor de surto comercial que serviu de inspiração e que
 
 <div class='img-container'>
     <h4 style='text-align:center; margin-bottom:10px;'>Referência Técnica</h4>
-    <img src='src/frontend/imagens/protetor_de_surto/protetor_de_surto_correto.jpeg' class='img-artigo' alt='Protetor de Surto Ideal'>
+    <img src='assets/imagens/protetor_de_surto/protetor_de_surto_correto.jpeg' class='img-artigo' alt='Protetor de Surto Ideal'>
     <div class='img-legenda'>Modelo de referência para o projeto</div>
 </div>
 
@@ -39,10 +39,10 @@ Abaixo, o modelo de protetor de surto comercial que serviu de inspiração e que
 Abaixo, o processo de construção da case em PETG e a montagem dos componentes eletrônicos.
 
 <div class='galeria-grid'>
-<img src='src/frontend/imagens/protetor_de_surto/contrução.jpeg'>
-<img src='src/frontend/imagens/protetor_de_surto/construção3.jpeg'>
-<img src='src/frontend/imagens/protetor_de_surto/funcinamento.jpeg'>
-<img src='src/frontend/imagens/protetor_de_surto/funcionamento2.jpeg'>
+<img src='assets/imagens/protetor_de_surto/contrução.jpeg'>
+<img src='assets/imagens/protetor_de_surto/construção3.jpeg'>
+<img src='assets/imagens/protetor_de_surto/funcinamento.jpeg'>
+<img src='assets/imagens/protetor_de_surto/funcionamento2.jpeg'>
 </div>
 
 #### Download do Projeto 3D

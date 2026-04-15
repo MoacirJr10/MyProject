@@ -10,10 +10,10 @@ O SysBot é uma ferramenta poderosa organizada em módulos para facilitar a vida
 
 ### 📸 Galeria do Projeto
 <div class='galeria-grid'>
-<img src='src/frontend/imagens/sysbot/sysbot2.jpeg'>
-<img src='src/frontend/imagens/sysbot/sysbot3.jpeg'>
-<img src='src/frontend/imagens/sysbot/sysbot4.jpeg'>
-<img src='src/frontend/imagens/sysbot/sysbot5.jpeg'>
+<img src='assets/imagens/sysbot/sysbot2.jpeg'>
+<img src='assets/imagens/sysbot/sysbot3.jpeg'>
+<img src='assets/imagens/sysbot/sysbot4.jpeg'>
+<img src='assets/imagens/sysbot/sysbot5.jpeg'>
 </div>
 
 ### 💻 Como Usar

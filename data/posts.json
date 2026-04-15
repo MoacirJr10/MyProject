@@ -6,7 +6,7 @@
     "titulo": "Sistema de Fumigação Inteligente",
     "data": "07 Fev 2026",
     "resumo": "Sistema completo para controle de pragas em silos com cálculos automáticos.",
-    "imagem": "src/frontend/imagens/fumigacao/img2.jpeg",
+    "imagem": "assets/imagens/fumigacao/img2.jpeg",
     "github": "https://github.com/MoacirJr10/MyProject",
     "demo": "src/frontend/projeto.html",
     "arquivo": "fumigacao.md"
@@ -29,7 +29,7 @@
     "titulo": "Orçamento de Móveis Planejados",
     "data": "20 Jan 2026",
     "resumo": "Aplicação em Java para geração de orçamentos rápidos para marcenaria.",
-    "imagem": "src/frontend/imagens/java/orcamento-moveis.jpeg",
+    "imagem": "assets/imagens/java/orcamento-moveis.jpeg",
     "github": "https://github.com/MoacirJr10/OrcamentoMoveisPlanejados",
     "arquivo": "orcamento-moveis.md"
   },
@@ -40,7 +40,7 @@
     "titulo": "Monitoramento com ESP32 e OLED",
     "data": "15 Dez 2025",
     "resumo": "Integração de sensores e displays para visualização de dados em tempo real.",
-    "imagem": "src/frontend/imagens/arduino/esp32-oled.jpeg",
+    "imagem": "assets/imagens/arduino/esp32-oled.jpeg",
     "github": "https://github.com/MoacirJr10/ESP32-oled-test",
     "arquivo": "monitoramento-oled.md"
   },
@@ -51,7 +51,7 @@
     "titulo": "Sensores com Arduino",
     "data": "10 Nov 2025",
     "resumo": "Coleta de dados ambientais utilizando sensores diversos.",
-    "imagem": "src/frontend/imagens/arduino/sensor1.jpeg",
+    "imagem": "assets/imagens/arduino/sensor1.jpeg",
     "github": "https://github.com/MoacirJr10/arduino_sensor",
     "arquivo": "sensores-arduino.md"
   },
@@ -62,7 +62,7 @@
     "titulo": "Display LCD com Arduino",
     "data": "05 Out 2025",
     "resumo": "Interface homem-máquina utilizando displays de cristal líquido.",
-    "imagem": "src/frontend/imagens/arduino/lcd1.jpeg",
+    "imagem": "assets/imagens/arduino/lcd1.jpeg",
     "github": "https://github.com/MoacirJr10/lcd-arduino",
     "arquivo": "display-lcd.md"
   },
@@ -73,7 +73,7 @@
     "titulo": "SysBot - Automação e Manutenção",
     "data": "08 Fev 2026",
     "resumo": "Ferramenta completa para manutenção, limpeza e diagnóstico do Windows via script.",
-    "imagem": "src/frontend/imagens/sysbot/sysbot1.jpeg",
+    "imagem": "assets/imagens/sysbot/sysbot1.jpeg",
     "github": "https://github.com/MoacirJr10/SysBot",
     "arquivo": "sysbot.md"
   },
@@ -84,7 +84,7 @@
     "titulo": "Estação de Filtragem e Proteção de Alta Performance",
     "data": "25 Fev 2026",
     "resumo": "Desenvolvimento de um sistema de tratamento de energia com monitoramento em tempo real e case 3D.",
-    "imagem": "src/frontend/imagens/protetor_de_surto/imagem_capa.jpeg",
+    "imagem": "assets/imagens/protetor_de_surto/imagem_capa.jpeg",
     "github": "",
     "arquivo": "protetor-surto.md"
   }
